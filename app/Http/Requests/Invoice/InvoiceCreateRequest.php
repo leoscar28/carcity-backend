@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Invoice;
 
 use App\Domain\Contracts\MainContract;
 use Illuminate\Contracts\Validation\Validator;
@@ -8,25 +8,39 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\ValidationException;
 
-class UserCreateRequest extends FormRequest
+class InvoiceCreateRequest extends FormRequest
 {
-
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
     public function authorize(): bool
     {
         return true;
     }
 
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
     public function rules(): array
     {
         return [
-            MainContract::NAME  =>  'required',
-            MainContract::SURNAME   =>  'required',
-            MainContract::LAST_NAME =>  'required',
-            MainContract::BIRTHDATE =>  'required',
-            MainContract::HIDE_BIRTHDATE    =>  'required|date',
-            MainContract::ROLE_ID   =>  'nullable',
-            MainContract::COMPANY   =>  'nullable',
-            MainContract::BIN   =>  'nullable',
+            MainContract::CUSTOMER  =>  'nullable',
+            MainContract::CUSTOMER_ID   =>  'nullable',
+            MainContract::NUMBER    =>  'nullable',
+            MainContract::ORGANIZATION  =>  'nullable',
+            MainContract::DATE  =>  'nullable',
+            MainContract::SUM   =>  'nullable',
+            MainContract::NAME  =>  'nullable',
+            MainContract::STATUS    =>  'nullable',
         ];
     }
 

@@ -169,7 +169,7 @@ return [
          */
 
         /*
-         * Application Service Providers...
+         * Application Service Providers...InvoiceRepositoryProvider
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
@@ -177,6 +177,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\Repositories\UserRepositoryProvider::class,
+        App\Providers\Repositories\ApplicationRepositoryProvider::class,
+        App\Providers\Repositories\CompletionRepositoryProvider::class,
+        App\Providers\Repositories\InvoiceRepositoryProvider::class,
     ],
 
     /*

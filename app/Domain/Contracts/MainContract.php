@@ -4,6 +4,12 @@ namespace App\Domain\Contracts;
 
 class MainContract
 {
+    const CUSTOMER  =   'customer';
+    const CUSTOMER_ID   =   'customer_id';
+    const NUMBER    =   'number';
+    const ORGANIZATION  =   'organization';
+    const DATE  =   'date';
+    const SUM   =   'sum';
     const FALSE =   0;
     const TRUE  =   1;
     const TITLE =   'title';

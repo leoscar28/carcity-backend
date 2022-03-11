@@ -23,9 +23,9 @@ class UserController extends Controller
     /**
      * @throws ValidationException
      */
-    public function create(UserCreateRequest $userCreateRequest)
+    public function create(UserCreateRequest $userCreateRequest): UserResource
     {
-        return $userCreateRequest->validated();
+        return new UserResource($userCreateRequest->check());
     }
 
     public function getByToken($token): Response|Application|ResponseFactory|UserResource
