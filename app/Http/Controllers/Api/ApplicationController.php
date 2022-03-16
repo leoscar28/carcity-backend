@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Domain\Contracts\MainContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Application\ApplicationCreateRequest;
 use App\Http\Requests\Application\ApplicationUpdateRequest;
 use App\Http\Resources\Application\ApplicationResource;
 use App\Services\ApplicationService;
+use App\Services\ApplicationListService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
@@ -16,9 +18,11 @@ use Illuminate\Validation\ValidationException;
 class ApplicationController extends Controller
 {
     protected ApplicationService $applicationService;
-    public function __construct(ApplicationService $applicationService)
+    protected ApplicationListService $applicationListService;
+    public function __construct(ApplicationService $applicationService,ApplicationListService $applicationListService)
     {
         $this->applicationService   =   $applicationService;
+        $this->applicationListService   =   $applicationListService;
     }
 
     /**
@@ -26,7 +30,25 @@ class ApplicationController extends Controller
      */
     public function create(ApplicationCreateRequest $applicationCreateRequest): ApplicationResource
     {
-        return new ApplicationResource($this->applicationService->create($applicationCreateRequest->check()));
+        $data   =   $applicationCreateRequest->check()[MainContract::DATA];
+        $application    =   $this->applicationService->create([
+            MainContract::UPLOAD_STATUS_ID  =>  1,
+            MainContract::DOCUMENT_ALL  =>  sizeof($data),
+        ]);
+
+        foreach ($data as &$applicationItem) {
+            $this->applicationListService->create([
+                MainContract::APPLICATION_ID    =>  $application->{MainContract::ID},
+                MainContract::CUSTOMER  =>  $applicationItem[MainContract::CUSTOMER]??NULL,
+                MainContract::CUSTOMER_ID   =>  $applicationItem[MainContract::CUSTOMER_ID]??NULL,
+                MainContract::NUMBER    =>  $applicationItem[MainContract::NUMBER]??NULL,
+                MainContract::ORGANIZATION  =>  $applicationItem[MainContract::ORGANIZATION]??NULL,
+                MainContract::DATE  =>  $applicationItem[MainContract::DATE]??NULL,
+                MainContract::SUM   =>  $applicationItem[MainContract::SUM]??NULL,
+                MainContract::NAME  =>  $applicationItem[MainContract::NAME]??NULL,
+            ]);
+        }
+        return new ApplicationResource($this->applicationService->getById($application->{MainContract::ID}));
     }
 
     /**

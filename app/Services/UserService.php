@@ -12,6 +12,11 @@ class UserService
         $this->userRepository   =   $userRepository;
     }
 
+    public function getByPhoneOrEmailOrAlias($login)
+    {
+        return $this->userRepository->getByPhoneOrEmailOrAlias($login);
+    }
+
     public function getByToken($token)
     {
         return $this->userRepository->getByToken($token);

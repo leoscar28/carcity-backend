@@ -10,7 +10,8 @@ class CompletionRepositoryEloquent implements CompletionRepositoryInterface
 
     public function create($data)
     {
-        return Completion::create($data);
+        $completion =   Completion::create($data);
+        return $this->getById($completion->{MainContract::ID});
     }
 
     public function update($id,$data)
@@ -21,10 +22,8 @@ class CompletionRepositoryEloquent implements CompletionRepositoryInterface
 
     public function getById($id)
     {
-        return Completion::where([
-            [MainContract::ID,$id],
-            [MainContract::STATUS,MainContract::TRUE]
-        ])->first();
+        return Completion::with(MainContract::COMPLETION_LIST)
+            ->where(MainContract::ID,$id)->first();
     }
 
 }

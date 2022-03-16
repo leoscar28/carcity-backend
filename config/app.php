@@ -82,7 +82,7 @@ return [
     |
     */
 
-    'locale' => 'en',
+    'locale' => 'ru',
 
     /*
     |--------------------------------------------------------------------------
@@ -95,7 +95,7 @@ return [
     |
     */
 
-    'fallback_locale' => 'en',
+    'fallback_locale' => 'ru',
 
     /*
     |--------------------------------------------------------------------------
@@ -180,6 +180,11 @@ return [
         App\Providers\Repositories\ApplicationRepositoryProvider::class,
         App\Providers\Repositories\CompletionRepositoryProvider::class,
         App\Providers\Repositories\InvoiceRepositoryProvider::class,
+        App\Providers\Repositories\RoleRepositoryProvider::class,
+        App\Providers\Repositories\UploadStatusRepositoryProvider::class,
+        App\Providers\Repositories\ApplicationListRepositoryProvider::class,
+        App\Providers\Repositories\InvoiceListRepositoryProvider::class,
+        App\Providers\Repositories\CompletionListRepositoryProvider::class,
     ],
 
     /*

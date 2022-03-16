@@ -4,6 +4,17 @@ namespace App\Domain\Contracts;
 
 class MainContract
 {
+    const COMPLETION_LIST   =   'completionList';
+    const INVOICE_LIST  =   'invoiceList';
+    const APPLICATION_LIST  =   'applicationList';
+    const DATA  =   'data';
+    const DOCUMENT_AVAILABLE    =   'document_available';
+    const DOCUMENT_ALL  =   'document_all';
+    const COMMENT   =   'comment';
+    const UPLOAD_STATUS_ID  =   'upload_status_id';
+    const APPLICATION_ID    =   'application_id';
+    const INVOICE_ID    =   'invoice_id';
+    const COMPLETION_ID =   'completion_id';
     const CUSTOMER  =   'customer';
     const CUSTOMER_ID   =   'customer_id';
     const NUMBER    =   'number';
@@ -30,10 +41,12 @@ class MainContract
     const DATETIME  =   'datetime';
     const REMEMBER_TOKEN    =   'remember_token';
     const PASSWORD  =   'password';
+    const LOGIN =   'login';
     const EMAIL_VERIFIED_AT =   'email_verified_at';
     const PHONE =   'phone';
     const EMAIL =   'email';
     const NAME  =   'name';
     const USERS =   'users';
     const ID    =   'id';
+    const ALIAS =   'login';
 }

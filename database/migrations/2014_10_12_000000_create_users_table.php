@@ -19,12 +19,13 @@ return new class extends Migration
             $table->id()->unsigned();
             $table->unsignedTinyInteger(MainContract::TYPE)->default(1);
             $table->string(MainContract::TOKEN);
+            $table->string(MainContract::ALIAS)->unique()->nullable();
             $table->string(MainContract::NAME);
             $table->string(MainContract::SURNAME);
             $table->string(MainContract::LAST_NAME)->nullable();
             $table->date(MainContract::BIRTHDATE)->nullable();
             $table->unsignedTinyInteger(MainContract::HIDE_BIRTHDATE)->default(0);
-            $table->unsignedBigInteger(MainContract::ROLE_ID)->nullable();
+            $table->unsignedBigInteger(MainContract::ROLE_ID)->nullable()->default(1);
             $table->string(MainContract::COMPANY)->nullable();
             $table->string(MainContract::BIN,12)->nullable();
             $table->string(MainContract::EMAIL)->unique()->nullable();

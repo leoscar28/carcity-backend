@@ -6,13 +6,9 @@ class CompletionContract extends MainContract
 {
     const TABLE =   'completions';
     const FILLABLE  =   [
-        self::CUSTOMER,
-        self::CUSTOMER_ID,
-        self::NUMBER,
-        self::ORGANIZATION,
-        self::DATE,
-        self::SUM,
-        self::NAME,
-        self::STATUS
+        self::UPLOAD_STATUS_ID,
+        self::DOCUMENT_ALL,
+        self::DOCUMENT_AVAILABLE,
+        self::COMMENT
     ];
 }

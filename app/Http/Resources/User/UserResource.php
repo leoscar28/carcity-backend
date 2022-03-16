@@ -3,6 +3,7 @@
 namespace App\Http\Resources\User;
 
 use App\Domain\Contracts\MainContract;
+use App\Http\Resources\Role\RoleResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserResource extends JsonResource
@@ -10,6 +11,7 @@ class UserResource extends JsonResource
     public function toArray($request): array
     {
         return [
+            MainContract::ROLES =>  new RoleResource($this->whenLoaded(MainContract::ROLES)),
             MainContract::ID    =>  $this->{MainContract::ID},
             MainContract::TOKEN =>  $this->{MainContract::TOKEN},
             MainContract::NAME  =>  $this->{MainContract::NAME},

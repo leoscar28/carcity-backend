@@ -9,7 +9,8 @@ class ApplicationRepositoryEloquent implements ApplicationRepositoryInterface
 {
     public function create($data)
     {
-        return Application::create($data);
+        $application    =   Application::create($data);
+        return $this->getById($application->{MainContract::ID});
     }
 
     public function update($id,$data)
@@ -20,10 +21,8 @@ class ApplicationRepositoryEloquent implements ApplicationRepositoryInterface
 
     public function getById($id)
     {
-        return Application::where([
-            [MainContract::ID,$id],
-            [MainContract::STATUS,MainContract::TRUE]
-        ])->first();
+        return Application::with(MainContract::APPLICATION_LIST)
+            ->where(MainContract::ID,$id)->first();
     }
 
 }

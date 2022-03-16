@@ -19,13 +19,7 @@ class CompletionCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            MainContract::CUSTOMER  =>  'nullable',
-            MainContract::CUSTOMER_ID   =>  'nullable',
-            MainContract::NUMBER    =>  'nullable',
-            MainContract::ORGANIZATION  =>  'nullable',
-            MainContract::DATE  =>  'nullable',
-            MainContract::SUM   =>  'nullable',
-            MainContract::NAME  =>  'nullable',
+            MainContract::DATA  =>  'required',
         ];
     }
 
@@ -34,7 +28,9 @@ class CompletionCreateRequest extends FormRequest
      */
     public function check(): array
     {
-        return $this->validator->validated();
+        $data   =   $this->validator->validated();
+        $data[MainContract::DATA]   =   json_decode($data[MainContract::DATA],true);
+        return $data;
     }
 
     protected function failedValidation(Validator $validator)

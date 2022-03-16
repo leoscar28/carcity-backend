@@ -17,14 +17,10 @@ return new class extends Migration
     {
         Schema::create(ApplicationContract::TABLE, function (Blueprint $table) {
             $table->id();
-            $table->string(MainContract::CUSTOMER)->nullable();
-            $table->bigInteger(MainContract::CUSTOMER_ID)->nullable();
-            $table->string(MainContract::NUMBER)->nullable();
-            $table->string(MainContract::ORGANIZATION)->nullable();
-            $table->date(MainContract::DATE)->nullable();
-            $table->string(MainContract::SUM)->nullable();
-            $table->string(MainContract::NAME)->nullable();
-            $table->unsignedTinyInteger(MainContract::STATUS)->default(1);
+            $table->unsignedTinyInteger(MainContract::UPLOAD_STATUS_ID)->default(1);
+            $table->unsignedInteger(MainContract::DOCUMENT_ALL)->default(0);
+            $table->unsignedInteger(MainContract::DOCUMENT_AVAILABLE)->default(0);
+            $table->text(MainContract::COMMENT)->nullable();
             $table->timestamps();
         });
     }
