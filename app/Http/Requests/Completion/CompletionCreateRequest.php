@@ -23,6 +23,12 @@ class CompletionCreateRequest extends FormRequest
         ];
     }
 
+    public function messages(): array
+    {
+        return [
+            MainContract::DATA.'.required'  =>  'Нет переменной data'
+        ];
+    }
     /**
      * @throws ValidationException
      */
