@@ -46,7 +46,9 @@ class ApplicationCreateRequest extends FormRequest
     public function check(): array
     {
         $data   =   $this->validator->validated();
-        $data[MainContract::DATA]   =   json_decode((string)$data[MainContract::DATA],true);
+        if (array_key_exists(MainContract::DATA,$data)) {
+            $data   =   json_decode($data[MainContract::DATA],true)[MainContract::DATA];
+        }
         return $data;
     }
 

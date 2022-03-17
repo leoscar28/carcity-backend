@@ -30,7 +30,7 @@ class CompletionController extends Controller
      */
     public function create(CompletionCreateRequest $completionCreateRequest): CompletionResource
     {
-        $data   =   $completionCreateRequest->check()[MainContract::DATA];
+        $data   =   $completionCreateRequest->check();
         $completion =   $this->completionService->create([
             MainContract::UPLOAD_STATUS_ID  =>  1,
             MainContract::DOCUMENT_ALL  =>  sizeof($data),

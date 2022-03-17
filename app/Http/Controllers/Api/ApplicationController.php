@@ -30,7 +30,7 @@ class ApplicationController extends Controller
      */
     public function create(ApplicationCreateRequest $applicationCreateRequest): ApplicationResource
     {
-        $data   =   $applicationCreateRequest->check()[MainContract::DATA];
+        $data   =   $applicationCreateRequest->check();
         $application    =   $this->applicationService->create([
             MainContract::UPLOAD_STATUS_ID  =>  1,
             MainContract::DOCUMENT_ALL  =>  sizeof($data),

@@ -30,7 +30,7 @@ class InvoiceController extends Controller
      */
     public function create(InvoiceCreateRequest $invoiceCreateRequest): InvoiceResource
     {
-        $data   =   $invoiceCreateRequest->check()[MainContract::DATA];
+        $data   =   $invoiceCreateRequest->check();
         $invoice    =   $this->invoiceService->create([
             MainContract::UPLOAD_STATUS_ID  =>  1,
             MainContract::DOCUMENT_ALL  =>  sizeof($data),
