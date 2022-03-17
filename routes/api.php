@@ -32,19 +32,19 @@ Route::prefix('user')->group(function() {
 
 Route::prefix('application')->group(function() {
     Route::post('create',[ApplicationController::class,'create'])->name('application.create');
-    Route::post('update/{id}',[ApplicationController::class,'update'])->name('application.update');
+    Route::any('update/{id}',[ApplicationController::class,'update'])->name('application.update');
     Route::get('getById/{id}',[ApplicationController::class,'getById'])->name('application.getById');
 });
 
 Route::prefix('invoice')->group(function() {
     Route::post('create',[InvoiceController::class,'create'])->name('invoice.create');
-    Route::post('update/{id}',[InvoiceController::class,'update'])->name('invoice.update');
+    Route::any('update/{id}',[InvoiceController::class,'update'])->name('invoice.update');
     Route::get('getById/{id}',[InvoiceController::class,'getById'])->name('invoice.getById');
 });
 
 Route::prefix('completion')->group(function() {
     Route::post('create',[CompletionController::class,'create'])->name('completion.create');
-    Route::post('update/{id}',[CompletionController::class,'update'])->name('completion.update');
+    Route::any('update/{id}',[CompletionController::class,'update'])->name('completion.update');
     Route::get('getById/{id}',[CompletionController::class,'getById'])->name('completion.getById');
 });
 
