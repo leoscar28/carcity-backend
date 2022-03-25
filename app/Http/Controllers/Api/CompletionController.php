@@ -42,6 +42,22 @@ class CompletionController extends Controller
     /**
      * @throws ValidationException
      */
+    public function pagination(CompletionListRequest $completionListRequest)
+    {
+        return $this->completionService->pagination($completionListRequest->check());
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function all(CompletionListRequest $completionListRequest): CompletionCollection
+    {
+        return new CompletionCollection($this->completionService->all($completionListRequest->check()));
+    }
+
+    /**
+     * @throws ValidationException
+     */
     public function update($id, CompletionUpdateRequest $completionUpdateRequest): Response|CompletionResource|Application|ResponseFactory
     {
         if ($completion = $this->completionService->update($id,$completionUpdateRequest->check())) {

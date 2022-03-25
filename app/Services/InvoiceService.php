@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Domain\Repositories\Invoice\InvoiceRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class InvoiceService
 {
@@ -20,6 +21,16 @@ class InvoiceService
     public function create($data)
     {
         return $this->invoiceRepository->create($data);
+    }
+
+    public function pagination($data)
+    {
+        return $this->invoiceRepository->pagination($data);
+    }
+
+    public function all($data): Collection|array
+    {
+        return $this->invoiceRepository->all($data);
     }
 
     public function update($id,$data)

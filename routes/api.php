@@ -42,6 +42,8 @@ Route::prefix('user')->group(function() {
 
 Route::prefix('application')->group(function() {
     Route::post('create',[ApplicationController::class,'create'])->name('application.create');
+    Route::post('pagination',[ApplicationController::class,'pagination'])->name('application.pagination');
+    Route::post('all',[ApplicationController::class,'all'])->name('application.all');
     Route::any('update/{id}',[ApplicationController::class,'update'])->name('application.update');
     Route::get('getById/{id}',[ApplicationController::class,'getById'])->name('application.getById');
     Route::get('getByRid/{rid}',[ApplicationController::class,'getByRid'])->name('application.getByRid');
@@ -49,6 +51,8 @@ Route::prefix('application')->group(function() {
 
 Route::prefix('invoice')->group(function() {
     Route::post('create',[InvoiceController::class,'create'])->name('invoice.create');
+    Route::post('pagination',[InvoiceController::class,'pagination'])->name('invoice.pagination');
+    Route::post('all',[InvoiceController::class,'all'])->name('invoice.all');
     Route::any('update/{id}',[InvoiceController::class,'update'])->name('invoice.update');
     Route::get('getById/{id}',[InvoiceController::class,'getById'])->name('invoice.getById');
     Route::get('getByRid/{rid}',[InvoiceController::class,'getByRid'])->name('invoice.getByRid');
@@ -56,6 +60,8 @@ Route::prefix('invoice')->group(function() {
 
 Route::prefix('completion')->group(function() {
     Route::post('create',[CompletionController::class,'create'])->name('completion.create');
+    Route::post('pagination',[CompletionController::class,'pagination'])->name('completion.pagination');
+    Route::post('all',[CompletionController::class,'all'])->name('completion.all');
     Route::any('update/{id}',[CompletionController::class,'update'])->name('completion.update');
     Route::get('getById/{id}',[CompletionController::class,'getById'])->name('completion.getById');
     Route::get('getByRid/{rid}',[CompletionController::class,'getByRid'])->name('completion.getByRid');

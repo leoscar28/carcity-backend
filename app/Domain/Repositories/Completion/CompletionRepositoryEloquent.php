@@ -5,6 +5,7 @@ namespace App\Domain\Repositories\Completion;
 use App\Domain\Contracts\CompletionContract;
 use App\Domain\Contracts\MainContract;
 use App\Models\Completion;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
 class CompletionRepositoryEloquent implements CompletionRepositoryInterface
@@ -29,6 +30,29 @@ class CompletionRepositoryEloquent implements CompletionRepositoryInterface
     public function create($data)
     {
         return Completion::create($data);
+    }
+
+    public function pagination($data)
+    {
+        $query  =   Completion::select(DB::raw("(count(id)) as data"));
+        $query->where($data[MainContract::DATA]);
+        if (array_key_exists(MainContract::CREATED_AT,$data)) {
+            $query->whereBetween(MainContract::CREATED_AT,$data[MainContract::CREATED_AT]);
+        }
+        return $query->first();
+    }
+
+    public function all($data): Collection|array
+    {
+        $query  =   Completion::with(MainContract::COMPLETION_STATUS);
+        $query->where($data[MainContract::DATA]);
+        if (array_key_exists(MainContract::CREATED_AT,$data)) {
+            $query->whereBetween(MainContract::CREATED_AT,$data[MainContract::CREATED_AT]);
+        }
+        $query->skip(($data[MainContract::PAGINATION]-1) * $data[MainContract::TAKE]);
+        $query->take($data[MainContract::TAKE]);
+        $query->orderBy(MainContract::ID,'DESC');
+        return $query->get();
     }
 
     public function update($id,$data)

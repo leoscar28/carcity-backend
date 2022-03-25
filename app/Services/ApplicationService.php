@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Domain\Repositories\Application\ApplicationRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class ApplicationService
 {
@@ -20,6 +21,16 @@ class ApplicationService
     public function create($data)
     {
         return $this->applicationRepository->create($data);
+    }
+
+    public function pagination($data)
+    {
+        return $this->applicationRepository->pagination($data);
+    }
+
+    public function all($data): Collection|array
+    {
+        return $this->applicationRepository->all($data);
     }
 
     public function update($id,$data)

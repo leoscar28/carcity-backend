@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Domain\Repositories\Completion\CompletionRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class CompletionService
 {
@@ -20,6 +21,16 @@ class CompletionService
     public function create($data)
     {
         return $this->completionRepository->create($data);
+    }
+
+    public function pagination($data)
+    {
+        return $this->completionRepository->pagination($data);
+    }
+
+    public function all($data): Collection|array
+    {
+        return $this->completionRepository->all($data);
     }
 
     public function update($id,$data)

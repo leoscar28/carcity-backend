@@ -34,7 +34,7 @@ class ApplicationDateController extends Controller
     /**
      * @throws ValidationException
      */
-    public function list(ApplicationDateListRequest $applicationDateListRequest)
+    public function list(ApplicationDateListRequest $applicationDateListRequest): ApplicationDateCollection
     {
         return new ApplicationDateCollection($this->applicationDateService->list($applicationDateListRequest->check()));
     }

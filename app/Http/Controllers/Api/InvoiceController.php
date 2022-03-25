@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Domain\Contracts\MainContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Invoice\InvoiceCreateRequest;
+use App\Http\Requests\Invoice\InvoiceListRequest;
 use App\Http\Requests\Invoice\InvoiceUpdateRequest;
 use App\Http\Resources\Invoice\InvoiceCollection;
 use App\Http\Resources\Invoice\InvoiceResource;
@@ -36,6 +37,22 @@ class InvoiceController extends Controller
         }
         InvoiceCount::dispatch($data[MainContract::RID]);
         return new InvoiceCollection($arr);
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function pagination(InvoiceListRequest $completionListRequest)
+    {
+        return $this->invoiceService->pagination($completionListRequest->check());
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function all(InvoiceListRequest $completionListRequest): InvoiceCollection
+    {
+        return new InvoiceCollection($this->invoiceService->all($completionListRequest->check()));
     }
 
     /**
