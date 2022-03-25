@@ -11,10 +11,8 @@ class Application extends Model
 {
     use HasFactory;
     protected $fillable =   ApplicationContract::FILLABLE;
-
-    public function applicationList(): HasMany
+    public function setDateAttribute($value): string
     {
-        return $this->hasMany(ApplicationList::class);
+        return date('Y-m-d',strtotime($value));
     }
-
 }

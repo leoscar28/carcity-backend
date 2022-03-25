@@ -7,6 +7,7 @@ class UserContract extends MainContract
     const TABLE =   self::USERS;
     const FILLABLE  =   [
         self::TYPE,
+        self::POSITION_ID,
         self::ALIAS,
         self::TOKEN,
         self::NAME,

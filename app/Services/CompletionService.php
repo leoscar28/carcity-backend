@@ -12,6 +12,11 @@ class CompletionService
         $this->completionRepository =   $completionRepository;
     }
 
+    public function list($rid)
+    {
+        return $this->completionRepository->list($rid);
+    }
+
     public function create($data)
     {
         return $this->completionRepository->create($data);
@@ -25,6 +30,11 @@ class CompletionService
     public function getById($id)
     {
         return $this->completionRepository->getById($id);
+    }
+
+    public function getByRid($rid)
+    {
+        return $this->completionRepository->getByRid($rid);
     }
 
 }

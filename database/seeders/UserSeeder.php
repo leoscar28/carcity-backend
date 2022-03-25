@@ -20,6 +20,7 @@ class UserSeeder extends Seeder
     {
         DB::table(UserContract::TABLE)->insert([
             MainContract::TOKEN =>  Str::random(30),
+            MainContract::POSITION_ID   =>  1,
             MainContract::NAME  => 'User',
             MainContract::SURNAME   =>  'User',
             MainContract::ROLE_ID   =>  1,
@@ -30,6 +31,7 @@ class UserSeeder extends Seeder
         ]);
         DB::table(UserContract::TABLE)->insert([
             MainContract::TOKEN =>  Str::random(30),
+            MainContract::POSITION_ID   =>  2,
             MainContract::NAME  => 'Admin',
             MainContract::SURNAME   =>  'Admin',
             MainContract::ROLE_ID   =>  2,
@@ -40,6 +42,7 @@ class UserSeeder extends Seeder
         ]);
         DB::table(UserContract::TABLE)->insert([
             MainContract::TOKEN =>  Str::random(30),
+            MainContract::POSITION_ID   =>  3,
             MainContract::NAME  => 'Manager',
             MainContract::SURNAME   =>  'Manager',
             MainContract::ROLE_ID   =>  3,
@@ -50,6 +53,7 @@ class UserSeeder extends Seeder
         ]);
         DB::table(UserContract::TABLE)->insert([
             MainContract::TOKEN =>  Str::random(30),
+            MainContract::POSITION_ID   =>  4,
             MainContract::NAME  => 'Supervisor',
             MainContract::SURNAME   =>  'Supervisor',
             MainContract::ROLE_ID   =>  4,

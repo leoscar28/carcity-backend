@@ -12,6 +12,11 @@ class InvoiceService
         $this->invoiceRepository    =   $invoiceRepository;
     }
 
+    public function list($rid)
+    {
+        return $this->invoiceRepository->list($rid);
+    }
+
     public function create($data)
     {
         return $this->invoiceRepository->create($data);
@@ -25,6 +30,11 @@ class InvoiceService
     public function getById($id)
     {
         return $this->invoiceRepository->getById($id);
+    }
+
+    public function getByRid($rid)
+    {
+        return $this->invoiceRepository->getByRid($rid);
     }
 
 }

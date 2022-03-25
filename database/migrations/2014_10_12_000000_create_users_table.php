@@ -18,6 +18,7 @@ return new class extends Migration
         Schema::create(UserContract::TABLE, function (Blueprint $table) {
             $table->id()->unsigned();
             $table->unsignedTinyInteger(MainContract::TYPE)->default(1);
+            $table->unsignedInteger(MainContract::POSITION_ID)->default(1);
             $table->string(MainContract::TOKEN);
             $table->string(MainContract::ALIAS)->unique()->nullable();
             $table->string(MainContract::NAME);

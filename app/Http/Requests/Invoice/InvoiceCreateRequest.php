@@ -33,6 +33,7 @@ class InvoiceCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            MainContract::RID   =>  'required|int',
             MainContract::DATA  =>  'required',
         ];
     }
@@ -40,6 +41,7 @@ class InvoiceCreateRequest extends FormRequest
     public function messages(): array
     {
         return [
+            MainContract::RID.'.required'   =>  'Нет переменнрй rid',
             MainContract::DATA.'.required'  =>  'Нет переменной data'
         ];
     }
@@ -51,7 +53,13 @@ class InvoiceCreateRequest extends FormRequest
     {
         $data   =   $this->validator->validated();
         if (array_key_exists(MainContract::DATA,$data)) {
-            $data   =   json_decode($data[MainContract::DATA],true)[MainContract::DATA];
+            $data[MainContract::DATA]   =   json_decode($data[MainContract::DATA],true)[MainContract::DATA];
+            $arr    =   [];
+            foreach ($data[MainContract::DATA] as &$invoiceData) {
+                $invoiceData[MainContract::RID] =   $data[MainContract::RID];
+                $arr[] =   $invoiceData;
+            }
+            $data[MainContract::DATA]   =   $arr;
         }
         return $data;
     }

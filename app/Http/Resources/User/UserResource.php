@@ -3,6 +3,7 @@
 namespace App\Http\Resources\User;
 
 use App\Domain\Contracts\MainContract;
+use App\Http\Resources\Position\PositionResource;
 use App\Http\Resources\Role\RoleResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -12,6 +13,7 @@ class UserResource extends JsonResource
     {
         return [
             MainContract::ROLES =>  new RoleResource($this->whenLoaded(MainContract::ROLES)),
+            MainContract::POSITIONS =>  new PositionResource($this->whenLoaded(MainContract::POSITIONS)),
             MainContract::ID    =>  $this->{MainContract::ID},
             MainContract::TOKEN =>  $this->{MainContract::TOKEN},
             MainContract::NAME  =>  $this->{MainContract::NAME},

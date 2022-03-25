@@ -8,9 +8,20 @@ class MainContract
     const INVOICE_LIST  =   'invoiceList';
     const APPLICATION_LIST  =   'applicationList';
     const DATA  =   'data';
+    const RID   =   'rid';
+    const RIDS  =   'rids';
     const DOCUMENT_AVAILABLE    =   'document_available';
     const DOCUMENT_ALL  =   'document_all';
     const COMMENT   =   'comment';
+    const PAGINATION    =   'pagination';
+    const COMPLETION    =   'completion';
+    const COMPLETION_STATUS =   'completionStatus';
+    const APPLICATION_STATUS    =   'applicationStatus';
+    const INVOICE_STATUS    =   'invoiceStatus';
+    const APPLICATION   =   'application';
+    const INVOICE   =   'invoice';
+    const UPLOAD_STATUS =   'uploadStatus';
+    const TAKE  =   'take';
     const UPLOAD_STATUS_ID  =   'upload_status_id';
     const APPLICATION_ID    =   'application_id';
     const INVOICE_ID    =   'invoice_id';
@@ -24,7 +35,10 @@ class MainContract
     const FALSE =   0;
     const TRUE  =   1;
     const TITLE =   'title';
+    const LIST  =   'list';
     const STATUS    =   'status';
+    const CREATED_AT    =   'created_at';
+    const UPDATED_AT    =   'updated_at';
     const ROLES =   'roles';
     const PHONE_VERIFIED_AT =   'phone_verified_at';
     const PHONE_CODE    =   'phone_code';
@@ -41,6 +55,7 @@ class MainContract
     const DATETIME  =   'datetime';
     const REMEMBER_TOKEN    =   'remember_token';
     const PASSWORD  =   'password';
+    const OLD   =   'old';
     const LOGIN =   'login';
     const EMAIL_VERIFIED_AT =   'email_verified_at';
     const PHONE =   'phone';
@@ -49,4 +64,6 @@ class MainContract
     const USERS =   'users';
     const ID    =   'id';
     const ALIAS =   'login';
+    const POSITION_ID   =   'position_id';
+    const POSITIONS =   'positions';
 }

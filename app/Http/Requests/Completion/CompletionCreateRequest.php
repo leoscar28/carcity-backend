@@ -19,6 +19,7 @@ class CompletionCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            MainContract::RID   =>  'required|int',
             MainContract::DATA  =>  'required',
         ];
     }
@@ -26,6 +27,7 @@ class CompletionCreateRequest extends FormRequest
     public function messages(): array
     {
         return [
+            MainContract::RID.'.required'   =>  'Нет переменнрй rid',
             MainContract::DATA.'.required'  =>  'Нет переменной data'
         ];
     }
@@ -36,7 +38,13 @@ class CompletionCreateRequest extends FormRequest
     {
         $data   =   $this->validator->validated();
         if (array_key_exists(MainContract::DATA,$data)) {
-            $data   =   json_decode($data[MainContract::DATA],true)[MainContract::DATA];
+            $data[MainContract::DATA]   =   json_decode($data[MainContract::DATA],true)[MainContract::DATA];
+            $arr    =   [];
+            foreach ($data[MainContract::DATA] as &$completionData) {
+                $completionData[MainContract::RID] =   $data[MainContract::RID];
+                $arr[] =   $completionData;
+            }
+            $data[MainContract::DATA]   =   $arr;
         }
         return $data;
     }

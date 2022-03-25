@@ -11,8 +11,8 @@ class Invoice extends Model
 {
     use HasFactory;
     protected $fillable =   InvoiceContract::FILLABLE;
-    public function invoiceList(): HasMany
+    public function setDateAttribute($value): string
     {
-        return $this->hasMany(InvoiceList::class);
+        return date('Y-m-d',strtotime($value));
     }
 }

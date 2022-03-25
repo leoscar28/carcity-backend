@@ -6,6 +6,8 @@ use App\Domain\Contracts\MainContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserAuthRequest;
 use App\Http\Requests\User\UserCreateRequest;
+use App\Http\Requests\User\UserPasswordRequest;
+use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\User\UserResource;
 use App\Services\UserService;
 use Illuminate\Contracts\Foundation\Application;
@@ -18,9 +20,10 @@ use Illuminate\Validation\ValidationException;
 class UserController extends Controller
 {
     protected UserService $userService;
+
     public function __construct(UserService $userService)
     {
-        $this->userService  =   $userService;
+        $this->userService = $userService;
     }
 
     /**
@@ -28,13 +31,43 @@ class UserController extends Controller
      */
     public function auth(UserAuthRequest $userAuthRequest): Response|Application|ResponseFactory|UserResource
     {
-        $data   =   $userAuthRequest->check();
-        $user   =   $this->userService->getByPhoneOrEmailOrAlias($data[MainContract::LOGIN]);
-        if ($user && Hash::check($data[MainContract::PASSWORD],$user[MainContract::PASSWORD])) {
+        $data = $userAuthRequest->check();
+        $user = $this->userService->getByPhoneOrEmailOrAlias($data[MainContract::LOGIN]);
+        if ($user && Hash::check($data[MainContract::PASSWORD], $user[MainContract::PASSWORD])) {
             return new UserResource($user);
         }
-        return response(['message'  =>  'incorrect phone or password'],401);
+        return response(['message' => 'incorrect phone or password'], 401);
     }
+
+    /**
+     * @throws ValidationException
+     */
+    public function update($id, UserUpdateRequest $userUpdateRequest): Response|Application|ResponseFactory|UserResource
+    {
+        if ($user = $this->userService->update($id,$userUpdateRequest->check())) {
+            return new UserResource($user);
+        }
+        return response(['message'  =>  'Пользователя не существет!'],404);
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function password($id, UserPasswordRequest $userPasswordRequest): Response|Application|ResponseFactory
+    {
+        $data   =   $userPasswordRequest->check();
+        if ($user = $this->userService->getById($id)) {
+            if (Hash::check($data[MainContract::OLD],$user->{MainContract::PASSWORD})) {
+                $this->userService->update($id,[
+                    MainContract::PASSWORD  =>  Hash::make($data[MainContract::PASSWORD])
+                ]);
+                return response(['message'  =>  'Пароль успешно сменен'],200);
+            }
+            return response(['message'  =>  'Текущии пароль не верный'],400);
+        }
+        return response(['message'  =>  'Пользователь не найден'],404);
+    }
+
     /**
      * @throws ValidationException
      */

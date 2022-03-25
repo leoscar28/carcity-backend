@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Domain\Contracts\MainContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Completion\CompletionCreateRequest;
+use App\Http\Requests\Completion\CompletionListRequest;
 use App\Http\Requests\Completion\CompletionUpdateRequest;
+use App\Http\Resources\Completion\CompletionCollection;
 use App\Http\Resources\Completion\CompletionResource;
+use App\Jobs\CompletionCount;
 use App\Services\CompletionService;
-use App\Services\CompletionListService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
@@ -18,36 +20,23 @@ use Illuminate\Validation\ValidationException;
 class CompletionController extends Controller
 {
     protected CompletionService $completionService;
-    protected CompletionListService $completionListService;
-    public function __construct(CompletionService $completionService,CompletionListService $completionListService)
+    public function __construct(CompletionService $completionService)
     {
         $this->completionService    =   $completionService;
-        $this->completionListService    =   $completionListService;
     }
 
     /**
      * @throws ValidationException
      */
-    public function create(CompletionCreateRequest $completionCreateRequest): CompletionResource
+    public function create(CompletionCreateRequest $completionCreateRequest): CompletionCollection
     {
         $data   =   $completionCreateRequest->check();
-        $completion =   $this->completionService->create([
-            MainContract::UPLOAD_STATUS_ID  =>  1,
-            MainContract::DOCUMENT_ALL  =>  sizeof($data),
-        ]);
-        foreach ($data as &$completionItem) {
-            $this->completionListService->create([
-                MainContract::COMPLETION_ID    =>  $completion->{MainContract::ID},
-                MainContract::CUSTOMER  =>  $completionItem[MainContract::CUSTOMER]??NULL,
-                MainContract::CUSTOMER_ID   =>  $completionItem[MainContract::CUSTOMER_ID]??NULL,
-                MainContract::NUMBER    =>  $completionItem[MainContract::NUMBER]??NULL,
-                MainContract::ORGANIZATION  =>  $completionItem[MainContract::ORGANIZATION]??NULL,
-                MainContract::DATE  =>  $completionItem[MainContract::DATE]??NULL,
-                MainContract::SUM   =>  $completionItem[MainContract::SUM]??NULL,
-                MainContract::NAME  =>  $completionItem[MainContract::NAME]??NULL,
-            ]);
+        $arr    =   [];
+        foreach ($data[MainContract::DATA] as &$completionItem) {
+            $arr[]  =   $this->completionService->create($completionItem);
         }
-        return new CompletionResource($this->completionService->getById($completion->{MainContract::ID}));
+        CompletionCount::dispatch($data[MainContract::RID]);
+        return new CompletionCollection($arr);
     }
 
     /**
@@ -56,6 +45,7 @@ class CompletionController extends Controller
     public function update($id, CompletionUpdateRequest $completionUpdateRequest): Response|CompletionResource|Application|ResponseFactory
     {
         if ($completion = $this->completionService->update($id,$completionUpdateRequest->check())) {
+            CompletionCount::dispatch($completion->{MainContract::RID});
             return new CompletionResource($completion);
         }
         return response(['message'  =>  'Completion not found'],404);
@@ -67,6 +57,11 @@ class CompletionController extends Controller
             return new CompletionResource($completion);
         }
         return response(['message'  =>  'Completion not found'],404);
+    }
+
+    public function getByRid($rid): CompletionCollection
+    {
+        return new CompletionCollection($this->completionService->getByRid($rid));
     }
 
 }

@@ -28,21 +28,15 @@ class ApplicationCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            MainContract::RID   =>  'required|int',
             MainContract::DATA  =>  'required',
-
-//            MainContract::CUSTOMER  =>  'nullable',
-//            MainContract::CUSTOMER_ID   =>  'nullable',
-//            MainContract::NUMBER    =>  'nullable',
-//            MainContract::ORGANIZATION  =>  'nullable',
-//            MainContract::DATE  =>  'nullable',
-//            MainContract::SUM   =>  'nullable',
-//            MainContract::NAME  =>  'nullable',
         ];
     }
 
     public function messages(): array
     {
         return [
+            MainContract::RID.'.required'   =>  'Нет переменнрй rid',
             MainContract::DATA.'.required'  =>  'Нет переменной data'
         ];
     }
@@ -53,7 +47,13 @@ class ApplicationCreateRequest extends FormRequest
     {
         $data   =   $this->validator->validated();
         if (array_key_exists(MainContract::DATA,$data)) {
-            $data   =   json_decode($data[MainContract::DATA],true)[MainContract::DATA];
+            $data[MainContract::DATA]   =   json_decode($data[MainContract::DATA],true)[MainContract::DATA];
+            $arr    =   [];
+            foreach ($data[MainContract::DATA] as &$applicationData) {
+                $applicationData[MainContract::RID] =   $data[MainContract::RID];
+                $arr[] =   $applicationData;
+            }
+            $data[MainContract::DATA]   =   $arr;
         }
         return $data;
     }

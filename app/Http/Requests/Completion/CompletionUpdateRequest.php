@@ -29,9 +29,14 @@ class CompletionUpdateRequest extends FormRequest
     {
         return [
             MainContract::UPLOAD_STATUS_ID  =>  'nullable',
-            MainContract::DOCUMENT_ALL  =>  'nullable',
-            MainContract::DOCUMENT_AVAILABLE    =>  'nullable',
-            MainContract::COMMENT   =>  'nullable'
+            MainContract::CUSTOMER  =>  'nullable',
+            MainContract::CUSTOMER_ID   =>  'nullable',
+            MainContract::NUMBER    =>  'nullable',
+            MainContract::ORGANIZATION  =>  'nullable',
+            MainContract::DATE  =>  'nullable',
+            MainContract::SUM   =>  'nullable',
+            MainContract::NAME  =>  'nullable',
+            MainContract::STATUS    =>  'nullable'
         ];
     }
 

@@ -181,10 +181,13 @@ return [
         App\Providers\Repositories\CompletionRepositoryProvider::class,
         App\Providers\Repositories\InvoiceRepositoryProvider::class,
         App\Providers\Repositories\RoleRepositoryProvider::class,
-        App\Providers\Repositories\UploadStatusRepositoryProvider::class,
-        App\Providers\Repositories\ApplicationListRepositoryProvider::class,
-        App\Providers\Repositories\InvoiceListRepositoryProvider::class,
-        App\Providers\Repositories\CompletionListRepositoryProvider::class,
+        App\Providers\Repositories\CompletionDateRepositoryProvider::class,
+        App\Providers\Repositories\ApplicationDateRepositoryProvider::class,
+        App\Providers\Repositories\InvoiceDateRepositoryProvider::class,
+        App\Providers\Repositories\CompletionStatusRepositoryProvider::class,
+        App\Providers\Repositories\ApplicationStatusRepositoryProvider::class,
+        App\Providers\Repositories\InvoiceStatusRepositoryProvider::class,
+        App\Providers\Repositories\PositionRepositoryProvider::class,
     ],
 
     /*

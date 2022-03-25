@@ -12,6 +12,11 @@ class ApplicationService
         $this->applicationRepository    =   $applicationRepository;
     }
 
+    public function list($rid)
+    {
+        return $this->applicationRepository->list($rid);
+    }
+
     public function create($data)
     {
         return $this->applicationRepository->create($data);
@@ -25,6 +30,11 @@ class ApplicationService
     public function getById($id)
     {
         return $this->applicationRepository->getById($id);
+    }
+
+    public function getByRid($rid)
+    {
+        return $this->applicationRepository->getByRid($rid);
     }
 
 }

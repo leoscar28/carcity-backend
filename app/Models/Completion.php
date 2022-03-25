@@ -11,8 +11,8 @@ class Completion extends Model
 {
     use HasFactory;
     protected $fillable =   CompletionContract::FILLABLE;
-    public function completionList(): HasMany
+    public function setDateAttribute($value): string
     {
-        return $this->hasMany(CompletionList::class);
+        return date('Y-m-d',strtotime($value));
     }
 }

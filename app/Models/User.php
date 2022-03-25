@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Domain\Contracts\MainContract;
 use App\Domain\Contracts\UserContract;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -41,7 +42,11 @@ class User extends Authenticatable
 
     public function roles(): BelongsTo
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class,MainContract::ROLE_ID,MainContract::ID);
     }
 
+    public function positions(): BelongsTo
+    {
+        return $this->belongsTo(Position::class,MainContract::POSITION_ID,MainContract::ID);
+    }
 }
