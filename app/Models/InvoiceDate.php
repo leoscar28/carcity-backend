@@ -16,7 +16,7 @@ class InvoiceDate extends Model
 
     public function invoice(): HasMany
     {
-        return $this->hasMany(Invoice::class,MainContract::RID,MainContract::RID);
+        return $this->hasMany(Invoice::class,MainContract::RID,MainContract::RID)->where(MainContract::STATUS,1);
     }
 
     public function invoiceStatus(): BelongsTo

@@ -16,7 +16,7 @@ class ApplicationDate extends Model
 
     public function application(): HasMany
     {
-        return $this->hasMany(Application::class,MainContract::RID,MainContract::RID);
+        return $this->hasMany(Application::class,MainContract::RID,MainContract::RID)->where(MainContract::STATUS,1);
     }
 
     public function applicationStatus(): BelongsTo

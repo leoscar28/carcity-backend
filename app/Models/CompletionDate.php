@@ -16,7 +16,7 @@ class CompletionDate extends Model
 
     public function completion(): HasMany
     {
-        return $this->hasMany(Completion::class,MainContract::RID,MainContract::RID);
+        return $this->hasMany(Completion::class,MainContract::RID,MainContract::RID)->where(MainContract::STATUS,1);
     }
 
     public function completionStatus(): BelongsTo
