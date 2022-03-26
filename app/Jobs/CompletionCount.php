@@ -33,6 +33,9 @@ class CompletionCount implements ShouldQueue
         if ($completionDate =   $completionDateService->getByRid($this->rid)) {
             $completionDate->{MainContract::UPLOAD_STATUS_ID}   =   $completionList[MainContract::UPLOAD_STATUS_ID];
             $completionDate->{MainContract::DOCUMENT_ALL}   =   $completionList[MainContract::DOCUMENT_ALL];
+            if ($completionDate[MainContract::DOCUMENT_ALL] === 0) {
+                $completionDate->{MainContract::STATUS} =   0;
+            }
             $completionDate->save();
         } else {
             $completionDateService->create([

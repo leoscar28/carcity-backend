@@ -33,6 +33,9 @@ class InvoiceCount implements ShouldQueue
         if ($invoiceDate = $invoiceDateService->getByRid($this->rid)) {
             $invoiceDate->{MainContract::UPLOAD_STATUS_ID}  =   $invoiceList[MainContract::UPLOAD_STATUS_ID];
             $invoiceDate->{MainContract::DOCUMENT_ALL}  =   $invoiceList[MainContract::DOCUMENT_ALL];
+            if ($invoiceDate[MainContract::DOCUMENT_ALL] === 0) {
+                $invoiceDate->{MainContract::STATUS}    =   0;
+            }
             $invoiceDate->save();
         } else {
             $invoiceDateService->create([

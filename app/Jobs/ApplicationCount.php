@@ -34,6 +34,9 @@ class ApplicationCount implements ShouldQueue
         if ($applicationDate = $applicationDateService->getByRid($this->rid)) {
             $applicationDate->{MainContract::UPLOAD_STATUS_ID}  =   $applicationList[MainContract::UPLOAD_STATUS_ID];
             $applicationDate->{MainContract::DOCUMENT_ALL}  =   $applicationList[MainContract::DOCUMENT_ALL];
+            if ($applicationList[MainContract::DOCUMENT_ALL] === 0) {
+                $applicationDate->{MainContract::STATUS}    =   0;
+            }
             $applicationDate->save();
         } else {
             $applicationDateService->create([
