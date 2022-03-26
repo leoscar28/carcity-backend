@@ -38,7 +38,7 @@ class InvoiceCount implements ShouldQueue
             $invoiceDateService->create([
                 MainContract::UPLOAD_STATUS_ID  =>  $invoiceList[MainContract::UPLOAD_STATUS_ID],
                 MainContract::RID   =>  $this->rid,
-                MainContract::DOCUMENT_ALL  =>  $invoiceList[MainContract::UPLOAD_STATUS_ID],
+                MainContract::DOCUMENT_ALL  =>  $invoiceList[MainContract::DOCUMENT_ALL]
             ]);
         }
     }

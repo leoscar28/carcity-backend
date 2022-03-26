@@ -40,6 +40,10 @@ class User extends Authenticatable
      */
     protected $casts    =   UserContract::CASTS;
 
+    public function setPasswordAttribute($value)
+    {
+        $this->attributes['password'] = Hash::make($value);
+    }
     public function roles(): BelongsTo
     {
         return $this->belongsTo(Role::class,MainContract::ROLE_ID,MainContract::ID);
