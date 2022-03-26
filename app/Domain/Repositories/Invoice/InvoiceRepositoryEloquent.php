@@ -13,16 +13,20 @@ class InvoiceRepositoryEloquent implements InvoiceRepositoryInterface
     public function list($rid)
     {
         return Invoice::select(
-            DB::raw("(min(upload_status_id)) as upload_status_id"),
-            DB::raw("(count(id)) as document_all"),
-            DB::raw("(DATE_FORMAT(created_at, '%d-%m-%Y')) as created_at"),
+            DB::raw("(min(invoices.upload_status_id)) as upload_status_id"),
+            DB::raw("(count(invoices.id)) as document_all"),
+            DB::raw("(DATE_FORMAT(invoices.created_at, '%d-%m-%Y')) as created_at"),
+            DB::raw("COUNT(NULLIF(users.id,'')) as document_available"),
         )
+            ->leftJoin('users', function($join) {
+                $join->on('invoices.customer_id', '=', 'users.bin');
+            })
             ->where([
-                [MainContract::RID,$rid],
-                [MainContract::STATUS,1]
+                ['invoices.'.MainContract::RID,$rid],
+                ['invoices.'.MainContract::STATUS,1],
             ])
             ->orderBy(MainContract::CREATED_AT)
-            ->groupBy(DB::raw("DATE_FORMAT(created_at, '%d-%m-%Y')"))
+            ->groupBy(DB::raw("DATE_FORMAT(invoices.created_at, '%d-%m-%Y')"))
             ->first();
     }
 
