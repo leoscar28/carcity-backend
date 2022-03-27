@@ -62,4 +62,11 @@ class InvoiceDateRepositoryEloquent implements InvoiceDateRepositoryInterface
             ])->first();
     }
 
+    public function delete($rid)
+    {
+        InvoiceDate::where(MainContract::RID,$rid)->update([
+            MainContract::STATUS    =>  0
+        ]);
+    }
+
 }

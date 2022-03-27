@@ -48,4 +48,9 @@ class CompletionService
         return $this->completionRepository->getByRid($rid);
     }
 
+    public function delete($rid)
+    {
+        $this->completionRepository->delete($rid);
+    }
+
 }

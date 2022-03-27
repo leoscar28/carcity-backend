@@ -9,7 +9,9 @@ use App\Http\Requests\Completion\CompletionListRequest;
 use App\Http\Requests\Completion\CompletionUpdateRequest;
 use App\Http\Resources\Completion\CompletionCollection;
 use App\Http\Resources\Completion\CompletionResource;
+use App\Http\Resources\CompletionDate\CompletionDateCollection;
 use App\Jobs\CompletionCount;
+use App\Services\CompletionDateService;
 use App\Services\CompletionService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -20,9 +22,11 @@ use Illuminate\Validation\ValidationException;
 class CompletionController extends Controller
 {
     protected CompletionService $completionService;
-    public function __construct(CompletionService $completionService)
+    protected CompletionDateService $completionDateService;
+    public function __construct(CompletionService $completionService, CompletionDateService $completionDateService)
     {
         $this->completionService    =   $completionService;
+        $this->completionDateService    =   $completionDateService;
     }
 
     /**
@@ -78,6 +82,14 @@ class CompletionController extends Controller
     public function getByRid($rid): CompletionCollection
     {
         return new CompletionCollection($this->completionService->getByRid($rid));
+    }
+
+    public function delete($rid,$id)
+    {
+        $this->completionService->update($id,[
+            MainContract::STATUS    =>  0
+        ]);
+        CompletionCount::dispatch($rid);
     }
 
 }

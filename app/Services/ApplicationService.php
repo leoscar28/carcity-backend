@@ -48,4 +48,9 @@ class ApplicationService
         return $this->applicationRepository->getByRid($rid);
     }
 
+    public function delete($rid)
+    {
+        $this->applicationRepository->delete($rid);
+    }
+
 }

@@ -81,4 +81,11 @@ class CompletionRepositoryEloquent implements CompletionRepositoryInterface
         ])->get();
     }
 
+    public function delete($rid)
+    {
+        Completion::where(MainContract::RID,$rid)->update([
+            MainContract::STATUS    =>  0
+        ]);
+    }
+
 }

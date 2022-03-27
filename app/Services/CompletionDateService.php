@@ -42,4 +42,9 @@ class CompletionDateService
     {
         return $this->completionDateRepository->create($data);
     }
+
+    public function delete($rid)
+    {
+        $this->completionDateRepository->delete($rid);
+    }
 }

@@ -80,4 +80,11 @@ class ApplicationRepositoryEloquent implements ApplicationRepositoryInterface
         ])->get();
     }
 
+    public function delete($rid)
+    {
+        Application::where(MainContract::RID,$rid)->update([
+            MainContract::STATUS    =>  0
+        ]);
+    }
+
 }

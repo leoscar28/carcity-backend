@@ -62,4 +62,11 @@ class ApplicationDateRepositoryEloquent implements ApplicationDateRepositoryInte
             ])->first();
     }
 
+    public function delete($rid)
+    {
+        ApplicationDate::where(MainContract::RID,$rid)->update([
+            MainContract::STATUS    =>  0
+        ]);
+    }
+
 }

@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Collection;
 class ApplicationDateService
 {
     protected ApplicationDateRepositoryInterface $applicationDateRepository;
-
-    public function __construct(ApplicationDateRepositoryInterface $applicationDateRepository)
+    protected ApplicationService $applicationService;
+    public function __construct(ApplicationDateRepositoryInterface $applicationDateRepository, ApplicationService $applicationService)
     {
         $this->applicationDateRepository    =   $applicationDateRepository;
+        $this->applicationService   =   $applicationService;
     }
 
     public function getByRid($rid): ?object
@@ -42,6 +43,12 @@ class ApplicationDateService
     public function create($data): ?object
     {
         return $this->applicationDateRepository->create($data);
+    }
+
+    public function delete($rid)
+    {
+        $this->applicationDateRepository->delete($rid);
+        $this->applicationService->delete($rid);
     }
 
 }

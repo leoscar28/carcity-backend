@@ -30,28 +30,29 @@ class ApplicationCount implements ShouldQueue
      */
     public function handle(ApplicationService $applicationService, ApplicationDateService $applicationDateService)
     {
-        $applicationList    =   $applicationService->list($this->rid);
-        if ($applicationDate = $applicationDateService->getByRid($this->rid)) {
-            $applicationDate->{MainContract::UPLOAD_STATUS_ID}  =   $applicationList[MainContract::UPLOAD_STATUS_ID];
-            $applicationDate->{MainContract::DOCUMENT_ALL}  =   $applicationList[MainContract::DOCUMENT_ALL];
-            $applicationDate->{MainContract::DOCUMENT_AVAILABLE}    =   $applicationList[MainContract::DOCUMENT_AVAILABLE];
-            if ($applicationList[MainContract::DOCUMENT_ALL] === 0) {
-                $applicationDate->{MainContract::STATUS}    =   0;
+        if ($applicationList    =   $applicationService->list($this->rid)) {
+            if ($applicationDate = $applicationDateService->getByRid($this->rid)) {
+                $applicationDate->{MainContract::UPLOAD_STATUS_ID}  =   $applicationList[MainContract::UPLOAD_STATUS_ID];
+                $applicationDate->{MainContract::DOCUMENT_ALL}  =   $applicationList[MainContract::DOCUMENT_ALL];
+                $applicationDate->{MainContract::DOCUMENT_AVAILABLE}    =   $applicationList[MainContract::DOCUMENT_AVAILABLE];
+                if ($applicationList[MainContract::DOCUMENT_ALL] === 0) {
+                    $applicationDate->{MainContract::STATUS}    =   0;
+                } else {
+                    $applicationDate->{MainContract::STATUS}    =   1;
+                }
+                $applicationDate->save();
             } else {
-                $applicationDate->{MainContract::STATUS}    =   1;
+                $data   =   [
+                    MainContract::UPLOAD_STATUS_ID  =>  $applicationList[MainContract::UPLOAD_STATUS_ID],
+                    MainContract::RID   =>  $this->rid,
+                    MainContract::DOCUMENT_ALL  =>  $applicationList[MainContract::DOCUMENT_ALL],
+                    MainContract::DOCUMENT_AVAILABLE    =>  $applicationList[MainContract::DOCUMENT_AVAILABLE]
+                ];
+                if ($applicationList[MainContract::DOCUMENT_ALL] === 0) {
+                    $data[MainContract::STATUS] =   0;
+                }
+                $applicationDateService->create($data);
             }
-            $applicationDate->save();
-        } else {
-            $data   =   [
-                MainContract::UPLOAD_STATUS_ID  =>  $applicationList[MainContract::UPLOAD_STATUS_ID],
-                MainContract::RID   =>  $this->rid,
-                MainContract::DOCUMENT_ALL  =>  $applicationList[MainContract::DOCUMENT_ALL],
-                MainContract::DOCUMENT_AVAILABLE    =>  $applicationList[MainContract::DOCUMENT_AVAILABLE]
-            ];
-            if ($applicationList[MainContract::DOCUMENT_ALL] === 0) {
-                $data[MainContract::STATUS] =   0;
-            }
-            $applicationDateService->create($data);
         }
     }
 }

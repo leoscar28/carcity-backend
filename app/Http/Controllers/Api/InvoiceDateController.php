@@ -8,6 +8,7 @@ use App\Http\Requests\InvoiceDate\InvoiceDateUpdateRequest;
 use App\Http\Resources\InvoiceDate\InvoiceDateCollection;
 use App\Http\Resources\InvoiceDate\InvoiceDateResource;
 use App\Services\InvoiceDateService;
+use App\Services\InvoiceService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
@@ -17,9 +18,11 @@ use Illuminate\Validation\ValidationException;
 class InvoiceDateController extends Controller
 {
     protected InvoiceDateService $invoiceDateService;
-    public function __construct(InvoiceDateService $invoiceDateService)
+    protected InvoiceService $invoiceService;
+    public function __construct(InvoiceDateService $invoiceDateService, InvoiceService $invoiceService)
     {
         $this->invoiceDateService   =   $invoiceDateService;
+        $this->invoiceService   =   $invoiceService;
     }
 
     /**
@@ -63,5 +66,11 @@ class InvoiceDateController extends Controller
             return new InvoiceDateResource($invoiceDate);
         }
         return response(['message'  =>  'CompletionDate not found'],404);
+    }
+
+    public function delete($rid)
+    {
+        $this->invoiceDateService->delete($rid);
+        $this->invoiceService->delete($rid);
     }
 }

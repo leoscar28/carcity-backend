@@ -80,4 +80,12 @@ class ApplicationController extends Controller
         return new ApplicationCollection($this->applicationService->getByRid($rid));
     }
 
+    public function delete($rid,$id)
+    {
+        $this->applicationService->update($id,[
+            MainContract::STATUS    =>  0
+        ]);
+        ApplicationCount::dispatch($rid);
+    }
+
 }

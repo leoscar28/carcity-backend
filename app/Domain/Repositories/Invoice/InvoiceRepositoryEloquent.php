@@ -81,4 +81,11 @@ class InvoiceRepositoryEloquent implements InvoiceRepositoryInterface
         ])->get();
     }
 
+    public function delete($rid)
+    {
+        Invoice::where(MainContract::RID,$rid)->update([
+            MainContract::STATUS    =>  0
+        ]);
+    }
+
 }

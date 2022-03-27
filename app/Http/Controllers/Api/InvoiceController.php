@@ -80,4 +80,12 @@ class InvoiceController extends Controller
         return new InvoiceCollection($this->invoiceService->getByRid($rid));
     }
 
+    public function delete($rid,$id)
+    {
+        $this->invoiceService->update($id,[
+            MainContract::STATUS    =>  0
+        ]);
+        InvoiceCount::dispatch($rid);
+    }
+
 }

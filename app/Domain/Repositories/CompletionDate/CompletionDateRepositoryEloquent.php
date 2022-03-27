@@ -63,4 +63,12 @@ class CompletionDateRepositoryEloquent implements CompletionDateRepositoryInterf
                 [MainContract::STATUS,1]
             ])->first();
     }
+
+    public function delete($rid)
+    {
+        CompletionDate::where(MainContract::RID,$rid)->update([
+            MainContract::STATUS    =>  0
+        ]);
+    }
+
 }

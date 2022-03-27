@@ -9,6 +9,7 @@ use App\Http\Resources\ApplicationDate\ApplicationDateCollection;
 use App\Http\Resources\ApplicationDate\ApplicationDateResource;
 use App\Models\ApplicationDate;
 use App\Services\ApplicationDateService;
+use App\Services\ApplicationService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
@@ -18,9 +19,11 @@ use Illuminate\Validation\ValidationException;
 class ApplicationDateController extends Controller
 {
     protected ApplicationDateService $applicationDateService;
-    public function __construct(ApplicationDateService $applicationDateService)
+    protected ApplicationService $applicationService;
+    public function __construct(ApplicationDateService $applicationDateService, ApplicationService $applicationService)
     {
         $this->applicationDateService   =   $applicationDateService;
+        $this->applicationService   =   $applicationService;
     }
 
     /**
@@ -64,6 +67,12 @@ class ApplicationDateController extends Controller
             return new ApplicationDateResource($applicationDate);
         }
         return response(['message'  =>  'CompletionDate not found'],404);
+    }
+
+    public function delete($rid)
+    {
+        $this->applicationDateService->delete($rid);
+        $this->applicationService->delete($rid);
     }
 
 }

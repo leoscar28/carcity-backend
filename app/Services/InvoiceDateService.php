@@ -42,4 +42,10 @@ class InvoiceDateService
     {
         return $this->invoiceDateRepository->getById($id);
     }
+
+    public function delete($rid)
+    {
+        $this->invoiceDateRepository->delete($rid);
+    }
+
 }

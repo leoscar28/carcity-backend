@@ -48,4 +48,9 @@ class InvoiceService
         return $this->invoiceRepository->getByRid($rid);
     }
 
+    public function delete($rid)
+    {
+        $this->invoiceRepository->delete($rid);
+    }
+
 }

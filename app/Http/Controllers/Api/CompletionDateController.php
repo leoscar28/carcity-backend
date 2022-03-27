@@ -8,6 +8,7 @@ use App\Http\Requests\CompletionDate\CompletionDateUpdateRequest;
 use App\Http\Resources\CompletionDate\CompletionDateCollection;
 use App\Http\Resources\CompletionDate\CompletionDateResource;
 use App\Services\CompletionDateService;
+use App\Services\CompletionService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
@@ -17,9 +18,11 @@ use Illuminate\Validation\ValidationException;
 class CompletionDateController extends Controller
 {
     protected CompletionDateService $completionDateService;
-    public function __construct(CompletionDateService $completionDateService)
+    protected CompletionService $completionService;
+    public function __construct(CompletionDateService $completionDateService, CompletionService $completionService)
     {
         $this->completionDateService    =   $completionDateService;
+        $this->completionService    =   $completionService;
     }
 
     /**
@@ -63,6 +66,12 @@ class CompletionDateController extends Controller
             return new CompletionDateResource($completionDate);
         }
         return response(['message'  =>  'CompletionDate not found'],404);
+    }
+
+    public function delete($rid)
+    {
+        $this->completionDateService->delete($rid);
+        $this->completionService->delete($rid);
     }
 
 }
