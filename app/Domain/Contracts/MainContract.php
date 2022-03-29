@@ -37,6 +37,7 @@ class MainContract
     const TITLE =   'title';
     const LIST  =   'list';
     const STATUS    =   'status';
+    const LINK  =   'link';
     const CREATED_AT    =   'created_at';
     const UPDATED_AT    =   'updated_at';
     const ROLES =   'roles';

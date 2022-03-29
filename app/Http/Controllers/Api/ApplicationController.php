@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Domain\Contracts\MainContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Application\ApplicationCreateRequest;
+use App\Http\Requests\Application\ApplicationDownloadRequest;
 use App\Http\Requests\Application\ApplicationListRequest;
 use App\Http\Requests\Application\ApplicationUpdateRequest;
 use App\Http\Resources\Application\ApplicationCollection;
@@ -15,6 +16,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 class ApplicationController extends Controller
@@ -23,6 +25,41 @@ class ApplicationController extends Controller
     public function __construct(ApplicationService $applicationService)
     {
         $this->applicationService   =   $applicationService;
+    }
+
+
+    public function downloadAll($rid): Response|Application|ResponseFactory
+    {
+        $completions    =   $this->applicationService->getByRid($rid);
+        if (sizeof($completions) > 0) {
+            $arr    =   [];
+            foreach ($completions as &$completion) {
+                if (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID}.'/applications/'.$completion->{MainContract::ID}.'.docx')) {
+                    $arr[]  =   env('APP_URL').'/storage/'.$completion->{MainContract::CUSTOMER_ID}.'/applications/'.$completion->{MainContract::ID}.'.docx';
+                }
+            }
+            if (sizeof($arr) > 0) {
+                return response([MainContract::DATA =>  $arr],200);
+            }
+            return response(['message'  =>  'Документы не найдены'],404);
+        }
+        return response(['message'  =>  'Запись не найдена'],404);
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function download(ApplicationDownloadRequest $applicationDownloadRequest): Response|Application|ResponseFactory
+    {
+        $data   =   $applicationDownloadRequest->check();
+        if ($application = $this->applicationService->getById($data[MainContract::ID])) {
+            if (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx')) {
+                $data[MainContract::LINK]   =   env('APP_URL').'/storage/'.$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx';
+                return response([MainContract::DATA =>  $data],200);
+            }
+            return response(['message'  =>  'Файл не найден или еще не загружен на сервер'],404);
+        }
+        return response(['message'  =>  'Запись не найдена'],404);
     }
 
     /**
@@ -60,7 +97,8 @@ class ApplicationController extends Controller
      */
     public function update($id, ApplicationUpdateRequest $applicationUpdateRequest): Response|ApplicationResource|Application|ResponseFactory
     {
-        if ($application = $this->applicationService->update($id,$applicationUpdateRequest->check())) {
+        $application = $this->applicationService->update($id,$applicationUpdateRequest->check());
+        if ($application) {
             ApplicationCount::dispatch($application->{MainContract::RID});
             return new ApplicationResource($application);
         }

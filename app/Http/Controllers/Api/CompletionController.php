@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Domain\Contracts\MainContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Completion\CompletionCreateRequest;
+use App\Http\Requests\Completion\CompletionDownloadRequest;
 use App\Http\Requests\Completion\CompletionListRequest;
 use App\Http\Requests\Completion\CompletionUpdateRequest;
 use App\Http\Resources\Completion\CompletionCollection;
@@ -17,6 +18,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
 class CompletionController extends Controller
@@ -27,6 +29,45 @@ class CompletionController extends Controller
     {
         $this->completionService    =   $completionService;
         $this->completionDateService    =   $completionDateService;
+    }
+
+    public function downloadAll($rid): Response|Application|ResponseFactory
+    {
+        $completions    =   $this->completionService->getByRid($rid);
+        if (sizeof($completions) > 0) {
+            $arr    =   [];
+            foreach ($completions as &$completion) {
+                if (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'.pdf')) {
+                    $arr[]  =   env('APP_URL').'/storage/'.$completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'.pdf';
+                }
+            }
+            if (sizeof($arr) > 0) {
+                return response([MainContract::DATA =>  $arr],200);
+            }
+            return response(['message'  =>  'Документы не найдены'],404);
+        }
+        return response(['message'  =>  'Запись не найдена'],404);
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function download(CompletionDownloadRequest $completionDownloadRequest): Response|Application|ResponseFactory
+    {
+        $data   =   $completionDownloadRequest->check();
+        if ($completion = $this->completionService->getById($data[MainContract::ID])) {
+            if (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'.pdf')) {
+                if ($data[MainContract::STATUS]) {
+                    $completion->{MainContract::UPLOAD_STATUS_ID}  =   2;
+                    $completion->save();
+                    CompletionCount::dispatch($data[MainContract::RID]);
+                }
+                $data[MainContract::LINK]   =   env('APP_URL').'/storage/'.$completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'.pdf';
+                return response([MainContract::DATA =>  $data],200);
+            }
+            return response(['message'  =>  'Файл не найден или еще не загружен на сервер'],404);
+        }
+        return response(['message'  =>  'Акт выполненных работ не найден'],404);
     }
 
     /**
@@ -64,7 +105,8 @@ class CompletionController extends Controller
      */
     public function update($id, CompletionUpdateRequest $completionUpdateRequest): Response|CompletionResource|Application|ResponseFactory
     {
-        if ($completion = $this->completionService->update($id,$completionUpdateRequest->check())) {
+        $completion = $this->completionService->update($id,$completionUpdateRequest->check());
+        if ($completion) {
             CompletionCount::dispatch($completion->{MainContract::RID});
             return new CompletionResource($completion);
         }
