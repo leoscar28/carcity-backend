@@ -38,11 +38,14 @@ class CompletionCreateRequest extends FormRequest
     {
         $data   =   $this->validator->validated();
         if (array_key_exists(MainContract::DATA,$data)) {
-            $data[MainContract::DATA]   =   json_decode($data[MainContract::DATA],true)[MainContract::DATA];
+            $converted  =   json_decode($data[MainContract::DATA],true);
             $arr    =   [];
-            foreach ($data[MainContract::DATA] as &$completionData) {
-                $completionData[MainContract::RID] =   $data[MainContract::RID];
-                $arr[] =   $completionData;
+            if ($converted) {
+                $data[MainContract::DATA]   =   $converted[MainContract::DATA];
+                foreach ($data[MainContract::DATA] as &$completionData) {
+                    $completionData[MainContract::RID] =   $data[MainContract::RID];
+                    $arr[] =   $completionData;
+                }
             }
             $data[MainContract::DATA]   =   $arr;
         }

@@ -53,11 +53,14 @@ class InvoiceCreateRequest extends FormRequest
     {
         $data   =   $this->validator->validated();
         if (array_key_exists(MainContract::DATA,$data)) {
-            $data[MainContract::DATA]   =   json_decode($data[MainContract::DATA],true)[MainContract::DATA];
+            $converted  =   json_decode($data[MainContract::DATA],true);
             $arr    =   [];
-            foreach ($data[MainContract::DATA] as &$invoiceData) {
-                $invoiceData[MainContract::RID] =   $data[MainContract::RID];
-                $arr[] =   $invoiceData;
+            if ($converted) {
+                $data[MainContract::DATA]   =   $converted[MainContract::DATA];
+                foreach ($data[MainContract::DATA] as &$invoiceData) {
+                    $invoiceData[MainContract::RID] =   $data[MainContract::RID];
+                    $arr[] =   $invoiceData;
+                }
             }
             $data[MainContract::DATA]   =   $arr;
         }
