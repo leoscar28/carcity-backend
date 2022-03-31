@@ -28,16 +28,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//    return $request->user();
+//});
 
 Route::prefix('user')->group(function() {
-    Route::post('auth',[UserController::class,'auth'])->name('user.auth');
-    Route::post('create',[UserController::class,'create'])->name('user.create');
-    Route::post('update/{id}',[UserController::class,'update'])->name('user.update');
-    Route::post('password/{id}',[UserController::class,'password'])->name('user.password');
-    Route::get('getByToken/{token}',[UserController::class,'getByToken'])->name('user.getByToken');
+    Route::post('auth',[UserController::class,'auth'])->name('auth');
+    Route::post('create',[UserController::class,'create'])->name('create');
+    Route::post('update/{id}',[UserController::class,'update'])->name('update');
+    Route::post('password/{id}',[UserController::class,'password'])->name('password');
+    Route::get('getByToken/{token}',[UserController::class,'getByToken'])->name('getByToken');
 });
 
 Route::prefix('application')->group(function() {
@@ -59,6 +59,7 @@ Route::prefix('invoice')->group(function() {
     Route::post('pagination',[InvoiceController::class,'pagination'])->name('invoice.pagination');
     Route::post('all',[InvoiceController::class,'all'])->name('invoice.all');
     Route::any('update/{id}',[InvoiceController::class,'update'])->name('invoice.update');
+    Route::get('getById/{id}',[InvoiceController::class,'getById'])->name('invoice.getById');
     Route::get('getById/{id}',[InvoiceController::class,'getById'])->name('invoice.getById');
     Route::get('getByRid/{rid}',[InvoiceController::class,'getByRid'])->name('invoice.getByRid');
     Route::get('delete/{rid}/{id}',[InvoiceController::class,'delete'])->name('invoice.delete');
