@@ -16,7 +16,6 @@ use Illuminate\Support\Str;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {/*
     $list   =    DB::table('table_name')->get();
     $emails =   [];

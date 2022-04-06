@@ -167,6 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Barryvdh\DomPDF\ServiceProvider::class,
 
         /*
          * Application Service Providers...InvoiceRepositoryProvider
@@ -188,6 +189,7 @@ return [
         App\Providers\Repositories\ApplicationStatusRepositoryProvider::class,
         App\Providers\Repositories\InvoiceStatusRepositoryProvider::class,
         App\Providers\Repositories\PositionRepositoryProvider::class,
+        App\Providers\Repositories\ApplicationSignatureRepositoryProvider::class,
     ],
 
     /*
@@ -203,6 +205,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // ...
+        'PDF' => Barryvdh\DomPDF\Facade::class,
     ])->toArray(),
 
 ];

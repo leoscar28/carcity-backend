@@ -24,9 +24,14 @@ class MainContract
     const TAKE  =   'take';
     const UPLOAD_STATUS_ID  =   'upload_status_id';
     const APPLICATION_ID    =   'application_id';
+    const USER_ID   =   'user_id';
     const INVOICE_ID    =   'invoice_id';
     const COMPLETION_ID =   'completion_id';
     const CUSTOMER  =   'customer';
+    const SIGNATURE =   'signature';
+    const RES   =   'res';
+    const RESULT    =   'result';
+    const SIGNATURES    =   'signatures';
     const CUSTOMER_ID   =   'customer_id';
     const NUMBER    =   'number';
     const ORGANIZATION  =   'organization';

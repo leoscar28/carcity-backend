@@ -24,6 +24,7 @@ return new class extends Migration
             $table->text(MainContract::COMMENT)->nullable();
             $table->unsignedTinyInteger(MainContract::STATUS)->default(1);
             $table->timestamps();
+            $table->index(MainContract::RID);
         });
     }
 

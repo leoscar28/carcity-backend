@@ -30,12 +30,16 @@ class ApplicationController extends Controller
 
     public function downloadAll($rid): Response|Application|ResponseFactory
     {
-        $completions    =   $this->applicationService->getByRid($rid);
-        if (sizeof($completions) > 0) {
+        $applications   =   $this->applicationService->getByRid($rid);
+        if (sizeof($applications) > 0) {
             $arr    =   [];
-            foreach ($completions as &$completion) {
-                if (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID}.'/applications/'.$completion->{MainContract::ID}.'.docx')) {
-                    $arr[]  =   env('APP_URL').'/storage/'.$completion->{MainContract::CUSTOMER_ID}.'/applications/'.$completion->{MainContract::ID}.'.docx';
+            foreach ($applications as &$application) {
+                if (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx')) {
+                    $arr[]  =   env('APP_URL').'/storage/'.$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx';
+                } elseif (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/'.$application->{MainContract::ID}.'.docx')) {
+                    $arr[]  =   env('APP_URL').'/storage/'.$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/'.$application->{MainContract::ID}.'.docx';
+                } elseif (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.zip')) {
+                    $arr[]  =   env('APP_URL').'/storage/'.$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.zip';
                 }
             }
             if (sizeof($arr) > 0) {
@@ -55,6 +59,12 @@ class ApplicationController extends Controller
         if ($application = $this->applicationService->getById($data[MainContract::ID])) {
             if (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx')) {
                 $data[MainContract::LINK]   =   env('APP_URL').'/storage/'.$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx';
+                return response([MainContract::DATA =>  $data],200);
+            } elseif (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/'.$application->{MainContract::ID}.'.docx')) {
+                $data[MainContract::LINK]   =   env('APP_URL').'/storage/'.$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/'.$application->{MainContract::ID}.'.docx';
+                return response([MainContract::DATA =>  $data],200);
+            } elseif (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.zip')) {
+                $data[MainContract::LINK]   =   env('APP_URL').'/storage/'.$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.zip';
                 return response([MainContract::DATA =>  $data],200);
             }
             return response(['message'  =>  'Файл не найден или еще не загружен на сервер'],404);

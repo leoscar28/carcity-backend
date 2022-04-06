@@ -4,6 +4,7 @@ use App\Domain\Contracts\MainContract;
 use App\Domain\Contracts\PositionContract;
 use App\Http\Controllers\Api\ApplicationController;
 use App\Http\Controllers\Api\ApplicationDateController;
+use App\Http\Controllers\Api\ApplicationSignatureController;
 use App\Http\Controllers\Api\ApplicationStatusController;
 use App\Http\Controllers\Api\CompletionController;
 use App\Http\Controllers\Api\CompletionDateController;
@@ -31,6 +32,9 @@ use Illuminate\Support\Facades\Route;
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
+Route::get('dasdasd',function() {
+    return phpinfo();
+});
 
 Route::prefix('user')->group(function() {
     Route::post('auth',[UserController::class,'auth'])->name('auth');
@@ -38,6 +42,16 @@ Route::prefix('user')->group(function() {
     Route::post('update/{id}',[UserController::class,'update'])->name('update');
     Route::post('password/{id}',[UserController::class,'password'])->name('password');
     Route::get('getByToken/{token}',[UserController::class,'getByToken'])->name('getByToken');
+});
+
+
+Route::prefix('applicationSignature')->group(function() {
+    Route::get('multipleStart/{rid}/{userId}',[ApplicationSignatureController::class,'multipleStart'])->name('applicationSignature.multipleStart');
+    Route::get('start/{id}/{userId}',[ApplicationSignatureController::class,'start'])->name('applicationSignature.start');
+    Route::post('multipleCreate',[ApplicationSignatureController::class,'multipleCreate'])->name('applicationSignature.multipleCreate');
+    Route::post('create',[ApplicationSignatureController::class,'create'])->name('applicationSignature.create');
+    Route::post('update/{id}',[ApplicationSignatureController::class,'update'])->name('applicationSignature.update');
+    Route::get('getByApplicationId/{id}',[ApplicationSignatureController::class,'getByApplicationId'])->name('applicationSignature.getByApplicationId');
 });
 
 Route::prefix('application')->group(function() {
