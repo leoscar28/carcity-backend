@@ -34,7 +34,7 @@ class InvoiceController extends Controller
             $arr    =   [];
             foreach ($completions as &$completion) {
                 if (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID}.'/invoices/'.$completion->{MainContract::ID}.'.pdf')) {
-                    $arr[]  =   env('APP_URL').'/storage/'.$completion->{MainContract::CUSTOMER_ID}.'/invoices/'.$completion->{MainContract::ID}.'.pdf';
+                    $arr[]  =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$completion->{MainContract::CUSTOMER_ID}.'/invoices/'.$completion->{MainContract::ID}.'.pdf';
                 }
             }
             if (sizeof($arr) > 0) {
@@ -58,7 +58,7 @@ class InvoiceController extends Controller
                     $invoice->save();
                     InvoiceCount::dispatch($data[MainContract::RID]);
                 }
-                $data[MainContract::LINK]   =   env('APP_URL').'/storage/'.$invoice->{MainContract::CUSTOMER_ID}.'/invoices/'.$invoice->{MainContract::ID}.'.pdf';
+                $data[MainContract::LINK]   =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$invoice->{MainContract::CUSTOMER_ID}.'/invoices/'.$invoice->{MainContract::ID}.'.pdf';
                 return response([MainContract::DATA =>  $data],200);
             }
             return response(['message'  =>  'Файл не найден или еще не загружен на сервер'],404);
