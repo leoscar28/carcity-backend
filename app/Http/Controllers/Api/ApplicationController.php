@@ -35,11 +35,11 @@ class ApplicationController extends Controller
             $arr    =   [];
             foreach ($applications as &$application) {
                 if (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx')) {
-                    $arr[]  =   env('APP_URL').'/storage/'.$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx';
+                    $arr[]  =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx';
                 } elseif (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/'.$application->{MainContract::ID}.'.docx')) {
-                    $arr[]  =   env('APP_URL').'/storage/'.$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/'.$application->{MainContract::ID}.'.docx';
+                    $arr[]  =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/'.$application->{MainContract::ID}.'.docx';
                 } elseif (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.zip')) {
-                    $arr[]  =   env('APP_URL').'/storage/'.$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.zip';
+                    $arr[]  =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.zip';
                 }
             }
             if (sizeof($arr) > 0) {
@@ -58,13 +58,13 @@ class ApplicationController extends Controller
         $data   =   $applicationDownloadRequest->check();
         if ($application = $this->applicationService->getById($data[MainContract::ID])) {
             if (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx')) {
-                $data[MainContract::LINK]   =   env('APP_URL').'/storage/'.$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx';
+                $data[MainContract::LINK]   =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx';
                 return response([MainContract::DATA =>  $data],200);
             } elseif (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/'.$application->{MainContract::ID}.'.docx')) {
-                $data[MainContract::LINK]   =   env('APP_URL').'/storage/'.$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/'.$application->{MainContract::ID}.'.docx';
+                $data[MainContract::LINK]   =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/'.$application->{MainContract::ID}.'.docx';
                 return response([MainContract::DATA =>  $data],200);
             } elseif (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.zip')) {
-                $data[MainContract::LINK]   =   env('APP_URL').'/storage/'.$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.zip';
+                $data[MainContract::LINK]   =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.zip';
                 return response([MainContract::DATA =>  $data],200);
             }
             return response(['message'  =>  'Файл не найден или еще не загружен на сервер'],404);
