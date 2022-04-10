@@ -48,6 +48,11 @@ class CompletionService
         return $this->completionRepository->getByRid($rid);
     }
 
+    public function getByCustomerId($customerId)
+    {
+        return $this->completionRepository->getByCustomerId($customerId);
+    }
+
     public function delete($rid)
     {
         $this->completionRepository->delete($rid);

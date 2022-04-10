@@ -48,6 +48,11 @@ class InvoiceService
         return $this->invoiceRepository->getByRid($rid);
     }
 
+    public function getByCustomerId($customerId)
+    {
+        return $this->invoiceRepository->getByCustomerId($customerId);
+    }
+
     public function delete($rid)
     {
         $this->invoiceRepository->delete($rid);

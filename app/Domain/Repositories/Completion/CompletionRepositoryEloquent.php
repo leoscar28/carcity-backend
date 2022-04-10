@@ -81,6 +81,14 @@ class CompletionRepositoryEloquent implements CompletionRepositoryInterface
         ])->get();
     }
 
+    public function getByCustomerId($customerId)
+    {
+        return Completion::where([
+            [MainContract::CUSTOMER_ID,$customerId],
+            [MainContract::STATUS,1]
+        ])->get();
+    }
+
     public function delete($rid)
     {
         Completion::where(MainContract::RID,$rid)->update([

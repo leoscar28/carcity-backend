@@ -111,7 +111,7 @@ class ApplicationSignatureController extends Controller
     /**
      * @throws ValidationException
      */
-    public function multipleCreate(ApplicationSignatureMultipleCreateRequest $applicationSignatureMultipleCreateRequest)
+    public function multipleCreate(ApplicationSignatureMultipleCreateRequest $applicationSignatureMultipleCreateRequest): ApplicationDateResource|Response|Application|ResponseFactory
     {
         $data   =   $applicationSignatureMultipleCreateRequest->check();
         if ($user = $this->userService->getById($data[MainContract::USER_ID])) {

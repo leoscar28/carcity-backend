@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Domain\Contracts\MainContract;
 use App\Http\Requests\User\UserCrudCreateRequest;
 use App\Http\Requests\User\UserCrudUpdateRequest;
+use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\ListOperation;
@@ -12,6 +13,7 @@ use Backpack\CRUD\app\Http\Controllers\Operations\ShowOperation;
 use Backpack\CRUD\app\Http\Controllers\Operations\UpdateOperation;
 use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class UserCrudController extends CrudController
@@ -23,13 +25,14 @@ class UserCrudController extends CrudController
 
     public function setup()
     {
-        CRUD::setModel(\App\Models\User::class);
+        CRUD::setModel(User::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/user');
         CRUD::setEntityNameStrings('Пользователь', 'Пользователи');
     }
 
     public function store()
     {
+        $req = $this->crud->getRequest()->request;
         $this->crud->addField(['type' => 'hidden', 'name' => MainContract::TOKEN]);
         $this->crud->getRequest()->request->add([MainContract::TOKEN    =>  Str::random()]);
         $response   =   $this->traitStore();
@@ -51,14 +54,13 @@ class UserCrudController extends CrudController
             ]);
         CRUD::column(MainContract::ROLE_ID)->type('select_from_array')
             ->label('Роль')->options([
-                1   =>  'Пользователь',
+                1   =>  'Арендатор',
                 2   =>  'Администратор',
                 3   =>  'Менеджер',
                 4   =>  'Руководитель',
-                5   =>  'Арендатор',
             ]);
         CRUD::column(MainContract::COMPANY)->label('Компания');
-        CRUD::column(MainContract::BIN)->label('БИН');
+        CRUD::column(MainContract::BIN)->label('БИН/ИИН');
         CRUD::column(MainContract::STATUS)->type('select_from_array')
             ->label('Статус')->options([
                 0   =>  'Отключен',
@@ -71,11 +73,10 @@ class UserCrudController extends CrudController
         CRUD::column(MainContract::ID)->label('ID');
         CRUD::field(MainContract::ROLE_ID)->type('select_from_array')
             ->label('Роль')->options([
-                1   =>  'Пользователь',
+                1   =>  'Арендатор',
                 2   =>  'Администратор',
                 3   =>  'Менеджер',
                 4   =>  'Руководитель',
-                5   =>  'Арендатор',
             ])->default(1);
         CRUD::column(MainContract::NAME)->label('Имя');
         CRUD::column(MainContract::EMAIL)->label('Эл.почта');
@@ -101,16 +102,15 @@ class UserCrudController extends CrudController
             ]);
         CRUD::field(MainContract::ROLE_ID)->type('select_from_array')
             ->label('Роль')->options([
-                1   =>  'Пользователь',
+                1   =>  'Арендатор',
                 2   =>  'Администратор',
                 3   =>  'Менеджер',
                 4   =>  'Руководитель',
-                5   =>  'Арендатор',
             ])->default(1);
         CRUD::field(MainContract::COMPANY)->label('Компания');
-        CRUD::field(MainContract::BIN)->label('БИН');
+        CRUD::field(MainContract::BIN)->label('БИН/ИИН');
         CRUD::field(MainContract::EMAIL)->label('Эл.почта');
-        CRUD::field(MainContract::PHONE)->label('Номер телефона');
+        CRUD::field(MainContract::PHONE)->label('Номер телефона (7778889900)');
         CRUD::field(MainContract::PASSWORD)->label('Пароль');
         CRUD::field(MainContract::STATUS)->type('select_from_array')
             ->label('Статус')->options([
@@ -134,14 +134,13 @@ class UserCrudController extends CrudController
             ]);
         CRUD::field(MainContract::ROLE_ID)->type('select_from_array')
             ->label('Роль')->options([
-                1   =>  'Пользователь',
+                1   =>  'Арендатор',
                 2   =>  'Администратор',
                 3   =>  'Менеджер',
                 4   =>  'Руководитель',
-                5   =>  'Арендатор',
             ])->default(1);
         CRUD::field(MainContract::COMPANY)->label('Компания');
-        CRUD::field(MainContract::BIN)->label('БИН');
+        CRUD::field(MainContract::EMAIL)->label('Эл.почта');
         CRUD::field(MainContract::STATUS)->type('select_from_array')
             ->label('Статус')->options([
                 0   =>  'Отключен',

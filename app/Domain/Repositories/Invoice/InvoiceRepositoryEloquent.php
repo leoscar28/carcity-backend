@@ -81,6 +81,14 @@ class InvoiceRepositoryEloquent implements InvoiceRepositoryInterface
         ])->get();
     }
 
+    public function getByCustomerId($customerId)
+    {
+        return Invoice::where([
+            [MainContract::CUSTOMER_ID,$customerId],
+            [MainContract::STATUS,1]
+        ])->get();
+    }
+
     public function delete($rid)
     {
         Invoice::where(MainContract::RID,$rid)->update([

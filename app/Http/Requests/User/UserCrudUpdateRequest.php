@@ -25,8 +25,12 @@ class UserCrudUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            MainContract::ALIAS =>  'nullable|unique:users,alias',
+            MainContract::ROLE_ID   =>  'required',
             MainContract::NAME  =>  'required',
             MainContract::SURNAME   =>  'required',
+            MainContract::EMAIL =>  'nullable|unique:users,email',
+            MainContract::COMPANY   =>  'required',
         ];
     }
 
@@ -38,7 +42,12 @@ class UserCrudUpdateRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            //
+            MainContract::ALIAS.'.unique'   =>  'Этот логин уже занят',
+            MainContract::ROLE_ID.'.required'   =>  'Вы не указали роль',
+            MainContract::NAME.'.required'  =>  'Вы не указали имя',
+            MainContract::SURNAME.'.required'   =>  'Вы не указали фамилию',
+            MainContract::COMPANY.'.required'   =>  'Вы не указали Компанию',
+            MainContract::EMAIL.'.unique'   =>  'Этот email уже занят',
         ];
     }
 

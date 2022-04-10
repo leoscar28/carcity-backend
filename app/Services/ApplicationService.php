@@ -48,6 +48,11 @@ class ApplicationService
         return $this->applicationRepository->getByRid($rid);
     }
 
+    public function getByCustomerId($customerId)
+    {
+        return $this->applicationRepository->getByCustomerId($customerId);
+    }
+
     public function delete($rid)
     {
         $this->applicationRepository->delete($rid);

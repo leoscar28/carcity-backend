@@ -87,4 +87,12 @@ class ApplicationRepositoryEloquent implements ApplicationRepositoryInterface
         ]);
     }
 
+    public function getByCustomerId($customerId)
+    {
+        return Application::where([
+            [MainContract::CUSTOMER_ID,$customerId],
+            [MainContract::STATUS,1]
+        ])->get();
+    }
+
 }
