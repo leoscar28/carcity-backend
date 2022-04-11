@@ -30,6 +30,7 @@ class UserCrudUpdateRequest extends FormRequest
             MainContract::NAME  =>  'required',
             MainContract::SURNAME   =>  'required',
             MainContract::EMAIL =>  'nullable|unique:users,email,'.$this->{MainContract::ID},
+            MainContract::PHONE =>  'required|unique:users,phone,'.$this->{MainContract::ID},
             MainContract::COMPANY   =>  'required',
         ];
     }
@@ -48,6 +49,8 @@ class UserCrudUpdateRequest extends FormRequest
             MainContract::SURNAME.'.required'   =>  'Вы не указали фамилию',
             MainContract::COMPANY.'.required'   =>  'Вы не указали Компанию',
             MainContract::EMAIL.'.unique'   =>  'Этот email уже занят',
+            MainContract::PHONE.'.required' =>  'Вы не указали номер телефона',
+            MainContract::PHONE.'.unique'   =>  'Этот номер уже занят',
         ];
     }
 
