@@ -59,7 +59,12 @@ class UserCrudUpdateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            //
+            MainContract::ALIAS.'.unique'   =>  'Этот логин уже занят',
+            MainContract::ROLE_ID.'.required'   =>  'Вы не указали роль',
+            MainContract::NAME.'.required'  =>  'Вы не указали имя',
+            MainContract::SURNAME.'.required'   =>  'Вы не указали фамилию',
+            MainContract::COMPANY.'.required'   =>  'Вы не указали Компанию',
+            MainContract::EMAIL.'.unique'   =>  'Этот email уже занят',
         ];
     }
 }
