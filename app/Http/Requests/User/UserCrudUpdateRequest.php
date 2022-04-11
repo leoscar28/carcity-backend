@@ -25,11 +25,11 @@ class UserCrudUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            MainContract::ALIAS =>  'nullable|unique:users,login',
+            MainContract::ALIAS =>  'nullable|unique:users,login,'.$this->{MainContract::ID},
             MainContract::ROLE_ID   =>  'required',
             MainContract::NAME  =>  'required',
             MainContract::SURNAME   =>  'required',
-            MainContract::EMAIL =>  'nullable|unique:users,email',
+            MainContract::EMAIL =>  'nullable|unique:users,email,'.$this->{MainContract::ID},
             MainContract::COMPANY   =>  'required',
         ];
     }
