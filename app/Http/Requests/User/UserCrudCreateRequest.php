@@ -26,7 +26,7 @@ class UserCrudCreateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            MainContract::ALIAS =>  'nullable|unique:users,alias',
+            MainContract::ALIAS =>  'nullable|unique:users,login',
             MainContract::ROLE_ID   =>  'required',
             MainContract::NAME  =>  'required',
             MainContract::SURNAME   =>  'required',
