@@ -72,6 +72,15 @@ class ApplicationRepositoryEloquent implements ApplicationRepositoryInterface
         ])->first();
     }
 
+    public function getByRidAndUploadStatusId($rid,$uploadStatusId)
+    {
+        return Application::where([
+            [MainContract::RID,$rid],
+            [MainContract::UPLOAD_STATUS_ID,$uploadStatusId],
+            [MainContract::STATUS,1]
+        ])->limit(50)->get();
+    }
+
     public function getByRid($rid)
     {
         return Application::where([

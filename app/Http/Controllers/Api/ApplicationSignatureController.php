@@ -39,7 +39,7 @@ class ApplicationSignatureController extends Controller
 
     public function multipleStart($rid,$userId): Response|Application|ResponseFactory
     {
-        $applications   =   $this->applicationService->getByRid($rid);
+        $applications   =   $this->applicationService->getByRidAndUploadStatusId($rid,1);
         if (sizeof($applications) > 0) {
             $arr    =   [];
             foreach ($applications as &$application) {
