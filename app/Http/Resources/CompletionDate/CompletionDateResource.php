@@ -22,7 +22,8 @@ class CompletionDateResource extends JsonResource
             MainContract::STATUS    =>  $this->{MainContract::STATUS},
             MainContract::CREATED_AT    =>  Carbon::createFromFormat('Y-m-d H:i:s', $this->{MainContract::CREATED_AT})->format('d.m.Y'),
             MainContract::RIDS  =>  new CompletionCollection($this->{MainContract::COMPLETION}),
-            MainContract::COMPLETION_STATUS =>  new CompletionStatusResource($this->{MainContract::COMPLETION_STATUS})
+            MainContract::COMPLETION_STATUS =>  new CompletionStatusResource($this->{MainContract::COMPLETION_STATUS}),
+            MainContract::RID_STATUS    =>  false
         ];
     }
 }
