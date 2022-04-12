@@ -22,7 +22,7 @@ class ApplicationResource extends JsonResource
             MainContract::SUM   =>  $this->{MainContract::SUM},
             MainContract::NAME  =>  $this->{MainContract::NAME},
             MainContract::STATUS    =>  $this->{MainContract::STATUS},
-            MainContract::CREATED_AT    =>  Carbon::createFromFormat('Y-m-d H:i:s', $this->{MainContract::CREATED_AT})->format('Y.m.d'),
+            MainContract::CREATED_AT    =>  Carbon::createFromFormat('Y-m-d H:i:s', $this->{MainContract::CREATED_AT})->format('d.m.Y'),
         ];
     }
 }
