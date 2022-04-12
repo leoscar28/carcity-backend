@@ -19,6 +19,11 @@ class Invoice extends Model
         return date('Y-m-d',strtotime($value));
     }
 
+    public function setSumAttribute($value)
+    {
+        return filter_var($value, FILTER_SANITIZE_NUMBER_INT);
+    }
+
     public function invoiceStatus(): BelongsTo
     {
         return $this->belongsTo(InvoiceStatus::class,MainContract::UPLOAD_STATUS_ID,MainContract::ID);

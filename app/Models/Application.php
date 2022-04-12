@@ -19,6 +19,11 @@ class Application extends Model
         return date('Y-m-d',strtotime($value));
     }
 
+    public function setSumAttribute($value)
+    {
+        return filter_var($value, FILTER_SANITIZE_NUMBER_INT);
+    }
+
     public function applicationStatus(): BelongsTo
     {
         return $this->belongsTo(ApplicationStatus::class,MainContract::UPLOAD_STATUS_ID,MainContract::ID);
