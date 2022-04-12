@@ -12,7 +12,9 @@ use App\Http\Resources\ApplicationDate\ApplicationDateResource;
 use App\Http\Resources\ApplicationSignature\ApplicationSignatureCollection;
 use App\Http\Resources\ApplicationSignature\ApplicationSignatureResource;
 use App\Jobs\ApplicationCount;
+use App\Jobs\ApplicationFiles;
 use App\Jobs\ApplicationSignatureArchive;
+use App\Jobs\ApplicationTenantFiles;
 use App\Services\ApplicationDateService;
 use App\Services\ApplicationService;
 use App\Services\ApplicationSignatureService;
@@ -102,7 +104,7 @@ class ApplicationSignatureController extends Controller
         $err = curl_error($curl);
         curl_close($curl);
         if ($err) {
-            return false;
+            return $err;
         } else {
             return json_decode($response,true);
         }
@@ -114,6 +116,7 @@ class ApplicationSignatureController extends Controller
     public function multipleCreate(ApplicationSignatureMultipleCreateRequest $applicationSignatureMultipleCreateRequest): ApplicationDateResource|Response|Application|ResponseFactory
     {
         $data   =   $applicationSignatureMultipleCreateRequest->check();
+
         if ($user = $this->userService->getById($data[MainContract::USER_ID])) {
             foreach ($data[MainContract::RES] as $key => $result) {
                 if ($application = $this->applicationService->getById($result[MainContract::ID])) {
@@ -127,11 +130,7 @@ class ApplicationSignatureController extends Controller
                                     MainContract::DATA  =>  json_encode($verifiedData[MainContract::RESULT])
                                 ]);
                             }
-
-                            if (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx')) {
-                                Storage::disk('public')->move($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx', $application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/'.$application->{MainContract::ID}.'.docx');
-                            }
-                            Storage::disk('public')->put($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/Подпись 1 - '.$user->{MainContract::SURNAME}.' '.$user->{MainContract::NAME}.'/'.$data[MainContract::USER_ID].'_'.$application->{MainContract::ID}.'.xml', $data[MainContract::SIGNATURE][$key]);
+                            ApplicationFiles::dispatch($application,$user,$data[MainContract::SIGNATURE][$key]);
                             $application->{MainContract::UPLOAD_STATUS_ID}  =   2;
                             $application->save();
                         }
@@ -165,16 +164,12 @@ class ApplicationSignatureController extends Controller
                                 MainContract::DATA  =>  json_encode($verifiedData[MainContract::RESULT])
                             ]);
                         }
-                        if (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx')) {
-                            Storage::disk('public')->move($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx', $application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/'.$application->{MainContract::ID}.'.docx');
-                        }
                         if ($data[MainContract::ROLE_ID] === 4) {
-                            Storage::disk('public')->put($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/Подпись 1 - '.$user->{MainContract::SURNAME}.' '.$user->{MainContract::NAME}.'/'.$data[MainContract::USER_ID].'_'.$data[MainContract::ID].'.xml', $data[MainContract::SIGNATURE]);
+                            ApplicationFiles::dispatch($application,$user,$data[MainContract::SIGNATURE]);
                             $application->{MainContract::UPLOAD_STATUS_ID}  =   2;
                         } else {
-                            Storage::disk('public')->put($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/Подпись 2 - '.$user->{MainContract::SURNAME}.' '.$user->{MainContract::NAME}.'/'.$data[MainContract::USER_ID].'_'.$data[MainContract::ID].'.xml', $data[MainContract::SIGNATURE]);
+                            ApplicationTenantFiles::dispatch($application,$user,$data[MainContract::SIGNATURE]);
                             $application->{MainContract::UPLOAD_STATUS_ID}  =   3;
-                            ApplicationSignatureArchive::dispatch($application->{MainContract::ID});
                         }
                         $application->save();
                         ApplicationCount::dispatch($application->{MainContract::RID});
