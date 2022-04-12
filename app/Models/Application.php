@@ -7,7 +7,6 @@ use App\Domain\Contracts\MainContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Application extends Model
 {
@@ -19,9 +18,9 @@ class Application extends Model
         return date('Y-m-d',strtotime($value));
     }
 
-    public function setSumAttribute($value): string|null
+    public function setSumAttribute($value)
     {
-        return preg_replace("/[^0-9]/", "", $value);
+        $this->attributes[MainContract::SUM] = preg_replace("/[^0-9]/", "", $value);
     }
 
     public function applicationStatus(): BelongsTo

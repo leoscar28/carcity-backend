@@ -19,9 +19,9 @@ class Invoice extends Model
         return date('Y-m-d',strtotime($value));
     }
 
-    public function setSumAttribute($value): string|null
+    public function setSumAttribute($value)
     {
-        return preg_replace("/[^0-9]/", "", $value);
+        $this->attributes[MainContract::SUM] = preg_replace("/[^0-9]/", "", $value);
     }
 
     public function invoiceStatus(): BelongsTo
