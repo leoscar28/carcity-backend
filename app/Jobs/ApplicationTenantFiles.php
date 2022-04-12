@@ -44,9 +44,7 @@ class ApplicationTenantFiles implements ShouldQueue
             Storage::disk('public')->put($this->application->{MainContract::CUSTOMER_ID}.'/applications/'.$this->application->{MainContract::ID}.'/Подпись 2 - '.$this->user->{MainContract::SURNAME}.' '.$this->user->{MainContract::NAME}.'/'.$this->user->{MainContract::ID}.'_'.$this->application->{MainContract::ID}.'.xml', $this->xml);
             ApplicationSignatureArchive::dispatch($this->application->{MainContract::ID});
         } catch (\Exception $exception) {
-            $applicationService->update($this->application->{MainContract::ID},[
-                MainContract::UPLOAD_STATUS_ID  =>  2
-            ]);
+
         }
     }
 }
