@@ -24,6 +24,7 @@ class InvoiceResource extends JsonResource
             MainContract::NAME  =>  $this->{MainContract::NAME},
             MainContract::STATUS    =>  $this->{MainContract::STATUS},
             MainContract::CREATED_AT    =>  Carbon::createFromFormat('Y-m-d H:i:s', $this->{MainContract::CREATED_AT})->format('d.m.Y'),
+            MainContract::USERS =>  $this->{MainContract::USERS},
         ];
     }
 }

@@ -21,4 +21,9 @@ class Completion extends Model
     {
         return $this->belongsTo(CompletionStatus::class,MainContract::UPLOAD_STATUS_ID,MainContract::ID);
     }
+
+    public function users(): BelongsTo
+    {
+        return $this->belongsTo(User::class,MainContract::CUSTOMER_ID,MainContract::BIN);
+    }
 }

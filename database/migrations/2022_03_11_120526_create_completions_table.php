@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string(MainContract::NAME)->nullable();
             $table->unsignedTinyInteger(MainContract::STATUS)->default(1);
             $table->timestamps();
+            $table->index(MainContract::CUSTOMER_ID);
         });
     }
 

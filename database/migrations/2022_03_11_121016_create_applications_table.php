@@ -30,6 +30,7 @@ return new class extends Migration
             $table->unsignedTinyInteger(MainContract::STATUS)->default(1);
             $table->timestamps();
             $table->index(MainContract::RID);
+            $table->index(MainContract::CUSTOMER_ID);
         });
     }
 

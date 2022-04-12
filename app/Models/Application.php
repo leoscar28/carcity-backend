@@ -13,12 +13,20 @@ class Application extends Model
 {
     use HasFactory;
     protected $fillable =   ApplicationContract::FILLABLE;
+
     public function setDateAttribute($value): string
     {
         return date('Y-m-d',strtotime($value));
     }
+
     public function applicationStatus(): BelongsTo
     {
         return $this->belongsTo(ApplicationStatus::class,MainContract::UPLOAD_STATUS_ID,MainContract::ID);
     }
+
+    public function users(): BelongsTo
+    {
+        return $this->belongsTo(User::class,MainContract::CUSTOMER_ID,MainContract::BIN);
+    }
+
 }
