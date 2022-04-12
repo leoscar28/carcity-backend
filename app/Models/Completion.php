@@ -18,9 +18,9 @@ class Completion extends Model
         return date('Y-m-d',strtotime($value));
     }
 
-    public function setSumAttribute($value)
+    public function setSumAttribute($value): string|null
     {
-        return filter_var($value, FILTER_SANITIZE_NUMBER_INT);
+        return preg_replace("/[^0-9]/", "", $value);
     }
 
     public function completionStatus(): BelongsTo
