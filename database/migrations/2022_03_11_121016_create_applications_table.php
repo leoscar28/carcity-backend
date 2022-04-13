@@ -21,7 +21,7 @@ return new class extends Migration
             $table->unsignedTinyInteger(MainContract::UPLOAD_STATUS_ID)
                 ->default(1);
             $table->string(MainContract::CUSTOMER)->nullable();
-            $table->bigInteger(MainContract::CUSTOMER_ID)->nullable();
+            $table->string(MainContract::CUSTOMER_ID)->nullable();
             $table->string(MainContract::NUMBER)->nullable();
             $table->string(MainContract::ORGANIZATION)->nullable();
             $table->date(MainContract::DATE)->nullable();
