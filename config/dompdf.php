@@ -125,7 +125,8 @@ return array(
          * a real license code must exist!
          */
         //"DOMPDF_PDFLIB_LICENSE" => "your license key here",
-
+        "DOMPDF_TEMP_DIR" => storage_path('logs/'),//I need this
+        "DOMPDF_LOG_OUTPUT_FILE" => storage_path('logs/log.htm'),
         /**
          * html target media view which should be rendered into pdf.
          * List of types and parsing rules for future extensions:
