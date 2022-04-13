@@ -47,32 +47,28 @@ class ApplicationSignatureArchive implements ShouldQueue
                 $user2  =   json_decode($applicationSignature[1][MainContract::DATA],true);
                 $userDate2  =   $applicationSignature[1][MainContract::CREATED_AT];
                 $userData2  =   $userService->getById($applicationSignature[1][MainContract::USER_ID]);
-                try {
-                    PDF::setPaper('a4')
-                        ->loadView('pdf',compact('img','font','application','user1','user2','userData2','userDate1','userDate2'))
-                        ->save(storage_path('docs/').$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/Паспорт документа.pdf');
-                    $root   =   storage_path('docs/').$application->{MainContract::CUSTOMER_ID}.'/applications/';
-                    $path   =   $root.$application->{MainContract::ID}.'.zip';
-                    $zip    =   new \ZipArchive;
-                    $zip->open($path, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
-                    $files = new RecursiveIteratorIterator(
-                        new RecursiveDirectoryIterator($root.'/'.$application->{MainContract::ID}.'/'),
-                        RecursiveIteratorIterator::LEAVES_ONLY
-                    );
-                    foreach ($files as $name => $file)
+                PDF::setPaper('a4')
+                    ->loadView('pdf',compact('img','font','application','user1','user2','userData2','userDate1','userDate2'))
+                    ->save(storage_path('docs/').$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/Паспорт документа.pdf');
+                $root   =   storage_path('docs/').$application->{MainContract::CUSTOMER_ID}.'/applications/';
+                $path   =   $root.$application->{MainContract::ID}.'.zip';
+                $zip    =   new \ZipArchive;
+                $zip->open($path, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
+                $files = new RecursiveIteratorIterator(
+                    new RecursiveDirectoryIterator($root.'/'.$application->{MainContract::ID}.'/'),
+                    RecursiveIteratorIterator::LEAVES_ONLY
+                );
+                foreach ($files as $name => $file)
+                {
+                    if (!$file->isDir())
                     {
-                        if (!$file->isDir())
-                        {
-                            $filePath = $file->getRealPath();
-                            $relativePath = substr($filePath, strlen($root) + 1);
-                            $zip->addFile($filePath, $relativePath);
-                        }
+                        $filePath = $file->getRealPath();
+                        $relativePath = substr($filePath, strlen($root) + 1);
+                        $zip->addFile($filePath, $relativePath);
                     }
-                    $zip->close();
-                    Storage::disk('public')->deleteDirectory($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/');
-                } catch (\Exception $e) {
-
                 }
+                $zip->close();
+                Storage::disk('public')->deleteDirectory($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/');
             }
         }
     }
