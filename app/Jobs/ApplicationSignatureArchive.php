@@ -12,6 +12,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
@@ -37,9 +38,12 @@ class ApplicationSignatureArchive implements ShouldQueue
      */
     public function handle(ApplicationService $applicationService, ApplicationSignatureService $applicationSignatureService, UserService $userService)
     {
+        Log::info('archive passed 1 - '.$this->applicationId,[$this->applicationId]);
         if ($application = $applicationService->getById($this->applicationId)) {
+            Log::info('archive passed 2 - '.$this->applicationId,[$this->applicationId]);
             $applicationSignature   =   $applicationSignatureService->getByApplicationId($application->{MainContract::ID});
             if (sizeof($applicationSignature) > 1) {
+                Log::info('archive passed 3 - '.$this->applicationId,[$this->applicationId]);
                 $img    =   public_path('img/').'background1.jpg';
                 $font   =   public_path('fonts/').'PTSerif-Regular.ttf';
                 $user1  =   json_decode($applicationSignature[0][MainContract::DATA],true);
@@ -58,10 +62,8 @@ class ApplicationSignatureArchive implements ShouldQueue
                     new RecursiveDirectoryIterator($root.'/'.$application->{MainContract::ID}.'/'),
                     RecursiveIteratorIterator::LEAVES_ONLY
                 );
-                foreach ($files as $name => $file)
-                {
-                    if (!$file->isDir())
-                    {
+                foreach ($files as $name => $file) {
+                    if (!$file->isDir()) {
                         $filePath = $file->getRealPath();
                         $relativePath = substr($filePath, strlen($root) + 1);
                         $zip->addFile($filePath, $relativePath);
@@ -69,7 +71,12 @@ class ApplicationSignatureArchive implements ShouldQueue
                 }
                 $zip->close();
                 Storage::disk('public')->deleteDirectory($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/');
+                Log::info('archive passed 4 - '.$this->applicationId,[$this->applicationId]);
+            } else {
+                Log::info('error application size 1 - '.$this->applicationId,[$this->applicationId]);
             }
+        } else {
+            Log::info('error application not found - '.$this->applicationId,[$this->applicationId]);
         }
     }
 }

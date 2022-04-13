@@ -10,7 +10,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
-use App\Services\ApplicationService;
 
 class ApplicationTenantFiles implements ShouldQueue
 {
@@ -35,16 +34,9 @@ class ApplicationTenantFiles implements ShouldQueue
      *
      * @return void
      */
-    public function handle(ApplicationService $applicationService)
+    public function handle()
     {
-        try {
-            if (Storage::disk('public')->exists($this->application->{MainContract::CUSTOMER_ID}.'/applications/'.$this->application->{MainContract::ID}.'.docx')) {
-                Storage::disk('public')->move($this->application->{MainContract::CUSTOMER_ID}.'/applications/'.$this->application->{MainContract::ID}.'.docx', $this->application->{MainContract::CUSTOMER_ID}.'/applications/'.$this->application->{MainContract::ID}.'/'.$this->application->{MainContract::ID}.'.docx');
-            }
-            Storage::disk('public')->put($this->application->{MainContract::CUSTOMER_ID}.'/applications/'.$this->application->{MainContract::ID}.'/Подпись 2 - '.$this->user->{MainContract::SURNAME}.' '.$this->user->{MainContract::NAME}.'/'.$this->user->{MainContract::ID}.'_'.$this->application->{MainContract::ID}.'.xml', $this->xml);
-            ApplicationSignatureArchive::dispatch($this->application->{MainContract::ID});
-        } catch (\Exception $exception) {
-
-        }
+        Storage::disk('public')->put($this->application->{MainContract::CUSTOMER_ID}.'/applications/'.$this->application->{MainContract::ID}.'/Подпись 2 - '.$this->user->{MainContract::SURNAME}.' '.$this->user->{MainContract::NAME}.'/'.$this->user->{MainContract::ID}.'_'.$this->application->{MainContract::ID}.'.xml', $this->xml);
+        ApplicationSignatureArchive::dispatch($this->application->{MainContract::ID});
     }
 }
