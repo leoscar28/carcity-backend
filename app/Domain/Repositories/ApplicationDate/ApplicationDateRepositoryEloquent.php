@@ -41,6 +41,19 @@ class ApplicationDateRepositoryEloquent implements ApplicationDateRepositoryInte
         return $query->get();
     }
 
+    public function get($data)
+    {
+        $query  =   ApplicationDate::without(MainContract::APPLICATION,MainContract::APPLICATION_STATUS)
+            ->where($data[MainContract::DATA]);
+        if (array_key_exists(MainContract::CREATED_AT,$data)) {
+            $query->whereBetween(MainContract::CREATED_AT,$data[MainContract::CREATED_AT]);
+        }
+        $query->skip(($data[MainContract::PAGINATION]-1) * $data[MainContract::TAKE]);
+        $query->take($data[MainContract::TAKE]);
+        $query->orderBy(MainContract::ID,'DESC');
+        return $query->get();
+    }
+
     public function update($id,$data): object|null
     {
         ApplicationDate::where(MainContract::ID,$id)->update($data);

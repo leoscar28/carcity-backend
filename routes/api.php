@@ -60,6 +60,7 @@ Route::prefix('application')->group(function() {
     Route::post('create',[ApplicationController::class,'create'])->name('application.create');
     Route::post('pagination',[ApplicationController::class,'pagination'])->name('application.pagination');
     Route::post('all',[ApplicationController::class,'all'])->name('application.all');
+    Route::post('get',[ApplicationController::class,'get'])->name('application.get');
     Route::any('update/{id}',[ApplicationController::class,'update'])->name('application.update');
     Route::get('getById/{id}',[ApplicationController::class,'getById'])->name('application.getById');
     Route::get('getByRid/{rid}',[ApplicationController::class,'getByRid'])->name('application.getByRid');
@@ -94,6 +95,7 @@ Route::prefix('completion')->group(function() {
 Route::prefix('completionDate')->group(function() {
     Route::post('pagination',[CompletionDateController::class,'pagination'])->name('completionDate.pagination');
     Route::post('list',[CompletionDateController::class,'list'])->name('completionDate.list');
+    Route::post('get',[CompletionDateController::class,'get'])->name('completionDate.get');
     Route::post('update/{id}',[CompletionDateController::class,'update'])->name('completionDate.update');
     Route::get('getByRid/{rid}',[CompletionDateController::class,'getByRid'])->name('completionDate.getByRid');
     Route::get('getById/{id}',[CompletionDateController::class,'getById'])->name('completionDate.getById');
@@ -107,6 +109,7 @@ Route::prefix(MainContract::COMPLETION_STATUS)->group(function() {
 Route::prefix('applicationDate')->group(function() {
     Route::post('pagination',[ApplicationDateController::class,'pagination'])->name('applicationDate.pagination');
     Route::post('list',[ApplicationDateController::class,'list'])->name('applicationDate.list');
+    Route::post('get',[ApplicationDateController::class,'get'])->name('applicationDate.get');
     Route::post('update/{id}',[ApplicationDateController::class,'update'])->name('applicationDate.update');
     Route::get('getByRid/{rid}',[ApplicationDateController::class,'getByRid'])->name('applicationDate.getByRid');
     Route::get('getById/{id}',[ApplicationDateController::class,'getById'])->name('applicationDate.getById');
@@ -120,6 +123,7 @@ Route::prefix(MainContract::APPLICATION_STATUS)->group(function() {
 Route::prefix('invoiceDate')->group(function() {
     Route::post('pagination',[InvoiceDateController::class,'pagination'])->name('invoiceDate.pagination');
     Route::post('list',[InvoiceDateController::class,'list'])->name('invoiceDate.list');
+    Route::post('get',[InvoiceDateController::class,'get'])->name('invoiceDate.get');
     Route::post('update/{id}',[InvoiceDateController::class,'update'])->name('invoiceDate.update');
     Route::get('getByRid/{rid}',[InvoiceDateController::class,'getByRid'])->name('invoiceDate.getByRid');
     Route::get('getById/{id}',[InvoiceDateController::class,'getById'])->name('invoiceDate.getById');

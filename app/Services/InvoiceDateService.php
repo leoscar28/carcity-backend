@@ -33,6 +33,11 @@ class InvoiceDateService
         return $this->invoiceDateRepository->list($data);
     }
 
+    public function get($data)
+    {
+        return $this->invoiceDateRepository->get($data);
+    }
+
     public function create($data): ?object
     {
         return $this->invoiceDateRepository->create($data);

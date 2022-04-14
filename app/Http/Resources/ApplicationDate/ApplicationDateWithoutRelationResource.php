@@ -8,7 +8,7 @@ use App\Http\Resources\ApplicationStatus\ApplicationStatusResource;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ApplicationDateResource extends JsonResource
+class ApplicationDateWithoutRelationResource extends JsonResource
 {
     public function toArray($request):array
     {
@@ -21,9 +21,8 @@ class ApplicationDateResource extends JsonResource
             MainContract::COMMENT   =>  $this->{MainContract::COMMENT},
             MainContract::STATUS    =>  $this->{MainContract::STATUS},
             MainContract::CREATED_AT    =>  Carbon::createFromFormat('Y-m-d H:i:s', $this->{MainContract::CREATED_AT})->format('d.m.Y'),
-            MainContract::RIDS  =>  $this->when($this->{MainContract::APPLICATION},new ApplicationCollection($this->{MainContract::APPLICATION})),
-            MainContract::APPLICATION_STATUS    =>  new ApplicationStatusResource($this->{MainContract::APPLICATION_STATUS}),
-            MainContract::RID_STATUS    =>  false
+            MainContract::RID_STATUS    =>  false,
+            MainContract::RIDS  =>  false
         ];
     }
 }

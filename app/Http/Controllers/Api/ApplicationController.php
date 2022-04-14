@@ -105,6 +105,14 @@ class ApplicationController extends Controller
     /**
      * @throws ValidationException
      */
+    public function get(ApplicationListRequest $completionListRequest): ApplicationCollection
+    {
+        return new ApplicationCollection($this->applicationService->get($completionListRequest->check()));
+    }
+
+    /**
+     * @throws ValidationException
+     */
     public function update($id, ApplicationUpdateRequest $applicationUpdateRequest): Response|ApplicationResource|Application|ResponseFactory
     {
         $application = $this->applicationService->update($id,$applicationUpdateRequest->check());

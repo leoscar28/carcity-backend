@@ -30,6 +30,11 @@ class ApplicationDateService
         return $this->applicationDateRepository->list($data);
     }
 
+    public function get($data)
+    {
+        return $this->applicationDateRepository->get($data);
+    }
+
     public function update($id,$data): ?object
     {
         return $this->applicationDateRepository->update($id,$data);

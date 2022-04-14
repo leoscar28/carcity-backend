@@ -38,6 +38,11 @@ class CompletionDateService
         return $this->completionDateRepository->list($data);
     }
 
+    public function get($data)
+    {
+        return $this->completionDateRepository->get($data);
+    }
+
     public function create($data): ?object
     {
         return $this->completionDateRepository->create($data);

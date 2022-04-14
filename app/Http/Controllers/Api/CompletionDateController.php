@@ -7,6 +7,7 @@ use App\Http\Requests\CompletionDate\CompletionDateListRequest;
 use App\Http\Requests\CompletionDate\CompletionDateUpdateRequest;
 use App\Http\Resources\CompletionDate\CompletionDateCollection;
 use App\Http\Resources\CompletionDate\CompletionDateResource;
+use App\Http\Resources\CompletionDate\CompletionDateWithoutRelationCollection;
 use App\Services\CompletionDateService;
 use App\Services\CompletionService;
 use Illuminate\Contracts\Foundation\Application;
@@ -39,6 +40,14 @@ class CompletionDateController extends Controller
     public function list(CompletionDateListRequest $completionDateListRequest): CompletionDateCollection
     {
         return new CompletionDateCollection($this->completionDateService->list($completionDateListRequest->check()));
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function get(CompletionDateListRequest $completionDateListRequest): CompletionDateWithoutRelationCollection
+    {
+        return new CompletionDateWithoutRelationCollection($this->completionDateService->get($completionDateListRequest->check()));
     }
 
     /**

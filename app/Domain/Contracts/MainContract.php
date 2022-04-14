@@ -10,6 +10,7 @@ class MainContract
     const DATA  =   'data';
     const RID   =   'rid';
     const RID_STATUS    =   'ridStatus';
+    const LOADING   =   'loading';
     const RIDS  =   'rids';
     const DOCUMENT_AVAILABLE    =   'document_available';
     const DOCUMENT_ALL  =   'document_all';

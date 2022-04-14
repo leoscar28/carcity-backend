@@ -7,6 +7,7 @@ use App\Http\Requests\ApplicationDate\ApplicationDateListRequest;
 use App\Http\Requests\ApplicationDate\ApplicationDateUpdateRequest;
 use App\Http\Resources\ApplicationDate\ApplicationDateCollection;
 use App\Http\Resources\ApplicationDate\ApplicationDateResource;
+use App\Http\Resources\ApplicationDate\ApplicationDateWithoutRelationCollection;
 use App\Models\ApplicationDate;
 use App\Services\ApplicationDateService;
 use App\Services\ApplicationService;
@@ -40,6 +41,14 @@ class ApplicationDateController extends Controller
     public function list(ApplicationDateListRequest $applicationDateListRequest): ApplicationDateCollection
     {
         return new ApplicationDateCollection($this->applicationDateService->list($applicationDateListRequest->check()));
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function get(ApplicationDateListRequest $applicationDateListRequest): ApplicationDateWithoutRelationCollection
+    {
+        return new ApplicationDateWithoutRelationCollection($this->applicationDateService->get($applicationDateListRequest->check()));
     }
 
     /**

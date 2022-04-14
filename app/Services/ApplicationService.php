@@ -33,6 +33,11 @@ class ApplicationService
         return $this->applicationRepository->all($data);
     }
 
+    public function get($data)
+    {
+        return $this->applicationRepository->get($data);
+    }
+
     public function update($id,$data)
     {
         return $this->applicationRepository->update($id,$data);

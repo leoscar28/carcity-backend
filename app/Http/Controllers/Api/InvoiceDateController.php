@@ -7,6 +7,7 @@ use App\Http\Requests\InvoiceDate\InvoiceDateListRequest;
 use App\Http\Requests\InvoiceDate\InvoiceDateUpdateRequest;
 use App\Http\Resources\InvoiceDate\InvoiceDateCollection;
 use App\Http\Resources\InvoiceDate\InvoiceDateResource;
+use App\Http\Resources\InvoiceDate\InvoiceDateWithoutRelationCollection;
 use App\Services\InvoiceDateService;
 use App\Services\InvoiceService;
 use Illuminate\Contracts\Foundation\Application;
@@ -39,6 +40,14 @@ class InvoiceDateController extends Controller
     public function list(InvoiceDateListRequest $invoiceDateListRequest): InvoiceDateCollection
     {
         return new InvoiceDateCollection($this->invoiceDateService->list($invoiceDateListRequest->check()));
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function get(InvoiceDateListRequest $invoiceDateListRequest): InvoiceDateWithoutRelationCollection
+    {
+        return new InvoiceDateWithoutRelationCollection($this->invoiceDateService->get($invoiceDateListRequest->check()));
     }
 
     /**
