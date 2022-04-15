@@ -50,6 +50,11 @@ class UserUpdateRequest extends FormRequest
         return $data;
     }
 
+database/migrations/2022_04_13_050249_create_jobs_table.php
+"storage/worker.log\342\200\213"
+worker.log
+"worker.log\342\200\213"
+
     protected function failedValidation(Validator $validator)
     {
         $response = [
