@@ -15,6 +15,7 @@
         "laravel/framework": "^9.0",
         "laravel/sanctum": "^2.14",
         "laravel/tinker": "^2.7",
+        "mobizon/mobizon-php": "^2.0",
         "pda/pheanstalk": "~4.0",
         "predis/predis": "~1.0"
     },

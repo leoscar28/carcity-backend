@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Domain\Contracts\MainContract;
+use App\Helpers\SmsHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserAuthRequest;
+use App\Http\Requests\User\UserCodeCheckRequest;
 use App\Http\Requests\User\UserCreateRequest;
 use App\Http\Requests\User\UserPasswordRequest;
 use App\Http\Requests\User\UserUpdateRequest;
@@ -20,10 +22,11 @@ use Illuminate\Validation\ValidationException;
 class UserController extends Controller
 {
     protected UserService $userService;
-
-    public function __construct(UserService $userService)
+    protected SmsHelper $smsHelper;
+    public function __construct(UserService $userService, SmsHelper $smsHelper)
     {
-        $this->userService = $userService;
+        $this->userService  =   $userService;
+        $this->smsHelper    =   $smsHelper;
     }
 
     /**
@@ -39,6 +42,18 @@ class UserController extends Controller
         return response(['message' => 'incorrect phone or password'], 401);
     }
 
+    public function restore($phone): Response|Application|ResponseFactory|UserResource
+    {
+        if ($user = $this->userService->getByPhone($phone)) {
+            $code   =   rand(1000,9999);
+            $user->{MainContract::PHONE_CODE}   =   $code;
+            $user->save();
+            $this->smsHelper->send($phone,$this->smsHelper->phoneCodeVerify($code));
+            return new UserResource($user);
+        }
+        return response(['message' => 'Пользователь не найден'], 401);
+    }
+
     /**
      * @throws ValidationException
      */
@@ -48,6 +63,28 @@ class UserController extends Controller
             return new UserResource($user);
         }
         return response(['message'  =>  'Пользователя не существет!'],404);
+    }
+
+    /**
+     * @throws ValidationException
+     */
+    public function codeCheck(UserCodeCheckRequest $userCodeCheckRequest): Response|Application|ResponseFactory|UserResource
+    {
+        $data   =   $userCodeCheckRequest->check();
+
+        if ($user = $this->userService->getById($data[MainContract::ID])) {
+            if (array_key_exists(MainContract::PHONE_CHECK,$data) && $data[MainContract::PHONE_CHECK] === (int)$user->{MainContract::PHONE_CODE}) {
+                $user->{MainContract::PHONE_VERIFIED_AT}    =   now();
+                $user->save();
+            } elseif (array_key_exists(MainContract::EMAIL_CHECK,$data) && $data[MainContract::EMAIL_CHECK] === (int)$user->{MainContract::EMAIL_CODE}) {
+                $user->{MainContract::EMAIL_VERIFIED_AT}    =   now();
+                $user->save();
+            } else {
+                return response(['message'  =>  'Не правильный код'],400);
+            }
+            return new UserResource($user);
+        }
+        return response(['message'  =>  'Пользователь не найден'],404);
     }
 
     /**

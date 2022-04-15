@@ -22,6 +22,11 @@ class UserService
         return $this->userRepository->update($id,$data);
     }
 
+    public function getByPhone($phone): ?object
+    {
+        return $this->userRepository->getByPhone($phone);
+    }
+
     public function getByToken($token): ?object
     {
         return $this->userRepository->getByToken($token);

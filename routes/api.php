@@ -41,7 +41,9 @@ Route::prefix('user')->group(function() {
     Route::post('create',[UserController::class,'create'])->name('create');
     Route::post('update/{id}',[UserController::class,'update'])->name('update');
     Route::post('password/{id}',[UserController::class,'password'])->name('password');
+    Route::post('codeCheck',[UserController::class,'codeCheck'])->name('codeCheck');
     Route::get('getByToken/{token}',[UserController::class,'getByToken'])->name('getByToken');
+    Route::get('restore/{phone}',[UserController::class,'restore'])->name('restore');
 });
 
 

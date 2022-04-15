@@ -6,10 +6,9 @@ use App\Domain\Contracts\MainContract;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
-class UserUpdateRequest extends FormRequest
+class UserCodeCheckRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,15 +25,12 @@ class UserUpdateRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(): array
+    public function rules():array
     {
         return [
-            MainContract::NAME  =>  'required',
-            MainContract::SURNAME   =>  'required',
-            MainContract::LAST_NAME =>  'nullable',
-            MainContract::COMPANY   =>  'nullable',
-            MainContract::BIN   =>  'nullable',
-            MainContract::PASSWORD  =>  'nullable'
+            MainContract::ID    =>  'required|exists:users,id',
+            MainContract::PHONE_CHECK   =>  'nullable|int',
+            MainContract::EMAIL_CHECK   =>  'nullable|int',
         ];
     }
 
@@ -43,11 +39,7 @@ class UserUpdateRequest extends FormRequest
      */
     public function check(): array
     {
-        $data   =   $this->validator->validated();
-        if (array_key_exists(MainContract::PASSWORD,$data)) {
-            $data[MainContract::PASSWORD]   =   Hash::make($data[MainContract::PASSWORD]);
-        }
-        return $data;
+        return $this->validator->validated();
     }
 
     protected function failedValidation(Validator $validator)

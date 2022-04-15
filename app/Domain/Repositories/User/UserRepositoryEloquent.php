@@ -30,6 +30,15 @@ class UserRepositoryEloquent implements UserRepositoryInterface
             ])->first();
     }
 
+    public function getByPhone($phone): object|null
+    {
+        return User::with(MainContract::ROLES,MainContract::POSITIONS)
+            ->where([
+                [MainContract::PHONE,$phone],
+                [MainContract::STATUS,1]
+            ])->first();
+    }
+
     public function getByToken($token): object|null
     {
         return User::with(MainContract::ROLES,MainContract::POSITIONS)

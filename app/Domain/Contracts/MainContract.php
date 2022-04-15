@@ -74,4 +74,6 @@ class MainContract
     const ALIAS =   'login';
     const POSITION_ID   =   'position_id';
     const POSITIONS =   'positions';
+    const PHONE_CHECK   =   'phone_check';
+    const EMAIL_CHECK   =   'email_check';
 }
