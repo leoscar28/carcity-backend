@@ -17,7 +17,7 @@ class UserRepositoryEloquent implements UserRepositoryInterface
 
     public function update($id,$data): ?object
     {
-        $user   =   User::where(MainContract::ID,$id)->update($data);
+        User::where(MainContract::ID,$id)->update($data);
         return $this->getById($id);
     }
 

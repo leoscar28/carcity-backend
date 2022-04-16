@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Domain\Contracts\MainContract;
-use App\Helpers\SmsHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\User\UserAuthRequest;
 use App\Http\Requests\User\UserCodeCheckRequest;
@@ -11,6 +10,7 @@ use App\Http\Requests\User\UserCreateRequest;
 use App\Http\Requests\User\UserPasswordRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\User\UserResource;
+use App\Jobs\SmsNotification;
 use App\Services\UserService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -22,11 +22,9 @@ use Illuminate\Validation\ValidationException;
 class UserController extends Controller
 {
     protected UserService $userService;
-    protected SmsHelper $smsHelper;
-    public function __construct(UserService $userService, SmsHelper $smsHelper)
+    public function __construct(UserService $userService)
     {
         $this->userService  =   $userService;
-        $this->smsHelper    =   $smsHelper;
     }
 
     /**
@@ -48,7 +46,7 @@ class UserController extends Controller
             $code   =   rand(1000,9999);
             $user->{MainContract::PHONE_CODE}   =   $code;
             $user->save();
-            $this->smsHelper->send($phone,$this->smsHelper->phoneCodeVerify($code));
+            SmsNotification::dispatch($phone,$code);
             return new UserResource($user);
         }
         return response(['message' => 'Пользователь не найден'], 401);
