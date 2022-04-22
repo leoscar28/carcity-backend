@@ -27,6 +27,8 @@ class MainContract
     const UPLOAD_STATUS_ID  =   'upload_status_id';
     const APPLICATION_ID    =   'application_id';
     const USER_ID   =   'user_id';
+    const SKIP  =   'skip';
+    const FOREIGN_ID    =   'foreign_id';
     const INVOICE_ID    =   'invoice_id';
     const COMPLETION_ID =   'completion_id';
     const CUSTOMER  =   'customer';
@@ -59,6 +61,7 @@ class MainContract
     const LAST_NAME =   'last_name';
     const TOKEN =   'token';
     const TYPE  =   'type';
+    const VIEW  =   'view';
     const SURNAME   =   'surname';
     const DATETIME  =   'datetime';
     const REMEMBER_TOKEN    =   'remember_token';

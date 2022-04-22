@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\User;
+namespace App\Http\Requests\Notification;
 
 use App\Domain\Contracts\MainContract;
 use Illuminate\Contracts\Validation\Validator;
@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\ValidationException;
 
-class UserPasswordRequest extends FormRequest
+class NotificationViewRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,18 +25,11 @@ class UserPasswordRequest extends FormRequest
      *
      * @return array
      */
-    public function rules():array
+    public function rules(): array
     {
         return [
-            MainContract::OLD   =>  'required',
-            MainContract::PASSWORD  =>  'required|min:6',
-        ];
-    }
-
-    public function messages(): array
-    {
-        return [
-            MainContract::PASSWORD.'.min'   =>  'Миниальный количество символов 6'
+            MainContract::USER_ID   =>  'required|exists:users,id',
+            MainContract::SKIP  =>  'required'
         ];
     }
 

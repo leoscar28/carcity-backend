@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\CompletionStatusController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\InvoiceDateController;
 use App\Http\Controllers\Api\InvoiceStatusController;
+use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\PositionController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
@@ -130,6 +131,14 @@ Route::prefix('invoiceDate')->group(function() {
     Route::get('getByRid/{rid}',[InvoiceDateController::class,'getByRid'])->name('invoiceDate.getByRid');
     Route::get('getById/{id}',[InvoiceDateController::class,'getById'])->name('invoiceDate.getById');
     Route::get('delete/{rid}',[InvoiceDateController::class,'delete'])->name('invoiceDate.delete');
+});
+
+Route::prefix('notification')->group(function() {
+    Route::get('getByUserId/{userId}/{skip}',[NotificationController::class,'getByUserId'])->name('notification.getByUserId');
+    Route::get('viewCount/{userId}',[NotificationController::class,'viewCount'])->name('notification.viewCount');
+    Route::post('view',[NotificationController::class,'view'])->name('notification.view');
+    Route::get('count/{userId}',[NotificationController::class,'count'])->name('notification.count');
+    Route::post('get',[NotificationController::class,'get'])->name('notification.get');
 });
 
 Route::prefix(MainContract::INVOICE_STATUS)->group(function() {

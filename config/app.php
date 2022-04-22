@@ -190,6 +190,7 @@ return [
         App\Providers\Repositories\InvoiceStatusRepositoryProvider::class,
         App\Providers\Repositories\PositionRepositoryProvider::class,
         App\Providers\Repositories\ApplicationSignatureRepositoryProvider::class,
+        App\Providers\Repositories\NotificationRepositoryProvider::class,
     ],
 
     /*
