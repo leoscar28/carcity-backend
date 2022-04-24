@@ -3,8 +3,16 @@
 namespace App\Jobs;
 
 use App\Domain\Contracts\MainContract;
+use App\Events\ApplicationDateEvent;
+use App\Events\CompletionDateEvent;
+use App\Events\NotificationEvent;
+use App\Http\Resources\ApplicationDate\ApplicationDateResource;
+use App\Http\Resources\CompletionDate\CompletionDateResource;
+use App\Http\Resources\Notification\NotificationResource;
 use App\Services\CompletionDateService;
 use App\Services\CompletionService;
+use App\Services\NotificationService;
+use App\Services\UserService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -27,7 +35,7 @@ class CompletionCount implements ShouldQueue
      *
      * @return void
      */
-    public function handle(CompletionService $completionService,CompletionDateService $completionDateService)
+    public function handle(CompletionService $completionService,CompletionDateService $completionDateService, UserService $userService, NotificationService $notificationService): void
     {
         if ($completionList =   $completionService->list($this->rid)) {
             if ($completionDate =   $completionDateService->getByRid($this->rid)) {
@@ -40,6 +48,20 @@ class CompletionCount implements ShouldQueue
                     $completionDate->{MainContract::STATUS} =   1;
                 }
                 $completionDate->save();
+
+                if ($completionList[MainContract::UPLOAD_STATUS_ID] === 3) {
+                    $users  =   $userService->getByRoleIds([2,3,4]);
+                    foreach ($users as &$user) {
+                        $notification = $notificationService->create([
+                            MainContract::USER_ID   =>  $user->{MainContract::ID},
+                            MainContract::TYPE  =>  2,
+                            MainContract::COMPLETION_ID =>  $completionDate->{MainContract::ID},
+                            MainContract::VIEW  =>  0,
+                        ]);
+                        event(new NotificationEvent(new NotificationResource($notification)));
+                    }
+                }
+                event(new CompletionDateEvent(new CompletionDateResource($completionDate)));
             } else {
                 $data   =   [
                     MainContract::UPLOAD_STATUS_ID  =>  $completionList[MainContract::UPLOAD_STATUS_ID],
@@ -50,7 +72,19 @@ class CompletionCount implements ShouldQueue
                 if ($completionList[MainContract::DOCUMENT_ALL] === 0) {
                     $data[MainContract::STATUS] =   0;
                 }
-                $completionDateService->create($data);
+                if ($completionDate = $completionDateService->create($data)) {
+                    $users  =   $userService->getByRoleIds([2,3,4]);
+                    foreach ($users as &$user) {
+                        $notification = $notificationService->create([
+                            MainContract::USER_ID   =>  $user->{MainContract::ID},
+                            MainContract::TYPE  =>  1,
+                            MainContract::COMPLETION_ID =>  $completionDate->{MainContract::ID},
+                            MainContract::VIEW  =>  0,
+                        ]);
+                        event(new NotificationEvent(new NotificationResource($notification)));
+                    }
+                    event(new CompletionDateEvent(new CompletionDateResource($completionDate)));
+                }
             }
         }
     }

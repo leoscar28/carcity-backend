@@ -11,6 +11,7 @@ use App\Http\Requests\Invoice\InvoiceUpdateRequest;
 use App\Http\Resources\Invoice\InvoiceCollection;
 use App\Http\Resources\Invoice\InvoiceResource;
 use App\Jobs\InvoiceCount;
+use App\Jobs\InvoiceTenant;
 use App\Services\InvoiceService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -74,7 +75,9 @@ class InvoiceController extends Controller
         $data   =   $invoiceCreateRequest->check();
         $arr    =   [];
         foreach ($data[MainContract::DATA] as &$invoiceItem) {
-            $arr[]  =   $this->invoiceService->create($invoiceItem);
+            $invoice    =   $this->invoiceService->create($invoiceItem);
+            InvoiceTenant::dispatch($invoice);
+            $arr[]  =   $invoice;
         }
         InvoiceCount::dispatch($data[MainContract::RID]);
         return new InvoiceCollection($arr);

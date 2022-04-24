@@ -11,6 +11,7 @@ use App\Http\Requests\Application\ApplicationUpdateRequest;
 use App\Http\Resources\Application\ApplicationCollection;
 use App\Http\Resources\Application\ApplicationResource;
 use App\Jobs\ApplicationCount;
+use App\Jobs\ApplicationTenant;
 use App\Services\ApplicationService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -80,7 +81,9 @@ class ApplicationController extends Controller
         $data   =   $applicationCreateRequest->check();
         $arr    =   [];
         foreach ($data[MainContract::DATA] as &$applicationItem) {
-            $arr[]  =   $this->applicationService->create($applicationItem);
+            $application    =   $this->applicationService->create($applicationItem);
+            ApplicationTenant::dispatch($application,1);
+            $arr[]  =   $application;
         }
         ApplicationCount::dispatch($data[MainContract::RID]);
         return new ApplicationCollection($arr);

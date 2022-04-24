@@ -1,7 +1,7 @@
 <?php
 
 use App\Domain\Contracts\MainContract;
-use App\Domain\Contracts\NotificationContract;
+use App\Domain\Contracts\NotificationTenantContract;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -15,8 +15,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create(NotificationContract::TABLE, function (Blueprint $table) {
-            $table->id()->unsigned();
+        Schema::create(NotificationTenantContract::TABLE, function (Blueprint $table) {
+            $table->id();
             $table->unsignedBigInteger(MainContract::USER_ID);
             $table->unsignedTinyInteger(MainContract::TYPE)->default(0);
             $table->unsignedBigInteger(MainContract::APPLICATION_ID)->nullable();
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists(NotificationContract::TABLE);
+        Schema::dropIfExists(NotificationTenantContract::TABLE);
     }
 };

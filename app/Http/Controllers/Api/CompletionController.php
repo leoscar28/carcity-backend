@@ -12,6 +12,7 @@ use App\Http\Resources\Completion\CompletionCollection;
 use App\Http\Resources\Completion\CompletionResource;
 use App\Http\Resources\CompletionDate\CompletionDateCollection;
 use App\Jobs\CompletionCount;
+use App\Jobs\CompletionTenant;
 use App\Services\CompletionDateService;
 use App\Services\CompletionService;
 use Illuminate\Contracts\Foundation\Application;
@@ -78,7 +79,9 @@ class CompletionController extends Controller
         $data   =   $completionCreateRequest->check();
         $arr    =   [];
         foreach ($data[MainContract::DATA] as &$completionItem) {
-            $arr[]  =   $this->completionService->create($completionItem);
+            $completion =   $this->completionService->create($completionItem);
+            CompletionTenant::dispatch($completion);
+            $arr[]  =   $completion;
         }
         CompletionCount::dispatch($data[MainContract::RID]);
         return new CompletionCollection($arr);

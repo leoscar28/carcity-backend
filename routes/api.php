@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\InvoiceDateController;
 use App\Http\Controllers\Api\InvoiceStatusController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\NotificationTenantController;
 use App\Http\Controllers\Api\PositionController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\UserController;
@@ -136,9 +137,17 @@ Route::prefix('invoiceDate')->group(function() {
 Route::prefix('notification')->group(function() {
     Route::get('getByUserId/{userId}/{skip}',[NotificationController::class,'getByUserId'])->name('notification.getByUserId');
     Route::get('viewCount/{userId}',[NotificationController::class,'viewCount'])->name('notification.viewCount');
-    Route::post('view',[NotificationController::class,'view'])->name('notification.view');
     Route::get('count/{userId}',[NotificationController::class,'count'])->name('notification.count');
     Route::post('get',[NotificationController::class,'get'])->name('notification.get');
+    Route::post('setView',[NotificationController::class,'setView'])->name('notification.setView');
+});
+
+Route::prefix('notificationTenant')->group(function() {
+    Route::get('getByUserId/{userId}/{skip}',[NotificationTenantController::class,'getByUserId'])->name('notificationTenant.getByUserId');
+    Route::get('viewCount/{userId}',[NotificationTenantController::class,'viewCount'])->name('notificationTenant.viewCount');
+    Route::get('count/{userId}',[NotificationTenantController::class,'count'])->name('notificationTenant.count');
+    Route::post('get',[NotificationTenantController::class,'get'])->name('notificationTenant.get');
+    Route::post('setView',[NotificationTenantController::class,'setView'])->name('notificationTenant.setView');
 });
 
 Route::prefix(MainContract::INVOICE_STATUS)->group(function() {

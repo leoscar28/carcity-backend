@@ -2,9 +2,9 @@
 
 namespace App\Domain\Contracts;
 
-class NotificationContract extends MainContract
+class NotificationTenantContract extends MainContract
 {
-    const TABLE =   self::NOTIFICATIONS;
+    const TABLE =   'notification_tenants';
     const FILLABLE  =   [
         self::USER_ID,
         self::TYPE,

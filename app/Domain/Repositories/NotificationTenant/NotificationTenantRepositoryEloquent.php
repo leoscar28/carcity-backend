@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Domain\Repositories\Notification;
+namespace App\Domain\Repositories\NotificationTenant;
 
 use App\Domain\Contracts\MainContract;
-use App\Models\Notification;
+use App\Models\NotificationTenant;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 
-class NotificationRepositoryEloquent implements NotificationRepositoryInterface
+class NotificationTenantRepositoryEloquent implements NotificationTenantRepositoryInterface
 {
 
     public function create($data): ?object
     {
-        $notification = Notification::create($data);
+        $notification = NotificationTenant::create($data);
         return $this->getById($notification->{MainContract::ID});
     }
 
     public function getById($id): object|null
     {
-        return Notification::with(MainContract::COMPLETIONS,MainContract::APPLICATIONS,MainContract::INVOICES)
+        return NotificationTenant::with(MainContract::COMPLETIONS,MainContract::APPLICATIONS,MainContract::INVOICES)
             ->where([
                 [MainContract::ID,$id],
                 [MainContract::STATUS,1]
@@ -27,7 +27,7 @@ class NotificationRepositoryEloquent implements NotificationRepositoryInterface
 
     public function getByUserId($userId,$skip): Collection|array
     {
-        return Notification::with(MainContract::COMPLETIONS,MainContract::APPLICATIONS,MainContract::INVOICES)
+        return NotificationTenant::with(MainContract::COMPLETIONS,MainContract::APPLICATIONS,MainContract::INVOICES)
             ->where([
                 [MainContract::USER_ID,$userId],
                 [MainContract::STATUS,1]
@@ -40,7 +40,7 @@ class NotificationRepositoryEloquent implements NotificationRepositoryInterface
 
     public function viewCount($userId)
     {
-        return Notification::select(DB::raw("(count(id)) as data"))->where([
+        return NotificationTenant::select(DB::raw("(count(id)) as data"))->where([
             [MainContract::USER_ID,$userId],
             [MainContract::VIEW,0],
             [MainContract::STATUS,1]
@@ -49,7 +49,7 @@ class NotificationRepositoryEloquent implements NotificationRepositoryInterface
 
     public function count($userId)
     {
-        return Notification::select(DB::raw("(count(id)) as data"))->where([
+        return NotificationTenant::select(DB::raw("(count(id)) as data"))->where([
             [MainContract::USER_ID,$userId],
             [MainContract::STATUS,1]
         ])->first();
@@ -57,7 +57,7 @@ class NotificationRepositoryEloquent implements NotificationRepositoryInterface
 
     public function get($data): Collection|array
     {
-        return Notification::with(MainContract::COMPLETIONS,MainContract::APPLICATIONS,MainContract::INVOICES)
+        return NotificationTenant::with(MainContract::COMPLETIONS,MainContract::APPLICATIONS,MainContract::INVOICES)
             ->where([
                 [MainContract::USER_ID,$data[MainContract::USER_ID]],
                 [MainContract::STATUS,1]
@@ -70,11 +70,11 @@ class NotificationRepositoryEloquent implements NotificationRepositoryInterface
 
     public function update($id,$data)
     {
-        Notification::where(MainContract::ID,$id)->update($data);
+        NotificationTenant::where(MainContract::ID,$id)->update($data);
     }
 
     public function updateByIds($ids,$data)
     {
-        Notification::whereIn(MainContract::ID,$ids)->update($data);
+        NotificationTenant::whereIn(MainContract::ID,$ids)->update($data);
     }
 }

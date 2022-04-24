@@ -16,3 +16,31 @@ use Illuminate\Support\Facades\Broadcast;
 Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+
+Broadcast::channel('applicationDate', function ($user, $applicationDate) {
+    return true;
+});
+Broadcast::channel('completionDate', function ($user, $completionDate) {
+    return true;
+});
+Broadcast::channel('invoiceDate', function ($user, $invoiceDate) {
+    return true;
+});
+
+Broadcast::channel('application.{bin}', function ($user, $application) {
+    return true;
+});
+Broadcast::channel('completion.{bin}', function ($user, $completion) {
+    return true;
+});
+Broadcast::channel('invoice.{bin}', function ($user, $invoice) {
+    return true;
+});
+
+Broadcast::channel('notification.{user_id}', function ($user, $notification) {
+    return true;
+});
+
+Broadcast::channel('notificationTenant.{user_id}', function ($user, $notificationTenant) {
+    return true;
+});

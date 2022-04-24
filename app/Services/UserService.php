@@ -36,4 +36,14 @@ class UserService
     {
         return $this->userRepository->getById($id);
     }
+
+    public function getByRoleIds($ids)
+    {
+        return $this->userRepository->getByRoleIds($ids);
+    }
+
+    public function getByBin($bin)
+    {
+        return $this->userRepository->getByBin($bin);
+    }
 }

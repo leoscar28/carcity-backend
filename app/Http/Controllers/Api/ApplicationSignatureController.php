@@ -14,6 +14,7 @@ use App\Http\Resources\ApplicationSignature\ApplicationSignatureResource;
 use App\Jobs\ApplicationCount;
 use App\Jobs\ApplicationFiles;
 use App\Jobs\ApplicationSignatureArchive;
+use App\Jobs\ApplicationTenant;
 use App\Jobs\ApplicationTenantFiles;
 use App\Services\ApplicationDateService;
 use App\Services\ApplicationService;
@@ -133,6 +134,7 @@ class ApplicationSignatureController extends Controller
                             ApplicationFiles::dispatch($application,$user,$data[MainContract::SIGNATURE][$key]);
                             $application->{MainContract::UPLOAD_STATUS_ID}  =   2;
                             $application->save();
+                            ApplicationTenant::dispatch($application,2);
                         }
                     }
                 }

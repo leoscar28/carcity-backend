@@ -174,7 +174,7 @@ return [
          */
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
-        // App\Providers\BroadcastServiceProvider::class,
+        App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\Repositories\UserRepositoryProvider::class,
@@ -191,6 +191,7 @@ return [
         App\Providers\Repositories\PositionRepositoryProvider::class,
         App\Providers\Repositories\ApplicationSignatureRepositoryProvider::class,
         App\Providers\Repositories\NotificationRepositoryProvider::class,
+        App\Providers\Repositories\NotificationTenantRepositoryProvider::class
     ],
 
     /*

@@ -30,6 +30,20 @@ class UserRepositoryEloquent implements UserRepositoryInterface
             ])->first();
     }
 
+    public function getByRoleIds($ids)
+    {
+        return User::whereIn(MainContract::ROLE_ID,$ids)->get();
+    }
+
+    public function getByBin($bin)
+    {
+        return User::where([
+            [MainContract::BIN,$bin],
+            [MainContract::STATUS,1]
+        ])->first();
+    }
+
+
     public function getByPhone($phone): object|null
     {
         return User::with(MainContract::ROLES,MainContract::POSITIONS)
