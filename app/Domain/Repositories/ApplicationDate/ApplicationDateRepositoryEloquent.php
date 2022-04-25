@@ -13,7 +13,7 @@ class ApplicationDateRepositoryEloquent implements ApplicationDateRepositoryInte
 {
     public function getByRid($rid): object|null
     {
-        return ApplicationDate::with(MainContract::APPLICATION,MainContract::APPLICATION_STATUS)
+        return ApplicationDate::without(MainContract::APPLICATION,MainContract::APPLICATION_STATUS)
             ->where([
                 [MainContract::RID,$rid],
                 [MainContract::STATUS,1]
@@ -32,7 +32,7 @@ class ApplicationDateRepositoryEloquent implements ApplicationDateRepositoryInte
 
     public function list($data): Collection|array
     {
-        $query  =   ApplicationDate::with(MainContract::APPLICATION,MainContract::APPLICATION_STATUS);
+        $query  =   ApplicationDate::without(MainContract::APPLICATION,MainContract::APPLICATION_STATUS);
         $query->where($data[MainContract::DATA]);
         if (array_key_exists(MainContract::CREATED_AT,$data)) {
             $query->whereBetween(MainContract::CREATED_AT,$data[MainContract::CREATED_AT]);

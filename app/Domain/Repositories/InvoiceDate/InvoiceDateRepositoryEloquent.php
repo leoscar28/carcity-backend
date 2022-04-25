@@ -11,7 +11,7 @@ class InvoiceDateRepositoryEloquent implements InvoiceDateRepositoryInterface
 {
     public function getByRid($rid): object|null
     {
-        return InvoiceDate::with(MainContract::INVOICE, MainContract::INVOICE_STATUS)
+        return InvoiceDate::without(MainContract::INVOICE, MainContract::INVOICE_STATUS)
             ->where([
                 [MainContract::RID,$rid],
                 [MainContract::STATUS,1]
@@ -36,7 +36,7 @@ class InvoiceDateRepositoryEloquent implements InvoiceDateRepositoryInterface
 
     public function list($data): Collection|array
     {
-        $query  =   InvoiceDate::with(MainContract::INVOICE,MainContract::INVOICE_STATUS);
+        $query  =   InvoiceDate::without(MainContract::INVOICE,MainContract::INVOICE_STATUS);
         $query->where($data[MainContract::DATA]);
         if (array_key_exists(MainContract::CREATED_AT,$data)) {
             $query->whereBetween(MainContract::CREATED_AT,$data[MainContract::CREATED_AT]);
