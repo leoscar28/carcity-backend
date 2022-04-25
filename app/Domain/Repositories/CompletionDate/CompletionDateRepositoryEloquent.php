@@ -70,7 +70,7 @@ class CompletionDateRepositoryEloquent implements CompletionDateRepositoryInterf
 
     public function getById($id): object|null
     {
-        return CompletionDate::with(MainContract::COMPLETION,MainContract::COMPLETION_STATUS)
+        return CompletionDate::without(MainContract::COMPLETION,MainContract::COMPLETION_STATUS)
             ->where([
                 [MainContract::ID,$id],
                 [MainContract::STATUS,1]

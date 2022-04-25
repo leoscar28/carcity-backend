@@ -68,7 +68,7 @@ class InvoiceDateRepositoryEloquent implements InvoiceDateRepositoryInterface
 
     public function getById($id): object|null
     {
-        return InvoiceDate::with(MainContract::INVOICE, MainContract::INVOICE_STATUS)
+        return InvoiceDate::without(MainContract::INVOICE, MainContract::INVOICE_STATUS)
             ->where([
                 [MainContract::ID,$id],
                 [MainContract::STATUS,1]

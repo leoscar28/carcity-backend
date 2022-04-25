@@ -70,7 +70,7 @@ class ApplicationDateRepositoryEloquent implements ApplicationDateRepositoryInte
 
     public function getById($id): object|null
     {
-        return ApplicationDate::with(MainContract::APPLICATION, MainContract::APPLICATION_STATUS)
+        return ApplicationDate::without(MainContract::APPLICATION, MainContract::APPLICATION_STATUS)
             ->where([
                 [MainContract::ID,$id],
                 [MainContract::STATUS,1]
