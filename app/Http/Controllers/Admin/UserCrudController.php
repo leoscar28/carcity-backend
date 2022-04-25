@@ -80,6 +80,7 @@ class UserCrudController extends CrudController
             ])->default(1);
         CRUD::column(MainContract::NAME)->label('Имя');
         CRUD::column(MainContract::EMAIL)->label('Эл.почта');
+        CRUD::column(MainContract::BIN)->label('БИН/ИИН');
         CRUD::column(MainContract::STATUS)->type('select_from_array')
             ->label('Статус')->options([
                 0   =>  'Отключен',
