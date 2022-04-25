@@ -79,9 +79,10 @@ class CompletionDateRepositoryEloquent implements CompletionDateRepositoryInterf
 
     public function delete($rid)
     {
-        CompletionDate::where(MainContract::RID,$rid)->update([
-            MainContract::STATUS    =>  0
-        ]);
+        if ($completionDate =   $this->getByRid($rid)) {
+            $completionDate->{MainContract::STATUS} =   0;
+            $completionDate->save();
+        }
     }
 
 }

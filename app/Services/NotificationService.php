@@ -48,4 +48,9 @@ class NotificationService
         $this->notificationRepository->updateByIds($ids,$data);
     }
 
+    public function getByData($data)
+    {
+        return $this->notificationRepository->getByData($data);
+    }
+
 }

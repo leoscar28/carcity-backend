@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Domain\Contracts\MainContract;
+use App\Events\CompletionDateEvent;
+use App\Events\NotificationEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CompletionDate\CompletionDateListRequest;
 use App\Http\Requests\CompletionDate\CompletionDateUpdateRequest;
 use App\Http\Resources\CompletionDate\CompletionDateCollection;
 use App\Http\Resources\CompletionDate\CompletionDateResource;
 use App\Http\Resources\CompletionDate\CompletionDateWithoutRelationCollection;
+use App\Http\Resources\Notification\NotificationResource;
+use App\Jobs\DeleteCompletionTenant;
 use App\Services\CompletionDateService;
 use App\Services\CompletionService;
+use App\Services\NotificationService;
+use App\Services\NotificationTenantService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
@@ -20,10 +27,12 @@ class CompletionDateController extends Controller
 {
     protected CompletionDateService $completionDateService;
     protected CompletionService $completionService;
-    public function __construct(CompletionDateService $completionDateService, CompletionService $completionService)
+    protected NotificationService $notificationService;
+    public function __construct(CompletionDateService $completionDateService, CompletionService $completionService, NotificationService $notificationService)
     {
         $this->completionDateService    =   $completionDateService;
         $this->completionService    =   $completionService;
+        $this->notificationService  =   $notificationService;
     }
 
     /**
@@ -79,8 +88,20 @@ class CompletionDateController extends Controller
 
     public function delete($rid)
     {
-        $this->completionDateService->delete($rid);
-        $this->completionService->delete($rid);
+        if ($completionDate = $this->completionDateService->getByRid($rid)) {
+            $completionDate->{MainContract::STATUS} =   0;
+            $completionDate->save();
+            $notifications  =   $this->notificationService->getByData([
+                MainContract::COMPLETION_ID =>  $completionDate->{MainContract::ID}
+            ]);
+            foreach ($notifications as &$notification) {
+                $notification->{MainContract::STATUS}   =   0;
+                $notification->save();
+                event(new NotificationEvent(New NotificationResource($notification)));
+            }
+            event(new CompletionDateEvent(new CompletionDateResource($completionDate)));
+        }
+        DeleteCompletionTenant::dispatch($rid);
     }
 
 }

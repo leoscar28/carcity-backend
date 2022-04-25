@@ -77,4 +77,10 @@ class NotificationTenantRepositoryEloquent implements NotificationTenantReposito
     {
         NotificationTenant::whereIn(MainContract::ID,$ids)->update($data);
     }
+
+    public function getByData($data)
+    {
+        return NotificationTenant::where($data)->get();
+    }
+
 }

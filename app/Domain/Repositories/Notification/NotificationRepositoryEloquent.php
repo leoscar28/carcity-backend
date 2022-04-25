@@ -77,4 +77,10 @@ class NotificationRepositoryEloquent implements NotificationRepositoryInterface
     {
         Notification::whereIn(MainContract::ID,$ids)->update($data);
     }
+
+    public function getByData($data)
+    {
+        return Notification::where($data)->get();
+    }
+
 }

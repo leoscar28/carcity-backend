@@ -47,4 +47,10 @@ class NotificationTenantService
     {
         $this->notificationTenantRepository->updateByIds($ids,$data);
     }
+
+    public function getByData($data)
+    {
+        return $this->notificationTenantRepository->getByData($data);
+    }
+
 }

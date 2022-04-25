@@ -9,7 +9,7 @@ use App\Http\Resources\Invoice\InvoiceResource;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class NotificationTenantResource extends JsonResource
+class NotificationTenantResource extends JsonResource implements \App\Domain\Repositories\NotificationTenant\NotificationTenantRepositoryInterface
 {
     public function toArray($request):array
     {
