@@ -32,6 +32,10 @@ class InvoiceCount implements ShouldQueue
     /**
      * Execute the job.
      *
+     * @param InvoiceService $invoiceService
+     * @param InvoiceDateService $invoiceDateService
+     * @param UserService $userService
+     * @param NotificationService $notificationService
      * @return void
      */
     public function handle(InvoiceService $invoiceService, InvoiceDateService $invoiceDateService, UserService $userService, NotificationService $notificationService): void

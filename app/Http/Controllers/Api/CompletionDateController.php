@@ -11,6 +11,7 @@ use App\Http\Requests\CompletionDate\CompletionDateUpdateRequest;
 use App\Http\Resources\CompletionDate\CompletionDateCollection;
 use App\Http\Resources\CompletionDate\CompletionDateResource;
 use App\Http\Resources\CompletionDate\CompletionDateWithoutRelationCollection;
+use App\Http\Resources\CompletionDate\CompletionDateWithoutRelationResource;
 use App\Http\Resources\Notification\NotificationResource;
 use App\Jobs\DeleteCompletionTenant;
 use App\Services\CompletionDateService;
@@ -99,7 +100,7 @@ class CompletionDateController extends Controller
                 $notification->save();
                 event(new NotificationEvent(New NotificationResource($notification)));
             }
-            event(new CompletionDateEvent(new CompletionDateResource($completionDate)));
+            event(new CompletionDateEvent(new CompletionDateWithoutRelationResource($completionDate)));
         }
         DeleteCompletionTenant::dispatch($rid);
     }

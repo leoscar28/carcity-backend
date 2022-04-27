@@ -11,6 +11,7 @@ use App\Http\Requests\InvoiceDate\InvoiceDateUpdateRequest;
 use App\Http\Resources\InvoiceDate\InvoiceDateCollection;
 use App\Http\Resources\InvoiceDate\InvoiceDateResource;
 use App\Http\Resources\InvoiceDate\InvoiceDateWithoutRelationCollection;
+use App\Http\Resources\InvoiceDate\InvoiceDateWithoutRelationResource;
 use App\Http\Resources\Notification\NotificationResource;
 use App\Jobs\DeleteInvoiceTenant;
 use App\Services\InvoiceDateService;
@@ -98,7 +99,7 @@ class InvoiceDateController extends Controller
                 $notification->save();
                 event(new NotificationEvent(New NotificationResource($notification)));
             }
-            event(new InvoiceDateEvent(new InvoiceDateResource($invoiceDate)));
+            event(new InvoiceDateEvent(new InvoiceDateWithoutRelationResource($invoiceDate)));
         }
         DeleteInvoiceTenant::dispatch($rid);
     }

@@ -34,6 +34,10 @@ class CompletionCount implements ShouldQueue
     /**
      * Execute the job.
      *
+     * @param CompletionService $completionService
+     * @param CompletionDateService $completionDateService
+     * @param UserService $userService
+     * @param NotificationService $notificationService
      * @return void
      */
     public function handle(CompletionService $completionService,CompletionDateService $completionDateService, UserService $userService, NotificationService $notificationService): void

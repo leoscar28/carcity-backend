@@ -11,6 +11,7 @@ use App\Http\Requests\ApplicationDate\ApplicationDateUpdateRequest;
 use App\Http\Resources\ApplicationDate\ApplicationDateCollection;
 use App\Http\Resources\ApplicationDate\ApplicationDateResource;
 use App\Http\Resources\ApplicationDate\ApplicationDateWithoutRelationCollection;
+use App\Http\Resources\ApplicationDate\ApplicationDateWithoutRelationResource;
 use App\Http\Resources\Notification\NotificationResource;
 use App\Jobs\DeleteApplicationTenant;
 use App\Models\ApplicationDate;
@@ -100,7 +101,7 @@ class ApplicationDateController extends Controller
                 $notification->save();
                 event(new NotificationEvent(New NotificationResource($notification)));
             }
-            event(new ApplicationDateEvent(new ApplicationDateResource($applicationDate)));
+            event(new ApplicationDateEvent(new ApplicationDateWithoutRelationResource($applicationDate)));
         }
         DeleteApplicationTenant::dispatch($rid);
     }

@@ -34,16 +34,16 @@ class ApplicationSignatureArchive implements ShouldQueue
     /**
      * Execute the job.
      *
+     * @param ApplicationService $applicationService
+     * @param ApplicationSignatureService $applicationSignatureService
+     * @param UserService $userService
      * @return void
      */
-    public function handle(ApplicationService $applicationService, ApplicationSignatureService $applicationSignatureService, UserService $userService)
+    public function handle(ApplicationService $applicationService, ApplicationSignatureService $applicationSignatureService, UserService $userService): void
     {
-        Log::info('archive passed 1 - '.$this->applicationId,[$this->applicationId]);
         if ($application = $applicationService->getById($this->applicationId)) {
-            Log::info('archive passed 2 - '.$this->applicationId,[$this->applicationId]);
             $applicationSignature   =   $applicationSignatureService->getByApplicationId($application->{MainContract::ID});
             if (sizeof($applicationSignature) > 1) {
-                Log::info('archive passed 3 - '.$this->applicationId,[$this->applicationId]);
                 $img    =   public_path('img/').'background1.jpg';
                 $font   =   public_path('fonts/').'PTSerif-Regular.ttf';
                 $user1  =   json_decode($applicationSignature[0][MainContract::DATA],true);
@@ -75,7 +75,6 @@ class ApplicationSignatureArchive implements ShouldQueue
                 } catch (\Exception $exception) {
 
                 }
-                Log::info('archive passed 4 - '.$this->applicationId,[$this->applicationId]);
             } else {
                 Log::info('error application size 1 - '.$this->applicationId,[$this->applicationId]);
             }
