@@ -6,6 +6,7 @@ use App\Domain\Contracts\MainContract;
 use App\Events\InvoiceDateEvent;
 use App\Events\NotificationEvent;
 use App\Http\Resources\InvoiceDate\InvoiceDateResource;
+use App\Http\Resources\InvoiceDate\InvoiceDateWithoutRelationResource;
 use App\Http\Resources\Notification\NotificationResource;
 use App\Services\InvoiceDateService;
 use App\Services\InvoiceService;
@@ -58,7 +59,7 @@ class InvoiceCount implements ShouldQueue
                         event(new NotificationEvent(new NotificationResource($notification)));
                     }
                 }
-                event(new InvoiceDateEvent(new InvoiceDateResource($invoiceDate)));
+                event(new InvoiceDateEvent(new InvoiceDateWithoutRelationResource($invoiceDate)));
             } else {
                 $data   =   [
                     MainContract::UPLOAD_STATUS_ID  =>  $invoiceList[MainContract::UPLOAD_STATUS_ID],
@@ -80,7 +81,7 @@ class InvoiceCount implements ShouldQueue
                         ]);
                         event(new NotificationEvent(new NotificationResource($notification)));
                     }
-                    event(new InvoiceDateEvent(new InvoiceDateResource($invoiceDate)));
+                    event(new InvoiceDateEvent(new InvoiceDateWithoutRelationResource($invoiceDate)));
                 }
             }
         }

@@ -6,6 +6,7 @@ use App\Domain\Contracts\MainContract;
 use App\Events\ApplicationDateEvent;
 use App\Events\NotificationEvent;
 use App\Http\Resources\ApplicationDate\ApplicationDateResource;
+use App\Http\Resources\ApplicationDate\ApplicationDateWithoutRelationResource;
 use App\Http\Resources\Notification\NotificationResource;
 use App\Services\ApplicationDateService;
 use App\Services\ApplicationService;
@@ -59,7 +60,7 @@ class ApplicationCount implements ShouldQueue
                         event(new NotificationEvent(new NotificationResource($notification)));
                     }
                 }
-                event(new ApplicationDateEvent(new ApplicationDateResource($applicationDate)));
+                event(new ApplicationDateEvent(new ApplicationDateWithoutRelationResource($applicationDate)));
             } else {
                 $data   =   [
                     MainContract::UPLOAD_STATUS_ID  =>  $applicationList[MainContract::UPLOAD_STATUS_ID],
@@ -81,7 +82,7 @@ class ApplicationCount implements ShouldQueue
                         ]);
                         event(new NotificationEvent(new NotificationResource($notification)));
                     }
-                    event(new ApplicationDateEvent(new ApplicationDateResource($applicationDate)));
+                    event(new ApplicationDateEvent(new ApplicationDateWithoutRelationResource($applicationDate)));
                 }
             }
         }

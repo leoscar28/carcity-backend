@@ -8,6 +8,7 @@ use App\Events\CompletionDateEvent;
 use App\Events\NotificationEvent;
 use App\Http\Resources\ApplicationDate\ApplicationDateResource;
 use App\Http\Resources\CompletionDate\CompletionDateResource;
+use App\Http\Resources\CompletionDate\CompletionDateWithoutRelationResource;
 use App\Http\Resources\Notification\NotificationResource;
 use App\Services\CompletionDateService;
 use App\Services\CompletionService;
@@ -61,7 +62,7 @@ class CompletionCount implements ShouldQueue
                         event(new NotificationEvent(new NotificationResource($notification)));
                     }
                 }
-                event(new CompletionDateEvent(new CompletionDateResource($completionDate)));
+                event(new CompletionDateEvent(new CompletionDateWithoutRelationResource($completionDate)));
             } else {
                 $data   =   [
                     MainContract::UPLOAD_STATUS_ID  =>  $completionList[MainContract::UPLOAD_STATUS_ID],
@@ -83,7 +84,7 @@ class CompletionCount implements ShouldQueue
                         ]);
                         event(new NotificationEvent(new NotificationResource($notification)));
                     }
-                    event(new CompletionDateEvent(new CompletionDateResource($completionDate)));
+                    event(new CompletionDateEvent(new CompletionDateWithoutRelationResource($completionDate)));
                 }
             }
         }
