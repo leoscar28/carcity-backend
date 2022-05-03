@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\ApplicationSignature;
+namespace App\Http\Requests\CompletionSignature;
 
 use App\Domain\Contracts\MainContract;
 use Illuminate\Contracts\Validation\Validator;
@@ -9,7 +9,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\ValidationException;
 use JetBrains\PhpStorm\ArrayShape;
 
-class ApplicationSignatureUpdateRequest extends FormRequest
+class CompletionSignatureUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

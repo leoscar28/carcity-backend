@@ -32,6 +32,7 @@ class ApplicationSignatureController extends Controller
     protected ApplicationService $applicationService;
     protected UserService $userService;
     protected ApplicationDateService $applicationDateService;
+
     public function __construct(ApplicationSignatureService $applicationSignatureService, ApplicationService $applicationService, UserService $userService, ApplicationDateService $applicationDateService)
     {
         $this->applicationSignatureService  =   $applicationSignatureService;
@@ -49,13 +50,13 @@ class ApplicationSignatureController extends Controller
                 if (!$this->applicationSignatureService->getByApplicationIdAndUserId($application->{MainContract::ID},$userId)) {
                     if (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx')) {
                         $arr[]  =   [
-                            'id'    =>  $application->{MainContract::ID},
-                            'data'  =>  base64_encode(Storage::disk('public')->get($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx'))
+                            MainContract::ID    =>  $application->{MainContract::ID},
+                            MainContract::DATA  =>  base64_encode(Storage::disk('public')->get($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx'))
                         ];
                     } else if (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/'.$application->{MainContract::ID}.'.docx')) {
                         $arr[]  =   [
-                            'id'    =>  $application->{MainContract::ID},
-                            'data'  =>  base64_encode(Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/'.$application->{MainContract::ID}.'.docx'))
+                            MainContract::ID    =>  $application->{MainContract::ID},
+                            MainContract::DATA  =>  base64_encode(Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/'.$application->{MainContract::ID}.'.docx'))
                         ];
                     }
                 }
@@ -70,7 +71,7 @@ class ApplicationSignatureController extends Controller
     public function start($id,$userId): Response|array|Application|ResponseFactory
     {
         if (!$this->applicationSignatureService->getByApplicationIdAndUserId($id,$userId)) {
-            if ($application    =   $this->applicationService->getById($id)) {
+            if ($application = $this->applicationService->getById($id)) {
                 if (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx')) {
                     return ['data'  =>  base64_encode(Storage::disk('public')->get($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx'))];
                 } else if (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/'.$application->{MainContract::ID}.'.docx')) {
@@ -117,7 +118,6 @@ class ApplicationSignatureController extends Controller
     public function multipleCreate(ApplicationSignatureMultipleCreateRequest $applicationSignatureMultipleCreateRequest): ApplicationDateResource|Response|Application|ResponseFactory
     {
         $data   =   $applicationSignatureMultipleCreateRequest->check();
-
         if ($user = $this->userService->getById($data[MainContract::USER_ID])) {
             foreach ($data[MainContract::RES] as $key => $result) {
                 if ($application = $this->applicationService->getById($result[MainContract::ID])) {

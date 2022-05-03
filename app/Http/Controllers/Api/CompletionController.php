@@ -58,17 +58,18 @@ class CompletionController extends Controller
         $data   =   $completionDownloadRequest->check();
         if ($completion = $this->completionService->getById($data[MainContract::ID])) {
             if (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'.pdf')) {
-                if ($data[MainContract::STATUS]) {
-                    $completion->{MainContract::UPLOAD_STATUS_ID}  =   2;
-                    $completion->save();
-                    CompletionCount::dispatch($data[MainContract::RID]);
-                }
                 $data[MainContract::LINK]   =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'.pdf';
+                return response([MainContract::DATA =>  $data],200);
+            } elseif (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'/'.$completion->{MainContract::ID}.'.pdf')) {
+                $data[MainContract::LINK]   =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'/'.$completion->{MainContract::ID}.'.pdf';
+                return response([MainContract::DATA =>  $data],200);
+            } elseif (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'.zip')) {
+                $data[MainContract::LINK]   =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'.zip';
                 return response([MainContract::DATA =>  $data],200);
             }
             return response(['message'  =>  'Файл не найден или еще не загружен на сервер'],404);
         }
-        return response(['message'  =>  'Акт выполненных работ не найден'],404);
+        return response(['message'  =>  'Запись не найдена'],404);
     }
 
     /**

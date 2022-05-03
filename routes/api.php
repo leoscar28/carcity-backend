@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ApplicationSignatureController;
 use App\Http\Controllers\Api\ApplicationStatusController;
 use App\Http\Controllers\Api\CompletionController;
 use App\Http\Controllers\Api\CompletionDateController;
+use App\Http\Controllers\Api\CompletionSignatureController;
 use App\Http\Controllers\Api\CompletionStatusController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\InvoiceDateController;
@@ -48,6 +49,14 @@ Route::prefix('user')->group(function() {
     Route::get('restore/{phone}',[UserController::class,'restore'])->name('restore');
 });
 
+Route::prefix('completionSignature')->group(function() {
+    Route::get('multipleStart/{rid}/{userId}',[CompletionSignatureController::class,'multipleStart'])->name('completionSignature.multipleStart');
+    Route::get('start/{id}/{userId}',[CompletionSignatureController::class,'start'])->name('completionSignature.start');
+    Route::post('multipleCreate',[CompletionSignatureController::class,'multipleCreate'])->name('completionSignature.multipleCreate');
+    Route::post('create',[CompletionSignatureController::class,'create'])->name('completionSignature.create');
+    Route::post('update/{id}',[CompletionSignatureController::class,'update'])->name('completionSignature.update');
+    Route::get('getByCompletionId/{id}',[CompletionSignatureController::class,'getByCompletionId'])->name('completionSignature.getByApplicationId');
+});
 
 Route::prefix('applicationSignature')->group(function() {
     Route::get('multipleStart/{rid}/{userId}',[ApplicationSignatureController::class,'multipleStart'])->name('applicationSignature.multipleStart');

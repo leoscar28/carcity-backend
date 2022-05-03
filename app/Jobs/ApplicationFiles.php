@@ -33,9 +33,10 @@ class ApplicationFiles implements ShouldQueue
     /**
      * Execute the job.
      *
+     * @param ApplicationService $applicationService
      * @return void
      */
-    public function handle(ApplicationService $applicationService)
+    public function handle(ApplicationService $applicationService): void
     {
         try {
             if (Storage::disk('public')->exists($this->application->{MainContract::CUSTOMER_ID}.'/applications/'.$this->application->{MainContract::ID}.'.docx')) {

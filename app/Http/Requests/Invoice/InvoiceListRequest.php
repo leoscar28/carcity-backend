@@ -33,7 +33,7 @@ class InvoiceListRequest extends FormRequest
             MainContract::UPLOAD_STATUS_ID  =>  'nullable',
             MainContract::CREATED_AT    =>  'nullable',
             MainContract::SUM   =>  'nullable',
-            MainContract::BIN   =>  'nullable|int'
+            MainContract::BIN   =>  'nullable'
         ];
     }
 

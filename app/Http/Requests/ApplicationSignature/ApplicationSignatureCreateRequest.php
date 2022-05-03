@@ -7,6 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\ValidationException;
+use JetBrains\PhpStorm\ArrayShape;
 
 class ApplicationSignatureCreateRequest extends FormRequest
 {
@@ -25,7 +26,7 @@ class ApplicationSignatureCreateRequest extends FormRequest
      *
      * @return array
      */
-    public function rules(): array
+    #[ArrayShape([MainContract::ID => "string", MainContract::USER_ID => "string", MainContract::SIGNATURE => "string", MainContract::ROLE_ID => "string"])] public function rules(): array
     {
         return [
             MainContract::ID    =>  'required|exists:applications,id',

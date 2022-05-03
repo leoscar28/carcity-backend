@@ -43,6 +43,11 @@ class CompletionService
         return $this->completionRepository->getById($id);
     }
 
+    public function getByRidAndUploadStatusId($rid,$uploadStatusId)
+    {
+        return $this->completionRepository->getByRidAndUploadStatusId($rid,$uploadStatusId);
+    }
+
     public function getByRid($rid)
     {
         return $this->completionRepository->getByRid($rid);

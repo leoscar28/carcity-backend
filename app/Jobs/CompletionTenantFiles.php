@@ -11,10 +11,10 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Storage;
 
-class ApplicationTenantFiles implements ShouldQueue
+class CompletionTenantFiles implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    protected $application;
+    protected $completion;
     protected $xml;
     protected $user;
     /**
@@ -22,11 +22,11 @@ class ApplicationTenantFiles implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($application,$user,$xml)
+    public function __construct($completion,$user,$xml)
     {
-        $this->application  =   $application;
-        $this->xml  =   $xml;
+        $this->completion   =   $completion;
         $this->user =   $user;
+        $this->xml  =   $xml;
     }
 
     /**
@@ -36,7 +36,7 @@ class ApplicationTenantFiles implements ShouldQueue
      */
     public function handle(): void
     {
-        Storage::disk('public')->put($this->application->{MainContract::CUSTOMER_ID}.'/applications/'.$this->application->{MainContract::ID}.'/Подпись 2 - '.$this->user->{MainContract::SURNAME}.' '.$this->user->{MainContract::NAME}.'/'.$this->user->{MainContract::ID}.'_'.$this->application->{MainContract::ID}.'.xml', $this->xml);
-        ApplicationSignatureArchive::dispatch($this->application->{MainContract::ID});
+        Storage::disk('public')->put($this->completion->{MainContract::CUSTOMER_ID}.'/completions/'.$this->completion->{MainContract::ID}.'/Подпись 2 - '.$this->user->{MainContract::SURNAME}.' '.$this->user->{MainContract::NAME}.'/'.$this->user->{MainContract::ID}.'_'.$this->completion->{MainContract::ID}.'.xml', $this->xml);
+        CompletionSignatureArchive::dispatch($this->completion->{MainContract::ID});
     }
 }

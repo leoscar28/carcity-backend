@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\ApplicationSignature;
+namespace App\Http\Requests\CompletionSignature;
 
 use App\Domain\Contracts\MainContract;
 use Illuminate\Contracts\Validation\Validator;
@@ -9,7 +9,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\ValidationException;
 use JetBrains\PhpStorm\ArrayShape;
 
-class ApplicationSignatureUpdateRequest extends FormRequest
+class CompletionSignatureMultipleCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,11 +26,13 @@ class ApplicationSignatureUpdateRequest extends FormRequest
      *
      * @return array
      */
-    #[ArrayShape([MainContract::SIGNATURE => "string", MainContract::STATUS => "string"])] public function rules(): array
+    #[ArrayShape([MainContract::RID => "string", MainContract::USER_ID => "string", MainContract::SIGNATURE => "string", MainContract::RES => "string"])] public function rules(): array
     {
         return [
-            MainContract::SIGNATURE =>  'nullable',
-            MainContract::STATUS    =>  'nullable',
+            MainContract::RID   =>  'required',
+            MainContract::USER_ID   =>  'required|exists:users,id',
+            MainContract::SIGNATURE =>  'required',
+            MainContract::RES   =>  'required',
         ];
     }
 
