@@ -90,15 +90,15 @@ class CompletionSignatureArchive implements ShouldQueue
                     $fpdi->SetFont("HelveticaRegular", '', 7);
                     $text   =   iconv('utf-8', 'windows-1251', implode(' ',[$name[0],$name[1]]));
                     if (sizeof($name) > 2) {
-                        $fpdi->Text(($left + 26),$top, $text);
+                        $fpdi->Text(($left + 28),$top, $text);
                         if (sizeof($name) === 3) {
                             $text2  =   iconv('utf-8', 'windows-1251', $name[2]);
                         } else {
                             $text2  =   iconv('utf-8', 'windows-1251', implode(' ',[$name[2],$name[3]]));
                         }
-                        $fpdi->Text(($left + 26),($top + 4), $text2);
+                        $fpdi->Text(($left + 28),($top + 4), $text2);
                     } else {
-                        $fpdi->Text(($left + 26),($top + 2), $text);
+                        $fpdi->Text(($left + 28),($top + 2), $text);
                     }
                     $fpdi->Output($file, 'F');
                 }
