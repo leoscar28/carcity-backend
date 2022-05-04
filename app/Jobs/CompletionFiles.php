@@ -70,7 +70,7 @@ class CompletionFiles implements ShouldQueue
                 $top    =   ($signatures[0][0][5] - 12);
                 $fpdi->Text(75,$top, substr($match[1], 1, 10));
                 $fpdi->Text(77,($top + 4), substr($match[1], 11, 7).'...');
-                $fpdi->Output('storage/docs/'.$this->completion->{MainContract::CUSTOMER_ID}.'/completions/'.$this->completion->{MainContract::ID}.'/'.$this->completion->{MainContract::ID}.'-signed.pdf', 'F');
+                $fpdi->Output($file, 'F');
             }
         } catch (\Exception $exception) {
             Log::info('err Completion Files',[$exception]);

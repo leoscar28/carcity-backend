@@ -100,7 +100,7 @@ class CompletionSignatureArchive implements ShouldQueue
                     } else {
                         $fpdi->Text(($left + 26),($top + 2), $text);
                     }
-                    $fpdi->Output('storage/docs/'.$completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'/'.$completion->{MainContract::ID}.'-signed.pdf', 'F');
+                    $fpdi->Output($file, 'F');
                 }
                 $root   =   storage_path('docs/').$completion->{MainContract::CUSTOMER_ID}.'/completions/';
                 $path   =   $root.$completion->{MainContract::ID}.'.zip';
