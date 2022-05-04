@@ -81,11 +81,11 @@ class CompletionSignatureArchive implements ShouldQueue
                     $fpdi->useTemplate($template);
                     $fpdi->SetFont("helvetica", 'B', 8);
                     $fpdi->SetTextColor(0,0,0);
-                    $top    =   ($signatures[0][0][5] + 3);
+                    $top    =   (ceil($signatures[0][0][5]) + 3.2);
                     $left   =   215;
                     $name   =   explode(' ',trim($user2['cert']['chain'][0]['subject']['commonName']));
                     $fpdi->Text($left,$top, substr($match[1], 1, 10));
-                    $fpdi->Text(($left + 2),($top + 4), substr($match[1], 11, 7).'...');
+                    $fpdi->Text(($left + 2),($top + 3), substr($match[1], 11, 7).'...');
                     $fpdi->AddFont('HelveticaRegular','','HelveticaRegular.php');
                     $fpdi->SetFont("HelveticaRegular", '', 7);
                     $text   =   iconv('utf-8', 'windows-1251', implode(' ',[$name[0],$name[1]]));
@@ -96,7 +96,7 @@ class CompletionSignatureArchive implements ShouldQueue
                         } else {
                             $text2  =   iconv('utf-8', 'windows-1251', implode(' ',[$name[2],$name[3]]));
                         }
-                        $fpdi->Text(($left + 28),($top + 4), $text2);
+                        $fpdi->Text(($left + 28),($top + 3), $text2);
                     } else {
                         $fpdi->Text(($left + 28),($top + 2), $text);
                     }
