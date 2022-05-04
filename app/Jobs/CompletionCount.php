@@ -53,7 +53,6 @@ class CompletionCount implements ShouldQueue
                     $completionDate->{MainContract::STATUS} =   1;
                 }
                 $completionDate->save();
-
                 if ($completionList[MainContract::UPLOAD_STATUS_ID] === 3) {
                     $users  =   $userService->getByRoleIds([2,3,4]);
                     foreach ($users as &$user) {

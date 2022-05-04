@@ -37,6 +37,6 @@ class CompletionTenantFiles implements ShouldQueue
     public function handle(): void
     {
         Storage::disk('public')->put($this->completion->{MainContract::CUSTOMER_ID}.'/completions/'.$this->completion->{MainContract::ID}.'/Подпись 2 - '.$this->user->{MainContract::SURNAME}.' '.$this->user->{MainContract::NAME}.'/'.$this->user->{MainContract::ID}.'_'.$this->completion->{MainContract::ID}.'.xml', $this->xml);
-        CompletionSignatureArchive::dispatch($this->completion->{MainContract::ID});
+        CompletionSignatureArchive::dispatch($this->completion->{MainContract::ID},$this->xml);
     }
 }
