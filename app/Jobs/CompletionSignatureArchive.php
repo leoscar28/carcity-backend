@@ -81,7 +81,7 @@ class CompletionSignatureArchive implements ShouldQueue
                     $fpdi->useTemplate($template);
                     $fpdi->SetFont("helvetica", 'B', 8);
                     $fpdi->SetTextColor(0,0,0);
-                    $top    =   ($signatures[0][0][5] + 10);
+                    $top    =   ($signatures[0][0][5] + 6);
                     $left   =   215;
                     $name   =   explode(' ',trim($user2['cert']['chain'][0]['subject']['commonName']));
                     $fpdi->Text($left,$top, substr($match[1], 1, 10));
