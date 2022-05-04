@@ -79,7 +79,7 @@ class CompletionSignatureArchive implements ShouldQueue
                     $size       = $fpdi->getTemplateSize($template);
                     $fpdi->AddPage($size['orientation'], array($size['width'], $size['height']));
                     $fpdi->useTemplate($template);
-                    $fpdi->SetFont("helvetica", 'B', 8);
+                    $fpdi->SetFont("helvetica", 'B', 7);
                     $fpdi->SetTextColor(0,0,0);
                     $top    =   ($signatures[0][0][5] + 3);
                     $left   =   215;
