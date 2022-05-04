@@ -73,10 +73,7 @@ class CompletionFiles implements ShouldQueue
                 $fpdi->Output('storage/docs/'.$this->completion->{MainContract::CUSTOMER_ID}.'/completions/'.$this->completion->{MainContract::ID}.'/'.$this->completion->{MainContract::ID}.'-signed.pdf', 'F');
             }
         } catch (\Exception $exception) {
-            Log::info('err',[$exception]);
-            $completionService->update($this->completion->{MainContract::ID},[
-                MainContract::UPLOAD_STATUS_ID  =>  1
-            ]);
+            Log::info('err Completion Files',[$exception]);
         }
     }
 }
