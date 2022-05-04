@@ -60,6 +60,7 @@ class CompletionFiles implements ShouldQueue
                     }
                 }
                 $fpdi = new FPDI;
+                $count = $fpdi->setSourceFile($file);
                 $template   = $fpdi->importPage(1);
                 $size       = $fpdi->getTemplateSize($template);
                 $fpdi->AddPage($size['orientation'], [$size['width'], $size['height']]);
@@ -67,7 +68,7 @@ class CompletionFiles implements ShouldQueue
                 $fpdi->SetFont("helvetica", 'B', 8);
                 $fpdi->SetTextColor(0,0,0);
                 $top    =   (ceil($signatures[0][0][5]));
-                Log::info('top',[$top]);
+                Log::info('top',[]);
                 $fpdi->Text(75,$top, substr($match[1], 1, 10));
                 $fpdi->Text(77,($top + 4), substr($match[1], 11, 7).'...');
                 $fpdi->Output($file, 'F');
