@@ -160,23 +160,26 @@ class CompletionSignatureController extends Controller
                 if (!$this->completionSignatureService->getByCompletionIdAndUserId($data[MainContract::ID],$data[MainContract::USER_ID])) {
                     if ($verifiedData = $this->verifyData($data[MainContract::SIGNATURE])) {
                         if (array_key_exists(MainContract::RESULT,$verifiedData)) {
-                            $this->completionSignatureService->create([
-                                MainContract::COMPLETION_ID    =>  $data[MainContract::ID],
-                                MainContract::USER_ID   =>  $data[MainContract::USER_ID],
-                                MainContract::SIGNATURE =>  $data[MainContract::SIGNATURE],
-                                MainContract::DATA  =>  json_encode($verifiedData[MainContract::RESULT])
-                            ]);
+                            if ((strtotime($verifiedData[MainContract::RESULT]['cert']['notAfter']) - time()) > 0) {
+                                $this->completionSignatureService->create([
+                                    MainContract::COMPLETION_ID    =>  $data[MainContract::ID],
+                                    MainContract::USER_ID   =>  $data[MainContract::USER_ID],
+                                    MainContract::SIGNATURE =>  $data[MainContract::SIGNATURE],
+                                    MainContract::DATA  =>  json_encode($verifiedData[MainContract::RESULT])
+                                ]);
+                                if ($data[MainContract::ROLE_ID] === 4) {
+                                    CompletionFiles::dispatch($completion,$user,$data[MainContract::SIGNATURE],$verifiedData[MainContract::RESULT]);
+                                    $completion->{MainContract::UPLOAD_STATUS_ID}  =   2;
+                                } else {
+                                    CompletionTenantFiles::dispatch($completion,$user,$data[MainContract::SIGNATURE]);
+                                    $completion->{MainContract::UPLOAD_STATUS_ID}  =   3;
+                                }
+                                $completion->save();
+                                CompletionCount::dispatch($completion->{MainContract::RID});
+                                return new CompletionResource($completion);
+                            }
+                            return response(['message'  =>  'Истек срок годности ключа'],400);
                         }
-                        if ($data[MainContract::ROLE_ID] === 4) {
-                            CompletionFiles::dispatch($completion,$user,$data[MainContract::SIGNATURE]);
-                            $completion->{MainContract::UPLOAD_STATUS_ID}  =   2;
-                        } else {
-                            CompletionTenantFiles::dispatch($completion,$user,$data[MainContract::SIGNATURE]);
-                            $completion->{MainContract::UPLOAD_STATUS_ID}  =   3;
-                        }
-                        $completion->save();
-                        CompletionCount::dispatch($completion->{MainContract::RID});
-                        return new CompletionResource($completion);
                     }
                     return response(['message'  =>  'Подпись не прошла валидацию'],400);
                 }

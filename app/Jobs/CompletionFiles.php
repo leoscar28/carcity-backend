@@ -22,16 +22,18 @@ class CompletionFiles implements ShouldQueue
     protected $completion;
     protected $xml;
     protected $user;
+    protected $result;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($completion,$user,$xml)
+    public function __construct($completion,$user,$xml,$result)
     {
         $this->completion   =   $completion;
         $this->user =   $user;
         $this->xml  =   $xml;
+        $this->result   =   $result;
     }
 
     /**
@@ -68,8 +70,24 @@ class CompletionFiles implements ShouldQueue
                 $fpdi->SetFont("helvetica", 'B', 8);
                 $fpdi->SetTextColor(0,0,0);
                 $top    =   (ceil($signatures[0][0][5]) + 3.2);
-                $fpdi->Text(75,$top, substr($match[1], 1, 10));
-                $fpdi->Text(77,($top + 3), substr($match[1], 11, 7).'...');
+                $left   =   75;
+                $fpdi->Text($left,$top, substr($match[1], 1, 10));
+                $fpdi->Text(($left + 2),($top + 3), substr($match[1], 11, 7).'...');
+                $fpdi->AddFont('HelveticaRegular','','HelveticaRegular.php');
+                $fpdi->SetFont("HelveticaRegular", '', 7);
+                $name   =   explode(' ',trim($this->result['cert']['chain'][0]['subject']['commonName']));
+                $text   =   iconv('utf-8', 'windows-1251', implode(' ',[$name[0],$name[1]]));
+                if (sizeof($name) > 2) {
+                    $fpdi->Text(($left + 28),$top, $text);
+                    if (sizeof($name) === 3) {
+                        $text2  =   iconv('utf-8', 'windows-1251', $name[2]);
+                    } else {
+                        $text2  =   iconv('utf-8', 'windows-1251', implode(' ',[$name[2],$name[3]]));
+                    }
+                    $fpdi->Text(($left + 28),($top + 3), $text2);
+                } else {
+                    $fpdi->Text(($left + 28),($top + 2), $text);
+                }
                 $fpdi->Output($file, 'F');
             }
         } catch (\Exception $exception) {

@@ -73,7 +73,7 @@
             <span class="cls_002">Название файла:</span>
         </div>
         <div style="position:absolute;left:212.92px;top:345px" class="cls_004">
-            <span class="cls_004">{{$completion->id}}.docx</span>
+            <span class="cls_004">{{$completion->id}}.pdf</span>
         </div>
         <div style="position:absolute;left:59.53px;top:380px" class="cls_003">
             <span class="cls_003">Детали подписи документа</span>
