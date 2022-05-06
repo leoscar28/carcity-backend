@@ -69,7 +69,7 @@ class CompletionFiles implements ShouldQueue
                 $fpdi->useTemplate($template);
                 $fpdi->SetFont("helvetica", 'B', 8);
                 $fpdi->SetTextColor(0,0,0);
-                $top    =   ($signatures[0][0][5] + 3.2);
+                $top    =   floor($signatures[0][0][5]) - 25;
                 $left   =   75;
                 $fpdi->Text($left,$top, substr($match[1], 1, 10));
                 $fpdi->Text(($left + 2),($top + 3), substr($match[1], 11, 7).'...');
