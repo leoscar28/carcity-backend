@@ -132,7 +132,7 @@ class CompletionSignatureController extends Controller
                                     MainContract::DATA  =>  json_encode($verifiedData[MainContract::RESULT])
                                 ]);
                             }
-                            CompletionFiles::dispatch($completion,$user,$data[MainContract::SIGNATURE][$key]);
+                            CompletionFiles::dispatch($completion,$user,$data[MainContract::SIGNATURE][$key],$verifiedData[MainContract::RESULT]);
                             $completion->{MainContract::UPLOAD_STATUS_ID}  =   2;
                             $completion->save();
                             CompletionTenant::dispatch($completion,2);
