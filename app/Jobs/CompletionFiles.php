@@ -53,8 +53,9 @@ class CompletionFiles implements ShouldQueue
             preg_match('~<ds:SignatureValue>([^{]*)</ds:SignatureValue>~i', $this->xml, $match);
             if (array_key_exists(1,$match) && $match[1]) {
                 $file   =   storage_path('docs/').$this->completion->{MainContract::CUSTOMER_ID}.'/completions/'.$this->completion->{MainContract::ID}.'/'.$this->completion->{MainContract::ID}.'-signed.pdf';
+                $file1  =   storage_path('docs/').$this->completion->{MainContract::CUSTOMER_ID}.'/completions/'.$this->completion->{MainContract::ID}.'/'.$this->completion->{MainContract::ID}.'.pdf';
                 $parser = new Parser();
-                $pdf = $parser->parseFile($file);
+                $pdf = $parser->parseFile($file1);
                 $signatures =   [];
                 foreach ($pdf->getPages()[0]->getDataTm() as &$value) {
                     if (trim($value[1]) === 'подпись') {
