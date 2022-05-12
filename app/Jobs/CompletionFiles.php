@@ -56,7 +56,6 @@ class CompletionFiles implements ShouldQueue
                 $file1  =   storage_path('docs/').$this->completion->{MainContract::CUSTOMER_ID}.'/completions/'.$this->completion->{MainContract::ID}.'/'.$this->completion->{MainContract::ID}.'.pdf';
                 $parser = new Parser();
                 $pdf = $parser->parseContent(file_get_contents($file));
-                Log::info('pdf',[$pdf->getPages()[0]->getDataTm()]);
                 $signatures =   [];
                 foreach ($pdf->getPages()[0]->getDataTm() as &$value) {
                     if (trim($value[1]) === 'подпись') {
