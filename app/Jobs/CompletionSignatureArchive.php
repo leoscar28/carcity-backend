@@ -86,7 +86,7 @@ class CompletionSignatureArchive implements ShouldQueue
                     if ($num >= 168) {
                         $top    =   143;
                     } else {
-                        $top    =   $num + 3;
+                        $top    =   148;
                     }
                     $left   =   215;
                     $name   =   explode(' ',trim($user2['cert']['chain'][0]['subject']['commonName']));

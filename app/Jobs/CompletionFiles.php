@@ -55,7 +55,8 @@ class CompletionFiles implements ShouldQueue
                 $file   =   storage_path('docs/').$this->completion->{MainContract::CUSTOMER_ID}.'/completions/'.$this->completion->{MainContract::ID}.'/'.$this->completion->{MainContract::ID}.'-signed.pdf';
                 $file1  =   storage_path('docs/').$this->completion->{MainContract::CUSTOMER_ID}.'/completions/'.$this->completion->{MainContract::ID}.'/'.$this->completion->{MainContract::ID}.'.pdf';
                 $parser = new Parser();
-                $pdf = $parser->parseContent(file_get_contents($file1));
+                $pdf = $parser->parseContent(file_get_contents($file));
+                Log::info('pdf',[$pdf->getPages()[0]->getDataTm()]);
                 $signatures =   [];
                 foreach ($pdf->getPages()[0]->getDataTm() as &$value) {
                     if (trim($value[1]) === 'подпись') {
@@ -74,7 +75,8 @@ class CompletionFiles implements ShouldQueue
                 if ($num >= 168) {
                     $top    =   143;
                 } else {
-                    $top    =   $num + 3;
+                    $top    =   148;
+                    //$top    =   $num + 3;
                 }
                 $left   =   75;
                 $fpdi->Text($left,$top, substr($match[1], 1, 10));
