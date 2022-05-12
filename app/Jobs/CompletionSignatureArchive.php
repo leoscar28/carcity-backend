@@ -84,7 +84,7 @@ class CompletionSignatureArchive implements ShouldQueue
                     $fpdi->SetTextColor(0,0,0);
                     $num    =   (int) round($signatures[0][0][5]);
                     if ($num >= 168) {
-                        $top    =   143;
+                        $top    =   144;
                     } else {
                         $top    =   148;
                     }
