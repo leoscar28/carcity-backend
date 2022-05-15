@@ -19,14 +19,16 @@ class CompletionTenant implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     public $completion;
+    public $type;
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct($completion)
+    public function __construct($completion,$type)
     {
         $this->completion   =   $completion;
+        $this->type =   $type;
     }
 
     /**
@@ -41,7 +43,7 @@ class CompletionTenant implements ShouldQueue
         if ($user = $userService->getByBin($this->completion->{MainContract::CUSTOMER_ID})) {
             if ($notificationTenant = $notificationTenantService->create([
                 MainContract::USER_ID   =>  $user->{MainContract::ID},
-                MainContract::TYPE  =>  1,
+                MainContract::TYPE  =>  $this->type,
                 MainContract::COMPLETION_ID =>  $this->completion->{MainContract::ID},
                 MainContract::VIEW  =>  0,
             ])) {

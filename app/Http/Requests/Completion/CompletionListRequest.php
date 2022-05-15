@@ -30,6 +30,7 @@ class CompletionListRequest extends FormRequest
         return [
             MainContract::PAGINATION    =>  'nullable',
             MainContract::TAKE  =>  'nullable',
+            MainContract::ROLE_ID   =>  'nullable',
             MainContract::UPLOAD_STATUS_ID  =>  'nullable',
             MainContract::CREATED_AT    =>  'nullable',
             MainContract::SUM   =>  'nullable',
@@ -62,6 +63,8 @@ class CompletionListRequest extends FormRequest
         }
         if (array_key_exists(MainContract::UPLOAD_STATUS_ID,$data)) {
             $data[MainContract::DATA][] =   [MainContract::UPLOAD_STATUS_ID,$data[MainContract::UPLOAD_STATUS_ID]];
+        } else if (array_key_exists(MainContract::ROLE_ID,$data) && $data[MainContract::ROLE_ID] === 1) {
+            $data[MainContract::DATA][] =   [MainContract::UPLOAD_STATUS_ID,'!=',1];
         }
         if (array_key_exists(MainContract::CREATED_AT,$data)) {
             $date   =   explode('_',$data[MainContract::CREATED_AT]);

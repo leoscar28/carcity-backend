@@ -16,14 +16,18 @@ class CompletionStatusSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         DB::table(CompletionStatusContract::TABLE)->insert([
-            MainContract::TITLE =>  'Новый',
+            MainContract::TITLE =>  'Ожидает подписания вами',
             MainContract::STATUS    =>  1
         ]);
         DB::table(CompletionStatusContract::TABLE)->insert([
-            MainContract::TITLE =>  'Скачано',
+            MainContract::TITLE =>  'Ожидает подписания клиентом',
+            MainContract::STATUS    =>  1
+        ]);
+        DB::table(CompletionStatusContract::TABLE)->insert([
+            MainContract::TITLE =>  'Подписано клиентами',
             MainContract::STATUS    =>  1
         ]);
     }

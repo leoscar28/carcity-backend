@@ -15,7 +15,7 @@ class ApplicationStatusSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
         DB::table(ApplicationStatusContract::TABLE)->insert([
             MainContract::TITLE =>  'Ожидает подписания вами',

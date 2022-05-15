@@ -85,7 +85,6 @@ class CompletionController extends Controller
         $arr    =   [];
         foreach ($data[MainContract::DATA] as &$completionItem) {
             $completion =   $this->completionService->create($completionItem);
-            CompletionTenant::dispatch($completion);
             $arr[]  =   $completion;
         }
         CompletionCount::dispatch($data[MainContract::RID]);

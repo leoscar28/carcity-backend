@@ -131,10 +131,10 @@ class ApplicationSignatureController extends Controller
                                     MainContract::DATA  =>  json_encode($verifiedData[MainContract::RESULT])
                                 ]);
                             }
-                            ApplicationFiles::dispatch($application,$user,$data[MainContract::SIGNATURE][$key]);
                             $application->{MainContract::UPLOAD_STATUS_ID}  =   2;
                             $application->save();
-                            ApplicationTenant::dispatch($application,2);
+                            ApplicationFiles::dispatch($application,$user,$data[MainContract::SIGNATURE][$key]);
+                            ApplicationTenant::dispatch($application,1);
                         }
                     }
                 }
@@ -167,8 +167,9 @@ class ApplicationSignatureController extends Controller
                                     MainContract::DATA  =>  json_encode($verifiedData[MainContract::RESULT])
                                 ]);
                                 if ($data[MainContract::ROLE_ID] === 4) {
-                                    ApplicationFiles::dispatch($application,$user,$data[MainContract::SIGNATURE]);
                                     $application->{MainContract::UPLOAD_STATUS_ID}  =   2;
+                                    ApplicationFiles::dispatch($application,$user,$data[MainContract::SIGNATURE]);
+                                    ApplicationTenant::dispatch($application,1);
                                 } else {
                                     ApplicationTenantFiles::dispatch($application,$user,$data[MainContract::SIGNATURE]);
                                     $application->{MainContract::UPLOAD_STATUS_ID}  =   3;

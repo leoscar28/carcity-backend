@@ -82,7 +82,6 @@ class ApplicationController extends Controller
         $arr    =   [];
         foreach ($data[MainContract::DATA] as &$applicationItem) {
             $application    =   $this->applicationService->create($applicationItem);
-            ApplicationTenant::dispatch($application,1);
             $arr[]  =   $application;
         }
         ApplicationCount::dispatch($data[MainContract::RID]);

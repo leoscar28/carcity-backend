@@ -135,7 +135,7 @@ class CompletionSignatureController extends Controller
                             CompletionFiles::dispatch($completion,$user,$data[MainContract::SIGNATURE][$key],$verifiedData[MainContract::RESULT]);
                             $completion->{MainContract::UPLOAD_STATUS_ID}  =   2;
                             $completion->save();
-                            CompletionTenant::dispatch($completion,2);
+                            CompletionTenant::dispatch($completion,1);
                         }
                     }
                 }
@@ -168,8 +168,9 @@ class CompletionSignatureController extends Controller
                                     MainContract::DATA  =>  json_encode($verifiedData[MainContract::RESULT])
                                 ]);
                                 if ($data[MainContract::ROLE_ID] === 4) {
-                                    CompletionFiles::dispatch($completion,$user,$data[MainContract::SIGNATURE],$verifiedData[MainContract::RESULT]);
                                     $completion->{MainContract::UPLOAD_STATUS_ID}  =   2;
+                                    CompletionFiles::dispatch($completion,$user,$data[MainContract::SIGNATURE],$verifiedData[MainContract::RESULT]);
+                                    CompletionTenant::dispatch($completion,1);
                                 } else {
                                     CompletionTenantFiles::dispatch($completion,$user,$data[MainContract::SIGNATURE]);
                                     $completion->{MainContract::UPLOAD_STATUS_ID}  =   3;
