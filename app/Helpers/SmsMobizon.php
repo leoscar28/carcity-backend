@@ -411,31 +411,3 @@ class SmsMobizon
         return $xml;
     }
 }
-
-class Mobizon_Error extends \Exception
-{
-}
-
-class Mobizon_Param_Required extends Mobizon_Error
-{
-}
-
-class Mobizon_Http_Error extends Mobizon_Error
-{
-}
-
-class Mobizon_OpenSSL_Required extends Mobizon_Error
-{
-}
-
-class Mobizon_Curl_Required extends Mobizon_Error
-{
-}
-
-class Mobizon_ApiKey_Required extends Mobizon_Error
-{
-}
-
-class Mobizon_XML_Error extends Mobizon_Error
-{
-}
