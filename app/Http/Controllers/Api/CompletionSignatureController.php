@@ -18,6 +18,7 @@ use App\Jobs\CompletionTenantFiles;
 use App\Services\CompletionDateService;
 use App\Services\CompletionService;
 use App\Services\CompletionSignatureService;
+use App\Services\UserBinService;
 use App\Services\UserService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -33,13 +34,15 @@ class CompletionSignatureController extends Controller
     protected CompletionService $completionService;
     protected UserService $userService;
     protected CompletionDateService $completionDateService;
+    protected UserBinService $userBinService;
 
-    public function __construct(CompletionSignatureService $completionSignatureService,CompletionService $completionService, UserService $userService, CompletionDateService $completionDateService)
+    public function __construct(CompletionSignatureService $completionSignatureService,CompletionService $completionService, UserService $userService, CompletionDateService $completionDateService, UserBinService $userBinService)
     {
         $this->completionSignatureService   =   $completionSignatureService;
         $this->completionService    =   $completionService;
         $this->userService  =   $userService;
         $this->completionDateService    =   $completionDateService;
+        $this->userBinService   =   $userBinService;
     }
 
     public function multipleStart($rid,$userId): Response|Application|ResponseFactory
@@ -125,17 +128,35 @@ class CompletionSignatureController extends Controller
                     if (!$this->completionSignatureService->getByCompletionIdAndUserId($completion->{MainContract::ID},$data[MainContract::USER_ID])) {
                         if ($verifiedData = $this->verifyData($data[MainContract::SIGNATURE][$key])) {
                             if (array_key_exists(MainContract::RESULT,$verifiedData)) {
-                                $this->completionSignatureService->create([
-                                    MainContract::COMPLETION_ID =>  $completion->{MainContract::ID},
-                                    MainContract::USER_ID   =>  $data[MainContract::USER_ID],
-                                    MainContract::SIGNATURE =>  $data[MainContract::SIGNATURE][$key],
-                                    MainContract::DATA  =>  json_encode($verifiedData[MainContract::RESULT])
-                                ]);
+                                $status =   false;
+                                $iin    =   (int)$verifiedData[MainContract::RESULT][MainContract::CERT][MainContract::CHAIN][0][MainContract::SUBJECT][MainContract::IIN];
+                                if ($iin === $user->{MainContract::BIN}) {
+                                    $status =   true;
+                                }
+                                if (!$status) {
+                                    $bins   =   $this->userBinService->getByIin($user->{MainContract::BIN});
+                                    foreach ($bins as &$bin) {
+                                        if ((int)$bin->{MainContract::BIN} === $iin) {
+                                            $status =   true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if ($status) {
+                                    $this->completionSignatureService->create([
+                                        MainContract::COMPLETION_ID =>  $completion->{MainContract::ID},
+                                        MainContract::USER_ID   =>  $data[MainContract::USER_ID],
+                                        MainContract::SIGNATURE =>  $data[MainContract::SIGNATURE][$key],
+                                        MainContract::DATA  =>  json_encode($verifiedData[MainContract::RESULT])
+                                    ]);
+                                    CompletionFiles::dispatch($completion,$user,$data[MainContract::SIGNATURE][$key],$verifiedData[MainContract::RESULT]);
+                                    $completion->{MainContract::UPLOAD_STATUS_ID}  =   2;
+                                    $completion->save();
+                                    CompletionTenant::dispatch($completion,1);
+                                } else {
+                                    return response(['message'  =>  'Этим ЭЦП ключом нельзя подписать, обратитесть к администратору'],400);
+                                }
                             }
-                            CompletionFiles::dispatch($completion,$user,$data[MainContract::SIGNATURE][$key],$verifiedData[MainContract::RESULT]);
-                            $completion->{MainContract::UPLOAD_STATUS_ID}  =   2;
-                            $completion->save();
-                            CompletionTenant::dispatch($completion,1);
                         }
                     }
                 }
@@ -160,24 +181,41 @@ class CompletionSignatureController extends Controller
                 if (!$this->completionSignatureService->getByCompletionIdAndUserId($data[MainContract::ID],$data[MainContract::USER_ID])) {
                     if ($verifiedData = $this->verifyData($data[MainContract::SIGNATURE])) {
                         if (array_key_exists(MainContract::RESULT,$verifiedData)) {
-                            if ((strtotime($verifiedData[MainContract::RESULT]['cert']['notAfter']) - time()) > 0) {
-                                $this->completionSignatureService->create([
-                                    MainContract::COMPLETION_ID    =>  $data[MainContract::ID],
-                                    MainContract::USER_ID   =>  $data[MainContract::USER_ID],
-                                    MainContract::SIGNATURE =>  $data[MainContract::SIGNATURE],
-                                    MainContract::DATA  =>  json_encode($verifiedData[MainContract::RESULT])
-                                ]);
-                                if ($data[MainContract::ROLE_ID] === 4) {
-                                    $completion->{MainContract::UPLOAD_STATUS_ID}  =   2;
-                                    CompletionFiles::dispatch($completion,$user,$data[MainContract::SIGNATURE],$verifiedData[MainContract::RESULT]);
-                                    CompletionTenant::dispatch($completion,1);
-                                } else {
-                                    CompletionTenantFiles::dispatch($completion,$user,$data[MainContract::SIGNATURE]);
-                                    $completion->{MainContract::UPLOAD_STATUS_ID}  =   3;
+                            if ((strtotime($verifiedData[MainContract::RESULT][MainContract::CERT][MainContract::NOT_AFTER]) - time()) > 0) {
+                                $status =   false;
+                                $iin    =   (int)$verifiedData[MainContract::RESULT][MainContract::CERT][MainContract::CHAIN][0][MainContract::SUBJECT][MainContract::IIN];
+                                if ($iin === $user->{MainContract::BIN}) {
+                                    $status =   true;
                                 }
-                                $completion->save();
-                                CompletionCount::dispatch($completion->{MainContract::RID});
-                                return new CompletionResource($completion);
+                                if (!$status) {
+                                    $bins   =   $this->userBinService->getByIin($user->{MainContract::BIN});
+                                    foreach ($bins as &$bin) {
+                                        if ((int)$bin->{MainContract::BIN} === $iin) {
+                                            $status =   true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if ($status) {
+                                    $this->completionSignatureService->create([
+                                        MainContract::COMPLETION_ID    =>  $data[MainContract::ID],
+                                        MainContract::USER_ID   =>  $data[MainContract::USER_ID],
+                                        MainContract::SIGNATURE =>  $data[MainContract::SIGNATURE],
+                                        MainContract::DATA  =>  json_encode($verifiedData[MainContract::RESULT])
+                                    ]);
+                                    if ($data[MainContract::ROLE_ID] === 4) {
+                                        $completion->{MainContract::UPLOAD_STATUS_ID}  =   2;
+                                        CompletionFiles::dispatch($completion,$user,$data[MainContract::SIGNATURE],$verifiedData[MainContract::RESULT]);
+                                        CompletionTenant::dispatch($completion,1);
+                                    } else {
+                                        CompletionTenantFiles::dispatch($completion,$user,$data[MainContract::SIGNATURE]);
+                                        $completion->{MainContract::UPLOAD_STATUS_ID}  =   3;
+                                    }
+                                    $completion->save();
+                                    CompletionCount::dispatch($completion->{MainContract::RID});
+                                    return new CompletionResource($completion);
+                                }
+                                return response(['message'  =>  'Этим ЭЦП ключом нельзя подписать, обратитесть к администратору'],400);
                             }
                             return response(['message'  =>  'Истек срок годности ключа'],400);
                         }

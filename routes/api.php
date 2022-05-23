@@ -40,6 +40,7 @@ Route::get('dasdasd',function() {
 });
 
 Route::prefix('user')->group(function() {
+    Route::post('list',[UserController::class,'list'])->name('list');
     Route::post('auth',[UserController::class,'auth'])->name('auth');
     Route::post('create',[UserController::class,'create'])->name('create');
     Route::post('update/{id}',[UserController::class,'update'])->name('update');

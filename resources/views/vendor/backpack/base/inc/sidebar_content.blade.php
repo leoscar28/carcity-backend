@@ -10,6 +10,11 @@
     </a>
 </li>
 <li class='nav-item'>
+    <a class='nav-link' href='{{ backpack_url('user-bin') }}'>
+        <i class='nav-icon las la-user-circle'></i> ЭЦП бины
+    </a>
+</li>
+<li class='nav-item'>
     <a class='nav-link' href='{{ backpack_url('position') }}'>
         <i class='nav-icon las la-user-tie'></i> Должности
     </a>

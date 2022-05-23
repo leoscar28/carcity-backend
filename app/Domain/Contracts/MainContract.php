@@ -39,6 +39,10 @@ class MainContract
     const SIGNATURE =   'signature';
     const RES   =   'res';
     const RESULT    =   'result';
+    const CERT  =   'cert';
+    const NOT_AFTER =   'notAfter';
+    const CHAIN =   'chain';
+    const SUBJECT   =   'subject';
     const SIGNATURES    =   'signatures';
     const CUSTOMER_ID   =   'customer_id';
     const NUMBER    =   'number';
@@ -58,6 +62,7 @@ class MainContract
     const PHONE_CODE    =   'phone_code';
     const EMAIL_CODE    =   'email_code';
     const BIN   =   'bin';
+    const IIN   =   'iin';
     const COMPANY   =   'company';
     const ROLE_ID   =   'role_id';
     const HIDE_BIRTHDATE    =   'hide_birthdate';

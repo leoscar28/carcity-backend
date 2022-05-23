@@ -27,6 +27,11 @@ class UserController extends Controller
         $this->userService  =   $userService;
     }
 
+    public function list()
+    {
+        return  \App\Models\User::all();
+    }
+
     /**
      * @throws ValidationException
      */

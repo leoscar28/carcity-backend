@@ -193,6 +193,7 @@ return [
         App\Providers\Repositories\NotificationRepositoryProvider::class,
         App\Providers\Repositories\NotificationTenantRepositoryProvider::class,
         App\Providers\Repositories\CompletionSignatureRepositoryProvider::class,
+        App\Providers\Repositories\UserBinRepositoryProvider::class,
     ],
 
     /*

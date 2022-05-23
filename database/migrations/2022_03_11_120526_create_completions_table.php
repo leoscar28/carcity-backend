@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string(MainContract::NUMBER)->nullable();
             $table->string(MainContract::ORGANIZATION)->nullable();
             $table->date(MainContract::DATE)->nullable();
-            $table->unsignedBigInteger(MainContract::SUM)->nullable();
+            $table->unsignedDecimal(MainContract::SUM,20,2)->nullable();
             $table->string(MainContract::NAME)->nullable();
             $table->unsignedTinyInteger(MainContract::STATUS)->default(1);
             $table->timestamps();

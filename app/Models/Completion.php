@@ -18,11 +18,6 @@ class Completion extends Model
         return date('Y-m-d',strtotime($value));
     }
 
-    public function setSumAttribute($value)
-    {
-        $this->attributes[MainContract::SUM] = preg_replace("/[^0-9]/", "", $value);
-    }
-
     public function completionStatus(): BelongsTo
     {
         return $this->belongsTo(CompletionStatus::class,MainContract::UPLOAD_STATUS_ID,MainContract::ID);

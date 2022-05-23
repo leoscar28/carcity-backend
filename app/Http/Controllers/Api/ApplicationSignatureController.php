@@ -19,6 +19,7 @@ use App\Jobs\ApplicationTenantFiles;
 use App\Services\ApplicationDateService;
 use App\Services\ApplicationService;
 use App\Services\ApplicationSignatureService;
+use App\Services\UserBinService;
 use App\Services\UserService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
@@ -32,13 +33,15 @@ class ApplicationSignatureController extends Controller
     protected ApplicationService $applicationService;
     protected UserService $userService;
     protected ApplicationDateService $applicationDateService;
+    protected UserBinService $userBinService;
 
-    public function __construct(ApplicationSignatureService $applicationSignatureService, ApplicationService $applicationService, UserService $userService, ApplicationDateService $applicationDateService)
+    public function __construct(ApplicationSignatureService $applicationSignatureService, ApplicationService $applicationService, UserService $userService, ApplicationDateService $applicationDateService, UserBinService $userBinService)
     {
         $this->applicationSignatureService  =   $applicationSignatureService;
         $this->applicationService   =   $applicationService;
         $this->userService  =   $userService;
         $this->applicationDateService   =   $applicationDateService;
+        $this->userBinService   =   $userBinService;
     }
 
     public function multipleStart($rid,$userId): Response|Application|ResponseFactory
@@ -124,17 +127,36 @@ class ApplicationSignatureController extends Controller
                     if (!$this->applicationSignatureService->getByApplicationIdAndUserId($application->{MainContract::ID},$data[MainContract::USER_ID])) {
                         if ($verifiedData = $this->verifyData($data[MainContract::SIGNATURE][$key])) {
                             if (array_key_exists(MainContract::RESULT,$verifiedData)) {
-                                $this->applicationSignatureService->create([
-                                    MainContract::APPLICATION_ID    =>  $application->{MainContract::ID},
-                                    MainContract::USER_ID   =>  $data[MainContract::USER_ID],
-                                    MainContract::SIGNATURE =>  $data[MainContract::SIGNATURE][$key],
-                                    MainContract::DATA  =>  json_encode($verifiedData[MainContract::RESULT])
-                                ]);
+
+                                $status =   false;
+                                $iin    =   (int)$verifiedData[MainContract::RESULT][MainContract::CERT][MainContract::CHAIN][0][MainContract::SUBJECT][MainContract::IIN];
+                                if ($iin === $user->{MainContract::BIN}) {
+                                    $status =   true;
+                                }
+                                if (!$status) {
+                                    $bins   =   $this->userBinService->getByIin($user->{MainContract::BIN});
+                                    foreach ($bins as &$bin) {
+                                        if ((int)$bin->{MainContract::BIN} === $iin) {
+                                            $status =   true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if ($status) {
+                                    $this->applicationSignatureService->create([
+                                        MainContract::APPLICATION_ID    =>  $application->{MainContract::ID},
+                                        MainContract::USER_ID   =>  $data[MainContract::USER_ID],
+                                        MainContract::SIGNATURE =>  $data[MainContract::SIGNATURE][$key],
+                                        MainContract::DATA  =>  json_encode($verifiedData[MainContract::RESULT])
+                                    ]);
+                                    $application->{MainContract::UPLOAD_STATUS_ID}  =   2;
+                                    $application->save();
+                                    ApplicationFiles::dispatch($application,$user,$data[MainContract::SIGNATURE][$key]);
+                                    ApplicationTenant::dispatch($application,1);
+                                } else {
+                                    return response(['message'  =>  'Этим ЭЦП ключом нельзя подписать, обратитесть к администратору'],400);
+                                }
                             }
-                            $application->{MainContract::UPLOAD_STATUS_ID}  =   2;
-                            $application->save();
-                            ApplicationFiles::dispatch($application,$user,$data[MainContract::SIGNATURE][$key]);
-                            ApplicationTenant::dispatch($application,1);
                         }
                     }
                 }
@@ -160,23 +182,40 @@ class ApplicationSignatureController extends Controller
                     if ($verifiedData = $this->verifyData($data[MainContract::SIGNATURE])) {
                         if (array_key_exists(MainContract::RESULT,$verifiedData)) {
                             if ((strtotime($verifiedData[MainContract::RESULT]['cert']['notAfter']) - time()) > 0) {
-                                $this->applicationSignatureService->create([
-                                    MainContract::APPLICATION_ID    =>  $data[MainContract::ID],
-                                    MainContract::USER_ID   =>  $data[MainContract::USER_ID],
-                                    MainContract::SIGNATURE =>  $data[MainContract::SIGNATURE],
-                                    MainContract::DATA  =>  json_encode($verifiedData[MainContract::RESULT])
-                                ]);
-                                if ($data[MainContract::ROLE_ID] === 4) {
-                                    $application->{MainContract::UPLOAD_STATUS_ID}  =   2;
-                                    ApplicationFiles::dispatch($application,$user,$data[MainContract::SIGNATURE]);
-                                    ApplicationTenant::dispatch($application,1);
-                                } else {
-                                    ApplicationTenantFiles::dispatch($application,$user,$data[MainContract::SIGNATURE]);
-                                    $application->{MainContract::UPLOAD_STATUS_ID}  =   3;
+                                $status =   false;
+                                $iin    =   (int)$verifiedData[MainContract::RESULT][MainContract::CERT][MainContract::CHAIN][0][MainContract::SUBJECT][MainContract::IIN];
+                                if ($iin === $user->{MainContract::BIN}) {
+                                    $status =   true;
                                 }
-                                $application->save();
-                                ApplicationCount::dispatch($application->{MainContract::RID});
-                                return new ApplicationResource($application);
+                                if (!$status) {
+                                    $bins   =   $this->userBinService->getByIin($user->{MainContract::BIN});
+                                    foreach ($bins as &$bin) {
+                                        if ((int)$bin->{MainContract::BIN} === $iin) {
+                                            $status =   true;
+                                            break;
+                                        }
+                                    }
+                                }
+                                if ($status) {
+                                    $this->applicationSignatureService->create([
+                                        MainContract::APPLICATION_ID    =>  $data[MainContract::ID],
+                                        MainContract::USER_ID   =>  $data[MainContract::USER_ID],
+                                        MainContract::SIGNATURE =>  $data[MainContract::SIGNATURE],
+                                        MainContract::DATA  =>  json_encode($verifiedData[MainContract::RESULT])
+                                    ]);
+                                    if ($data[MainContract::ROLE_ID] === 4) {
+                                        $application->{MainContract::UPLOAD_STATUS_ID}  =   2;
+                                        ApplicationFiles::dispatch($application,$user,$data[MainContract::SIGNATURE]);
+                                        ApplicationTenant::dispatch($application,1);
+                                    } else {
+                                        ApplicationTenantFiles::dispatch($application,$user,$data[MainContract::SIGNATURE]);
+                                        $application->{MainContract::UPLOAD_STATUS_ID}  =   3;
+                                    }
+                                    $application->save();
+                                    ApplicationCount::dispatch($application->{MainContract::RID});
+                                    return new ApplicationResource($application);
+                                }
+                                return response(['message'  =>  'Этим ЭЦП ключом нельзя подписать, обратитесть к администратору'],400);
                             }
                             return response(['message'  =>  'Истек срок годности ключа'],400);
                         }
