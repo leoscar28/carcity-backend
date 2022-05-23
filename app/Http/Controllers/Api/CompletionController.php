@@ -40,9 +40,9 @@ class CompletionController extends Controller
             foreach ($completions as &$completion) {
                 if (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'.pdf')) {
                     $arr[]  =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'.pdf';
-                } elseif (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID}.'/applications/'.$completion->{MainContract::ID}.'/'.$completion->{MainContract::ID}.'.pdf')) {
+                } elseif (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'/'.$completion->{MainContract::ID}.'.pdf')) {
                     $arr[]  =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'/'.$completion->{MainContract::ID}.'.pdf';
-                } elseif (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID}.'/applications/'.$completion->{MainContract::ID}.'.zip')) {
+                } elseif (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'.zip')) {
                     $arr[]  =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'.zip';
                 }
             }
