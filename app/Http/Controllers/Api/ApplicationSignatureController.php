@@ -130,7 +130,7 @@ class ApplicationSignatureController extends Controller
 
                                 $status =   false;
                                 $iin    =   (int)$verifiedData[MainContract::RESULT][MainContract::CERT][MainContract::CHAIN][0][MainContract::SUBJECT][MainContract::IIN];
-                                if ($iin === $user->{MainContract::BIN}) {
+                                if ($iin === (int)$user->{MainContract::BIN}) {
                                     $status =   true;
                                 }
                                 if (!$status) {
@@ -184,7 +184,7 @@ class ApplicationSignatureController extends Controller
                             if ((strtotime($verifiedData[MainContract::RESULT]['cert']['notAfter']) - time()) > 0) {
                                 $status =   false;
                                 $iin    =   (int)$verifiedData[MainContract::RESULT][MainContract::CERT][MainContract::CHAIN][0][MainContract::SUBJECT][MainContract::IIN];
-                                if ($iin === $user->{MainContract::BIN}) {
+                                if ($iin === (int) $user->{MainContract::BIN}) {
                                     $status =   true;
                                 }
                                 if (!$status) {

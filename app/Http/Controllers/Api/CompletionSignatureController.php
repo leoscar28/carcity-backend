@@ -130,7 +130,7 @@ class CompletionSignatureController extends Controller
                             if (array_key_exists(MainContract::RESULT,$verifiedData)) {
                                 $status =   false;
                                 $iin    =   (int)$verifiedData[MainContract::RESULT][MainContract::CERT][MainContract::CHAIN][0][MainContract::SUBJECT][MainContract::IIN];
-                                if ($iin === $user->{MainContract::BIN}) {
+                                if ($iin === (int)$user->{MainContract::BIN}) {
                                     $status =   true;
                                 }
                                 if (!$status) {
@@ -184,7 +184,7 @@ class CompletionSignatureController extends Controller
                             if ((strtotime($verifiedData[MainContract::RESULT][MainContract::CERT][MainContract::NOT_AFTER]) - time()) > 0) {
                                 $status =   false;
                                 $iin    =   (int)$verifiedData[MainContract::RESULT][MainContract::CERT][MainContract::CHAIN][0][MainContract::SUBJECT][MainContract::IIN];
-                                if ($iin === $user->{MainContract::BIN}) {
+                                if ($iin === (int)$user->{MainContract::BIN}) {
                                     $status =   true;
                                 }
                                 if (!$status) {
