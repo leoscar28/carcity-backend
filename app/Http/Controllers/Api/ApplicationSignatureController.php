@@ -129,19 +129,33 @@ class ApplicationSignatureController extends Controller
                             if (array_key_exists(MainContract::RESULT,$verifiedData)) {
 
                                 $status =   false;
-                                $iin    =   (int)$verifiedData[MainContract::RESULT][MainContract::CERT][MainContract::CHAIN][0][MainContract::SUBJECT][MainContract::IIN];
-                                if ($iin === (int)$user->{MainContract::BIN}) {
-                                    $status =   true;
+                                $subject    =   $verifiedData[MainContract::RESULT][MainContract::CERT][MainContract::CHAIN][0][MainContract::SUBJECT];
+                                $iin    =   null;
+                                $bin    =   null;
+                                if (array_key_exists(MainContract::BIN,$subject)) {
+                                    $bin    =   (int) $subject[MainContract::BIN];
+                                    if ((int) $subject[MainContract::BIN] === (int) $user->{MainContract::BIN}) {
+                                        $status =   true;
+                                    }
                                 }
+                                if (array_key_exists(MainContract::IIN,$subject)) {
+                                    $iin    =   (int) $subject[MainContract::IIN];
+                                    if ((int) $subject[MainContract::IIN] === (int) $user->{MainContract::BIN}) {
+                                        $status =   true;
+                                    }
+                                }
+
                                 if (!$status) {
                                     $bins   =   $this->userBinService->getByIin($user->{MainContract::BIN});
-                                    foreach ($bins as &$bin) {
-                                        if ((int)$bin->{MainContract::BIN} === $iin) {
+                                    foreach ($bins as &$users) {
+                                        $userIin   =   (int)$users->{MainContract::BIN};
+                                        if ($userIin === $iin || $userIin === $bin) {
                                             $status =   true;
                                             break;
                                         }
                                     }
                                 }
+
                                 if ($status) {
                                     $this->applicationSignatureService->create([
                                         MainContract::APPLICATION_ID    =>  $application->{MainContract::ID},
@@ -183,14 +197,26 @@ class ApplicationSignatureController extends Controller
                         if (array_key_exists(MainContract::RESULT,$verifiedData)) {
                             if ((strtotime($verifiedData[MainContract::RESULT]['cert']['notAfter']) - time()) > 0) {
                                 $status =   false;
-                                $iin    =   (int)$verifiedData[MainContract::RESULT][MainContract::CERT][MainContract::CHAIN][0][MainContract::SUBJECT][MainContract::IIN];
-                                if ($iin === (int) $user->{MainContract::BIN}) {
-                                    $status =   true;
+                                $subject    =   $verifiedData[MainContract::RESULT][MainContract::CERT][MainContract::CHAIN][0][MainContract::SUBJECT];
+                                $iin    =   null;
+                                $bin    =   null;
+                                if (array_key_exists(MainContract::BIN,$subject)) {
+                                    $bin    =   (int) $subject[MainContract::BIN];
+                                    if ((int) $subject[MainContract::BIN] === (int) $user->{MainContract::BIN}) {
+                                        $status =   true;
+                                    }
+                                }
+                                if (array_key_exists(MainContract::IIN,$subject)) {
+                                    $iin    =   (int) $subject[MainContract::IIN];
+                                    if ((int) $subject[MainContract::IIN] === (int) $user->{MainContract::BIN}) {
+                                        $status =   true;
+                                    }
                                 }
                                 if (!$status) {
                                     $bins   =   $this->userBinService->getByIin($user->{MainContract::BIN});
-                                    foreach ($bins as &$bin) {
-                                        if ((int)$bin->{MainContract::BIN} === $iin) {
+                                    foreach ($bins as &$users) {
+                                        $userIin   =   (int)$users->{MainContract::BIN};
+                                        if ($userIin === $iin || $userIin === $bin) {
                                             $status =   true;
                                             break;
                                         }
