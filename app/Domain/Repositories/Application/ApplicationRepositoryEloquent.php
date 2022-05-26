@@ -90,7 +90,7 @@ class ApplicationRepositoryEloquent implements ApplicationRepositoryInterface
             [MainContract::RID,$rid],
             [MainContract::UPLOAD_STATUS_ID,$uploadStatusId],
             [MainContract::STATUS,1]
-        ])->limit(100)->get();
+        ])->limit(20)->get();
     }
 
     public function getByRid($rid)
