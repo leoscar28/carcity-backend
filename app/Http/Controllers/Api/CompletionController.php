@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Domain\Contracts\MainContract;
+use App\Helpers\File;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Completion\CompletionCreateRequest;
 use App\Http\Requests\Completion\CompletionDownloadRequest;
@@ -12,6 +13,7 @@ use App\Http\Resources\Completion\CompletionCollection;
 use App\Http\Resources\Completion\CompletionResource;
 use App\Http\Resources\CompletionDate\CompletionDateCollection;
 use App\Jobs\CompletionCount;
+use App\Jobs\CompletionFileCache;
 use App\Jobs\CompletionTenant;
 use App\Services\CompletionDateService;
 use App\Services\CompletionService;
@@ -26,10 +28,12 @@ class CompletionController extends Controller
 {
     protected CompletionService $completionService;
     protected CompletionDateService $completionDateService;
-    public function __construct(CompletionService $completionService, CompletionDateService $completionDateService)
+    protected File $file;
+    public function __construct(CompletionService $completionService, CompletionDateService $completionDateService, File $file)
     {
         $this->completionService    =   $completionService;
         $this->completionDateService    =   $completionDateService;
+        $this->file =   $file;
     }
 
     public function downloadAll($rid): Response|Application|ResponseFactory
@@ -61,14 +65,7 @@ class CompletionController extends Controller
     {
         $data   =   $completionDownloadRequest->check();
         if ($completion = $this->completionService->getById($data[MainContract::ID])) {
-            if (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'.pdf')) {
-                $data[MainContract::LINK]   =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'.pdf';
-                return response([MainContract::DATA =>  $data],200);
-            } elseif (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'/'.$completion->{MainContract::ID}.'.pdf')) {
-                $data[MainContract::LINK]   =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'/'.$completion->{MainContract::ID}.'.pdf';
-                return response([MainContract::DATA =>  $data],200);
-            } elseif (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'.zip')) {
-                $data[MainContract::LINK]   =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'.zip';
+            if ($data[MainContract::LINK] = $this->file->completionPath($completion)) {
                 return response([MainContract::DATA =>  $data],200);
             }
             return response(['message'  =>  'Файл не найден или еще не загружен на сервер'],404);
@@ -85,7 +82,8 @@ class CompletionController extends Controller
         $arr    =   [];
         foreach ($data[MainContract::DATA] as &$completionItem) {
             $completion =   $this->completionService->create($completionItem);
-            $arr[]  =   $completion;
+            CompletionFileCache::dispatch($completion);
+            $arr[]      =   $completion;
         }
         CompletionCount::dispatch($data[MainContract::RID]);
         return new CompletionCollection($arr);

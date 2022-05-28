@@ -15,6 +15,7 @@ class CompletionContract extends MainContract
         self::DATE,
         self::SUM,
         self::NAME,
+        self::FILE,
         self::STATUS
     ];
 }

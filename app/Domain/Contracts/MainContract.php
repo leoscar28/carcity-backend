@@ -4,6 +4,7 @@ namespace App\Domain\Contracts;
 
 class MainContract
 {
+    const PUB   =   'public';
     const COMPLETION_LIST   =   'completionList';
     const INVOICE_LIST  =   'invoiceList';
     const APPLICATION_LIST  =   'applicationList';
@@ -82,6 +83,10 @@ class MainContract
     const PHONE =   'phone';
     const EMAIL =   'email';
     const NAME  =   'name';
+    const FILE  =   'file';
+    const MAIN  =   'main';
+    const DISK  =   'disk';
+    const PATH  =   'path';
     const USERS =   'users';
     const ID    =   'id';
     const ALIAS =   'login';
@@ -89,4 +94,8 @@ class MainContract
     const POSITIONS =   'positions';
     const PHONE_CHECK   =   'phone_check';
     const EMAIL_CHECK   =   'email_check';
+    const APP_URL   =   'app_url';
+    const ORIENTATION   =   'orientation';
+    const WIDTH =   'width';
+    const HEIGHT    =   'height';
 }

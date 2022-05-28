@@ -6,6 +6,7 @@ use App\Domain\Contracts\MainContract;
 use App\Events\CompletionTenantEvent;
 use App\Events\NotificationTenantEvent;
 use App\Http\Resources\Completion\CompletionResource;
+use App\Http\Resources\NotificationTenant\NotificationTenantResource;
 use App\Mail\NotificationMail;
 use App\Services\NotificationTenantService;
 use App\Services\UserService;
@@ -15,6 +16,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class CompletionTenant implements ShouldQueue
@@ -49,7 +51,7 @@ class CompletionTenant implements ShouldQueue
                 MainContract::COMPLETION_ID =>  $this->completion->{MainContract::ID},
                 MainContract::VIEW  =>  0,
             ])) {
-                event(new NotificationTenantEvent($notificationTenant));
+                event(new NotificationTenantEvent(new NotificationTenantResource($notificationTenant)));
             }
             if ($user->{MainContract::EMAIL}) {
                 $name   =   $user->{MainContract::NAME}.' '.$user->{MainContract::SURNAME};

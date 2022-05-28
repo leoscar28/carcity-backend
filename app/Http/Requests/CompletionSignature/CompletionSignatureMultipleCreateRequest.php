@@ -41,7 +41,9 @@ class CompletionSignatureMultipleCreateRequest extends FormRequest
      */
     public function check(): array
     {
-        return $this->validator->validated();
+        $data   =   $this->validator->validated();
+        $data[MainContract::ROLE_ID]    =   4;
+        return $data;
     }
 
     protected function failedValidation(Validator $validator)
