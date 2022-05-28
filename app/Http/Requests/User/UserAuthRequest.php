@@ -52,6 +52,7 @@ class UserAuthRequest extends FormRequest
                 MainContract::PHONE =>    $data[MainContract::LOGIN]
             ];
         }
+        $data[MainContract::LOGIN][MainContract::STATUS] =   1;
         return $data;
     }
 
