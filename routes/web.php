@@ -1,8 +1,10 @@
 <?php
 
 use App\Domain\Contracts\MainContract;
+use App\Mail\DemoMail;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
@@ -16,7 +18,15 @@ use Illuminate\Support\Str;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {/*
+Route::get('/', function () {
+    $mailData = [
+        'title' => 'Mail from ItSolutionStuff.com',
+        'body' => 'This is for testing email using smtp.'
+    ];
+    Mail::to('ersatama@gmail.com')->send(new DemoMail($mailData));
+
+    dd("Email is sent successfully.");
+    /*
     $list   =    DB::table('table_name')->get();
     $emails =   [];
     $phones =   [];
