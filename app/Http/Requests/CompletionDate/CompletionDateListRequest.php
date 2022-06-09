@@ -32,6 +32,8 @@ class CompletionDateListRequest extends FormRequest
             MainContract::TAKE  =>  'nullable',
             MainContract::UPLOAD_STATUS_ID  =>  'nullable',
             MainContract::CREATED_AT    =>  'nullable',
+            MainContract::COMPANY   =>  'nullable',
+            MainContract::NUMBER    =>  'nullable'
         ];
     }
 

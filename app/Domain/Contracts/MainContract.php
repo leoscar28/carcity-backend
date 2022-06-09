@@ -4,12 +4,16 @@ namespace App\Domain\Contracts;
 
 class MainContract
 {
+    const ROOM_TYPE_ID  =   'room_type_id';
+    const TIER_ID   =   'tier_id';
     const PUB   =   'public';
     const COMPLETION_LIST   =   'completionList';
     const INVOICE_LIST  =   'invoiceList';
     const APPLICATION_LIST  =   'applicationList';
     const DATA  =   'data';
     const RID   =   'rid';
+    const PARENT    =   'parent';
+    const CHILD     =   'child';
     const RID_STATUS    =   'ridStatus';
     const LOADING   =   'loading';
     const RIDS  =   'rids';

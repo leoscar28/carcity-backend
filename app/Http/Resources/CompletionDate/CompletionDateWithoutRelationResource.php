@@ -4,13 +4,14 @@ namespace App\Http\Resources\CompletionDate;
 
 use App\Domain\Contracts\MainContract;
 use App\Http\Resources\Completion\CompletionCollection;
+use App\Http\Resources\Completion\CompletionRidCollection;
 use App\Http\Resources\CompletionStatus\CompletionStatusResource;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CompletionDateWithoutRelationResource extends JsonResource
 {
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             MainContract::ID    =>  $this->{MainContract::ID},
@@ -21,8 +22,8 @@ class CompletionDateWithoutRelationResource extends JsonResource
             MainContract::COMMENT   =>  $this->{MainContract::COMMENT},
             MainContract::STATUS    =>  $this->{MainContract::STATUS},
             MainContract::CREATED_AT    =>  Carbon::createFromFormat('Y-m-d H:i:s', $this->{MainContract::CREATED_AT})->format('d.m.Y'),
-            MainContract::RID_STATUS    =>  false,
-            MainContract::RIDS  =>  false
+            MainContract::RID_STATUS    =>  (bool)$this->{MainContract::RIDS},
+            MainContract::RIDS  =>  $this->{MainContract::RIDS}?new CompletionRidCollection($this->{MainContract::RIDS}):false
         ];
     }
 }

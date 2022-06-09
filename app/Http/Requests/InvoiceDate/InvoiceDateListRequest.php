@@ -7,6 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Validation\ValidationException;
+use JetBrains\PhpStorm\ArrayShape;
 
 class InvoiceDateListRequest extends FormRequest
 {
@@ -25,13 +26,15 @@ class InvoiceDateListRequest extends FormRequest
      *
      * @return array
      */
-    public function rules():array
+    #[ArrayShape([MainContract::PAGINATION => "string", MainContract::TAKE => "string", MainContract::UPLOAD_STATUS_ID => "string", MainContract::CREATED_AT => "string", MainContract::COMPANY => "string", MainContract::NUMBER => "string"])] public function rules():array
     {
         return [
             MainContract::PAGINATION    =>  'nullable',
             MainContract::TAKE  =>  'nullable',
             MainContract::UPLOAD_STATUS_ID  =>  'nullable',
             MainContract::CREATED_AT    =>  'nullable',
+            MainContract::COMPANY   =>  'nullable',
+            MainContract::NUMBER    =>  'nullable'
         ];
     }
 

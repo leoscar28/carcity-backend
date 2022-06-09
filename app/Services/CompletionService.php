@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Domain\Repositories\Completion\CompletionRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use JetBrains\PhpStorm\ArrayShape;
 
 class CompletionService
 {
@@ -11,6 +12,16 @@ class CompletionService
     public function __construct(CompletionRepositoryInterface $completionRepository)
     {
         $this->completionRepository =   $completionRepository;
+    }
+
+    #[ArrayShape(['data' => "int"])] public function paginationByCustomerAndNumber($data): array
+    {
+        return $this->completionRepository->paginationByCustomerAndNumber($data);
+    }
+
+    public function getByCustomerAndNumber($company): Collection|array
+    {
+        return $this->completionRepository->getByCustomerAndNumber($company);
     }
 
     public function list($rid)

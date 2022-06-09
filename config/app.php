@@ -194,6 +194,9 @@ return [
         App\Providers\Repositories\NotificationTenantRepositoryProvider::class,
         App\Providers\Repositories\CompletionSignatureRepositoryProvider::class,
         App\Providers\Repositories\UserBinRepositoryProvider::class,
+        App\Providers\Repositories\TierRepositoryProvider::class,
+        App\Providers\Repositories\RoomTypeRepositoryProvider::class,
+        App\Providers\Repositories\RoomRepositoryProvider::class,
     ],
 
     /*

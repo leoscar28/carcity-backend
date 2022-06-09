@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Domain\Contracts\ApplicationDateContract;
 use App\Domain\Contracts\MainContract;
 use App\Events\ApplicationDateEvent;
 use App\Events\NotificationEvent;
@@ -42,7 +43,11 @@ class ApplicationDateController extends Controller
      */
     public function pagination(ApplicationDateListRequest $applicationDateListRequest)
     {
-        return $this->applicationDateService->pagination($applicationDateListRequest->check());
+        $data   =   $applicationDateListRequest->check();
+        if (array_key_exists(MainContract::COMPANY,$data)||array_key_exists(MainContract::NUMBER,$data)) {
+            return $this->applicationService->paginationByCustomerAndNumber($data);
+        }
+        return $this->applicationDateService->pagination($data);
     }
 
     /**
@@ -58,7 +63,28 @@ class ApplicationDateController extends Controller
      */
     public function get(ApplicationDateListRequest $applicationDateListRequest): ApplicationDateWithoutRelationCollection
     {
-        return new ApplicationDateWithoutRelationCollection($this->applicationDateService->get($applicationDateListRequest->check()));
+        $data   =   $applicationDateListRequest->check();
+        $applicationDates   =   [];
+        if (array_key_exists(MainContract::COMPANY,$data)||array_key_exists(MainContract::NUMBER,$data)) {
+            $arr    =   [];
+            $applications   =   $this->applicationService->getByCustomerAndNumber($data);
+            foreach ($applications as &$application) {
+                if (!array_key_exists($application->{MainContract::RID},$arr)) {
+                    $arr[$application->{MainContract::RID}] =   [
+                        MainContract::PARENT    =>  $this->applicationDateService->getByRid($application->{MainContract::RID}),
+                        MainContract::CHILD     =>  []
+                    ];
+                }
+                $arr[$application->{MainContract::RID}][MainContract::CHILD][]  =   $application;
+            }
+            foreach ($arr as &$item) {
+                $item[MainContract::PARENT]->{MainContract::RIDS}   =   $item[MainContract::CHILD];
+                $applicationDates[] =   $item[MainContract::PARENT];
+            }
+        } else {
+            $applicationDates   =   $this->applicationDateService->get($data);
+        }
+        return new ApplicationDateWithoutRelationCollection($applicationDates);
     }
 
     /**

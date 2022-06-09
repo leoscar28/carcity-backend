@@ -41,7 +41,11 @@ class CompletionDateController extends Controller
      */
     public function pagination(CompletionDateListRequest $completionDateListRequest)
     {
-        return $this->completionDateService->pagination($completionDateListRequest->check());
+        $data   =   $completionDateListRequest->check();
+        if (array_key_exists(MainContract::COMPANY,$data)||array_key_exists(MainContract::NUMBER,$data)) {
+            return $this->completionService->paginationByCustomerAndNumber($data);
+        }
+        return $this->completionDateService->pagination($data);
     }
 
     /**
@@ -57,7 +61,28 @@ class CompletionDateController extends Controller
      */
     public function get(CompletionDateListRequest $completionDateListRequest): CompletionDateWithoutRelationCollection
     {
-        return new CompletionDateWithoutRelationCollection($this->completionDateService->get($completionDateListRequest->check()));
+        $data   =   $completionDateListRequest->check();
+        $completionDates    =   [];
+        if (array_key_exists(MainContract::COMPANY,$data)||array_key_exists(MainContract::NUMBER,$data)) {
+            $arr    =   [];
+            $applications   =   $this->completionService->getByCustomerAndNumber($data);
+            foreach ($applications as &$application) {
+                if (!array_key_exists($application->{MainContract::RID},$arr)) {
+                    $arr[$application->{MainContract::RID}] =   [
+                        MainContract::PARENT    =>  $this->completionDateService->getByRid($application->{MainContract::RID}),
+                        MainContract::CHILD     =>  []
+                    ];
+                }
+                $arr[$application->{MainContract::RID}][MainContract::CHILD][]  =   $application;
+            }
+            foreach ($arr as &$item) {
+                $item[MainContract::PARENT]->{MainContract::RIDS}   =   $item[MainContract::CHILD];
+                $completionDates[] =   $item[MainContract::PARENT];
+            }
+        } else {
+            $completionDates   =   $this->completionDateService->get($data);
+        }
+        return new CompletionDateWithoutRelationCollection($completionDates);
     }
 
     /**

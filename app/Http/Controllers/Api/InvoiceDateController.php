@@ -21,6 +21,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class InvoiceDateController extends Controller
@@ -40,7 +41,11 @@ class InvoiceDateController extends Controller
      */
     public function pagination(InvoiceDateListRequest $invoiceDateListRequest)
     {
-        return $this->invoiceDateService->pagination($invoiceDateListRequest->check());
+        $data   =   $invoiceDateListRequest->check();
+        if (array_key_exists(MainContract::COMPANY,$data)||array_key_exists(MainContract::NUMBER,$data)) {
+            return $this->invoiceService->paginationByCustomerAndNumber($data);
+        }
+        return $this->invoiceDateService->pagination($data);
     }
 
     /**
@@ -56,7 +61,29 @@ class InvoiceDateController extends Controller
      */
     public function get(InvoiceDateListRequest $invoiceDateListRequest): InvoiceDateWithoutRelationCollection
     {
-        return new InvoiceDateWithoutRelationCollection($this->invoiceDateService->get($invoiceDateListRequest->check()));
+        $data   =   $invoiceDateListRequest->check();
+        $invoiceDates   =   [];
+        if (array_key_exists(MainContract::COMPANY,$data)||array_key_exists(MainContract::NUMBER,$data)) {
+            $arr    =   [];
+            $invoices   =   $this->invoiceService->getByCustomerAndNumber($data);
+            foreach ($invoices as &$invoice) {
+                if (!array_key_exists($invoice->{MainContract::RID},$arr)) {
+                    $arr[$invoice->{MainContract::RID}] =   [
+                        MainContract::PARENT    =>  $this->invoiceDateService->getByRid($invoice->{MainContract::RID}),
+                        MainContract::CHILD     =>  []
+                    ];
+                }
+                $arr[$invoice->{MainContract::RID}][MainContract::CHILD][]  =   $invoice;
+            }
+            foreach ($arr as &$item) {
+                Log::info('invoice dates',[ $item[MainContract::PARENT]->{MainContract::RID}]);
+                $item[MainContract::PARENT]->{MainContract::RIDS}   =   $item[MainContract::CHILD];
+                $invoiceDates[] =   $item[MainContract::PARENT];
+            }
+        } else {
+            $invoiceDates   =   $this->invoiceDateService->get($data);
+        }
+        return new InvoiceDateWithoutRelationCollection($invoiceDates);
     }
 
     /**

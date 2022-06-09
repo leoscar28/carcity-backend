@@ -3,12 +3,64 @@
 namespace App\Domain\Repositories\Application;
 
 use App\Domain\Contracts\MainContract;
+use App\Helpers\Pdf;
 use App\Models\Application;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use JetBrains\PhpStorm\ArrayShape;
 
 class ApplicationRepositoryEloquent implements ApplicationRepositoryInterface
 {
+
+    #[ArrayShape(['data' => "int"])] public function paginationByCustomerAndNumber($data): array
+    {
+        if (array_key_exists(MainContract::COMPANY,$data)) {
+            $data[MainContract::DATA][] =   [MainContract::CUSTOMER,'like','%'.$data[MainContract::COMPANY].'%'];
+        }
+        if (array_key_exists(MainContract::NUMBER,$data)) {
+            $data[MainContract::DATA][] =   [MainContract::NUMBER,'like',$data[MainContract::NUMBER].'%'];
+        }
+        $query  =   Application::select(MainContract::RID);
+        $query->where($data[MainContract::DATA]);
+        if (array_key_exists(MainContract::CREATED_AT,$data)) {
+            $query->whereBetween(MainContract::CREATED_AT,$data[MainContract::CREATED_AT]);
+        }
+        $res    =   $query->groupBy(MainContract::RID)->get();
+        $arr    =   [];
+        foreach ($res as &$item) {
+            $arr[]  =   $item->{MainContract::RID};
+        }
+        return ['data'  =>  sizeof(array_unique($arr))];
+    }
+
+    public function getByCustomerAndNumber($data): Collection|array
+    {
+        $query  =   Application::with(MainContract::APPLICATION_STATUS);
+        $query->where([
+            [MainContract::STATUS,1],
+        ]);
+        if (array_key_exists(MainContract::COMPANY,$data)) {
+            $query->where(MainContract::CUSTOMER,'like','%'.$data[MainContract::COMPANY].'%');
+        }
+        if (array_key_exists(MainContract::NUMBER,$data)) {
+            $query->where(MainContract::NUMBER,'like',$data[MainContract::NUMBER].'%');
+        }
+        if (array_key_exists(MainContract::CREATED_AT,$data)) {
+            $query->whereBetween(MainContract::CREATED_AT,$data[MainContract::CREATED_AT]);
+        }
+        $query->skip(($data[MainContract::PAGINATION]-1) * $data[MainContract::TAKE]);
+        $query->take($data[MainContract::TAKE]);
+        $query->orderBy(MainContract::ID,'DESC');
+        return $query->get();
+    }
+
+    public function getByRidAndCompany($rid, $company): Collection|array
+    {
+        return Application::with(MainContract::APPLICATION_STATUS)->where([
+            [MainContract::RID,$rid],
+            [MainContract::CUSTOMER,'like','%'.$company.'%']
+        ])->get();
+    }
 
     public function list($rid)
     {

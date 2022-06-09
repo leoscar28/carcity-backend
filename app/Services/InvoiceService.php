@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Domain\Repositories\Invoice\InvoiceRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use JetBrains\PhpStorm\ArrayShape;
 
 class InvoiceService
 {
@@ -11,6 +12,16 @@ class InvoiceService
     public function __construct(InvoiceRepositoryInterface $invoiceRepository)
     {
         $this->invoiceRepository    =   $invoiceRepository;
+    }
+
+    #[ArrayShape(['data' => "int"])] public function paginationByCustomerAndNumber($data): array
+    {
+        return $this->invoiceRepository->paginationByCustomerAndNumber($data);
+    }
+
+    public function getByCustomerAndNumber($data): Collection|array
+    {
+        return $this->invoiceRepository->getByCustomerAndNumber($data);
     }
 
     public function list($rid)

@@ -4,13 +4,30 @@ namespace App\Services;
 
 use App\Domain\Repositories\Application\ApplicationRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
+use JetBrains\PhpStorm\ArrayShape;
 
 class ApplicationService
 {
     protected ApplicationRepositoryInterface $applicationRepository;
+
     public function __construct(ApplicationRepositoryInterface $applicationRepository)
     {
         $this->applicationRepository    =   $applicationRepository;
+    }
+
+    #[ArrayShape(['data' => "int"])] public function paginationByCustomerAndNumber($data): array
+    {
+        return $this->applicationRepository->paginationByCustomerAndNumber($data);
+    }
+
+    public function getByCustomerAndNumber($data): Collection|array
+    {
+        return $this->applicationRepository->getByCustomerAndNumber($data);
+    }
+
+    public function getByRidAndCompany($rid, $company): Collection|array
+    {
+        return $this->applicationRepository->getByRidAndCompany($rid, $company);
     }
 
     public function list($rid)

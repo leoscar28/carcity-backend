@@ -41,3 +41,26 @@
         </li>
     </ul>
 </li>
+
+<li class="nav-item nav-dropdown">
+    <a class="nav-link nav-dropdown-toggle" href="#">
+        <i class="nav-icon las la-building"></i> Реестр помещений
+    </a>
+    <ul class="nav-dropdown-items">
+        <li class='nav-item'>
+            <a class='nav-link' href='{{ backpack_url('tier') }}'>
+                <i class='nav-icon las la-building'></i> Ярусы
+            </a>
+        </li>
+        <li class='nav-item'>
+            <a class='nav-link' href='{{ backpack_url('room-type') }}'>
+                <i class='nav-icon las la-sort'></i> Тип помещения
+            </a>
+        </li>
+        <li class='nav-item'>
+            <a class='nav-link' href='{{ backpack_url('room') }}'>
+                <i class='nav-icon las la-sort'></i> Помещение
+            </a>
+        </li>
+    </ul>
+</li>
