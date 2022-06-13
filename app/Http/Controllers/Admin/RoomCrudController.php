@@ -18,7 +18,7 @@ class RoomCrudController extends CrudController
     {
         CRUD::setModel(\App\Models\Room::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/room');
-        CRUD::setEntityNameStrings('Помещение', 'Помещении');
+        CRUD::setEntityNameStrings('Помещение', 'Помещения');
     }
 
     protected function setupShowOperation()
@@ -34,8 +34,8 @@ class RoomCrudController extends CrudController
         CRUD::column(MainContract::STATUS)->type('select_from_array')
             ->label('Статус')->options([
                 0   =>  'Отключен',
-                1   =>  'Включен',
-                2   =>  'Забронирован'
+                1   =>  'Свободно',
+                2   =>  'Сдан в аренду'
             ]);
     }
 
@@ -52,8 +52,8 @@ class RoomCrudController extends CrudController
         CRUD::column(MainContract::STATUS)->type('select_from_array')
             ->label('Статус')->options([
                 0   =>  'Отключен',
-                1   =>  'Включен',
-                2   =>  'Забронирован'
+                1   =>  'Свободно',
+                2   =>  'Сдан в аренду'
             ]);
     }
 
@@ -95,8 +95,8 @@ class RoomCrudController extends CrudController
             ->label('Статус')
             ->options([
                 0   =>  'Отключен',
-                1   =>  'Включен',
-                2   =>  'Забронирован'
+                1   =>  'Свободно',
+                2   =>  'Сдан в аренду'
             ])->default(1);
     }
 

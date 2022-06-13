@@ -59,7 +59,7 @@
         </li>
         <li class='nav-item'>
             <a class='nav-link' href='{{ backpack_url('room') }}'>
-                <i class='nav-icon las la-sort'></i> Помещение
+                <i class='nav-icon las la-sort'></i> Помещения
             </a>
         </li>
     </ul>
