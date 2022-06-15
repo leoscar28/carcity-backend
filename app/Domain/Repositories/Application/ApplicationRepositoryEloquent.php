@@ -145,6 +145,13 @@ class ApplicationRepositoryEloquent implements ApplicationRepositoryInterface
         ])->limit(20)->get();
     }
 
+    public function getByIds($ids)
+    {
+        return Application::where(MainContract::STATUS,1)
+            ->whereIn(MainContract::ID,$ids)
+            ->get();
+    }
+
     public function getByRid($rid)
     {
         return Application::where([

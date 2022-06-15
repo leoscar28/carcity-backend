@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Domain\Contracts\MainContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Invoice\InvoiceCreateRequest;
+use App\Http\Requests\Invoice\InvoiceDownloadByIdsRequest;
 use App\Http\Requests\Invoice\InvoiceDownloadRequest;
 use App\Http\Requests\Invoice\InvoiceListRequest;
 use App\Http\Requests\Invoice\InvoiceUpdateRequest;
@@ -28,14 +29,22 @@ class InvoiceController extends Controller
         $this->invoiceService   =   $invoiceService;
     }
 
-    public function downloadAll($rid): Response|Application|ResponseFactory
+    /**
+     * @throws ValidationException
+     */
+    public function downloadByIds(InvoiceDownloadByIdsRequest $invoiceDownloadByIdsRequest): Response|Application|ResponseFactory
     {
-        $completions    =   $this->invoiceService->getByRid($rid);
-        if (sizeof($completions) > 0) {
+        $invoices   =   $this->invoiceService->getByIds($invoiceDownloadByIdsRequest->check()[MainContract::IDS]);
+        return $this->getInvoice($invoices);
+    }
+
+    public function getInvoice($invoices): Response|Application|ResponseFactory
+    {
+        if (sizeof($invoices) > 0) {
             $arr    =   [];
-            foreach ($completions as &$completion) {
-                if (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID}.'/invoices/'.$completion->{MainContract::ID}.'.pdf')) {
-                    $arr[]  =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$completion->{MainContract::CUSTOMER_ID}.'/invoices/'.$completion->{MainContract::ID}.'.pdf';
+            foreach ($invoices as &$invoice) {
+                if (Storage::disk('public')->exists($invoice->{MainContract::CUSTOMER_ID}.'/invoices/'.$invoice->{MainContract::ID}.'.pdf')) {
+                    $arr[]  =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$invoice->{MainContract::CUSTOMER_ID}.'/invoices/'.$invoice->{MainContract::ID}.'.pdf';
                 }
             }
             if (sizeof($arr) > 0) {
@@ -44,6 +53,12 @@ class InvoiceController extends Controller
             return response(['message'  =>  'Документы не найдены'],404);
         }
         return response(['message'  =>  'Запись не найдена'],404);
+    }
+
+    public function downloadAll($rid): Response|Application|ResponseFactory
+    {
+        $invoices    =   $this->invoiceService->getByRid($rid);
+        return $this->getInvoice($invoices);
     }
 
     /**

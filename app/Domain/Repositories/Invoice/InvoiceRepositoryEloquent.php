@@ -117,6 +117,13 @@ class InvoiceRepositoryEloquent implements InvoiceRepositoryInterface
         ])->first();
     }
 
+    public function getByIds($ids)
+    {
+        return Invoice::where(MainContract::STATUS,1)
+            ->whereIn(MainContract::ID,$ids)
+            ->get();
+    }
+
     public function getByRid($rid)
     {
         return Invoice::where([

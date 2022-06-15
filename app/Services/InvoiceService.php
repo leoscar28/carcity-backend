@@ -54,6 +54,11 @@ class InvoiceService
         return $this->invoiceRepository->getById($id);
     }
 
+    public function getByIds($ids)
+    {
+        return $this->invoiceRepository->getByIds($ids);
+    }
+
     public function getByRid($rid)
     {
         return $this->invoiceRepository->getByRid($rid);

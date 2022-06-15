@@ -70,6 +70,11 @@ class ApplicationService
         return $this->applicationRepository->getByRidAndUploadStatusId($rid,$uploadStatusId);
     }
 
+    public function getByIds($ids)
+    {
+        return $this->applicationRepository->getByIds($ids);
+    }
+
     public function getByRid($rid)
     {
         return $this->applicationRepository->getByRid($rid);

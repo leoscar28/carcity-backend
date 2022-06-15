@@ -74,6 +74,7 @@ Route::prefix('applicationSignature')->group(function() {
 
 Route::prefix('application')->group(function() {
     Route::get('downloadAll/{rid}',[ApplicationController::class,'downloadAll'])->name('application.downloadAll');
+    Route::post('downloadByIds',[ApplicationController::class,'downloadByIds'])->name('application.downloadByIds');
     Route::post('download',[ApplicationController::class,'download'])->name('application.download');
     Route::post('create',[ApplicationController::class,'create'])->name('application.create');
     Route::post('pagination',[ApplicationController::class,'pagination'])->name('application.pagination');
@@ -87,6 +88,7 @@ Route::prefix('application')->group(function() {
 
 Route::prefix('invoice')->group(function() {
     Route::get('downloadAll/{rid}',[InvoiceController::class,'downloadAll'])->name('invoice.downloadAll');
+    Route::post('downloadByIds',[InvoiceController::class,'downloadByIds'])->name('invoice.downloadByIds');
     Route::post('download',[InvoiceController::class,'download'])->name('invoice.download');
     Route::post('create',[InvoiceController::class,'create'])->name('invoice.create');
     Route::post('pagination',[InvoiceController::class,'pagination'])->name('invoice.pagination');
@@ -100,6 +102,7 @@ Route::prefix('invoice')->group(function() {
 
 Route::prefix('completion')->group(function() {
     Route::get('downloadAll/{rid}',[CompletionController::class,'downloadAll'])->name('completion.downloadAll');
+    Route::post('downloadByIds',[CompletionController::class,'downloadByIds'])->name('completion.downloadByIds');
     Route::post('download',[CompletionController::class,'download'])->name('completion.download');
     Route::post('create',[CompletionController::class,'create'])->name('completion.create');
     Route::post('pagination',[CompletionController::class,'pagination'])->name('completion.pagination');

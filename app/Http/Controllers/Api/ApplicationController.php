@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Domain\Contracts\MainContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Application\ApplicationCreateRequest;
+use App\Http\Requests\Application\ApplicationDownloadByIdsRequest;
 use App\Http\Requests\Application\ApplicationDownloadRequest;
 use App\Http\Requests\Application\ApplicationListRequest;
 use App\Http\Requests\Application\ApplicationUpdateRequest;
@@ -28,27 +29,19 @@ class ApplicationController extends Controller
         $this->applicationService   =   $applicationService;
     }
 
+    /**
+     * @throws ValidationException
+     */
+    public function downloadByIds(ApplicationDownloadByIdsRequest $applicationDownloadByIdsRequest): Response|Application|ResponseFactory
+    {
+        $applications   =   $this->applicationService->getByIds($applicationDownloadByIdsRequest->check()[MainContract::IDS]);
+        return $this->getApplication($applications);
+    }
 
     public function downloadAll($rid): Response|Application|ResponseFactory
     {
         $applications   =   $this->applicationService->getByRid($rid);
-        if (sizeof($applications) > 0) {
-            $arr    =   [];
-            foreach ($applications as &$application) {
-                if (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx')) {
-                    $arr[]  =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx';
-                } elseif (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/'.$application->{MainContract::ID}.'.docx')) {
-                    $arr[]  =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/'.$application->{MainContract::ID}.'.docx';
-                } elseif (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.zip')) {
-                    $arr[]  =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.zip';
-                }
-            }
-            if (sizeof($arr) > 0) {
-                return response([MainContract::DATA =>  $arr],200);
-            }
-            return response(['message'  =>  'Документы не найдены'],404);
-        }
-        return response(['message'  =>  'Запись не найдена'],404);
+        return $this->getApplication($applications);
     }
 
     /**
@@ -144,6 +137,31 @@ class ApplicationController extends Controller
             MainContract::STATUS    =>  0
         ]);
         ApplicationCount::dispatch($rid);
+    }
+
+    /**
+     * @param $applications
+     * @return Application|ResponseFactory|Response
+     */
+    public function getApplication($applications): ResponseFactory|Application|Response
+    {
+        if (sizeof($applications) > 0) {
+            $arr = [];
+            foreach ($applications as &$application) {
+                if (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID} . '/applications/' . $application->{MainContract::ID} . '.docx')) {
+                    $arr[] = env('APP_URL', 'https://admin.car-city.kz') . '/storage/' . $application->{MainContract::CUSTOMER_ID} . '/applications/' . $application->{MainContract::ID} . '.docx';
+                } elseif (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID} . '/applications/' . $application->{MainContract::ID} . '/' . $application->{MainContract::ID} . '.docx')) {
+                    $arr[] = env('APP_URL', 'https://admin.car-city.kz') . '/storage/' . $application->{MainContract::CUSTOMER_ID} . '/applications/' . $application->{MainContract::ID} . '/' . $application->{MainContract::ID} . '.docx';
+                } elseif (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID} . '/applications/' . $application->{MainContract::ID} . '.zip')) {
+                    $arr[] = env('APP_URL', 'https://admin.car-city.kz') . '/storage/' . $application->{MainContract::CUSTOMER_ID} . '/applications/' . $application->{MainContract::ID} . '.zip';
+                }
+            }
+            if (sizeof($arr) > 0) {
+                return response([MainContract::DATA => $arr], 200);
+            }
+            return response(['message' => 'Документы не найдены'], 404);
+        }
+        return response(['message' => 'Запись не найдена'], 404);
     }
 
 }

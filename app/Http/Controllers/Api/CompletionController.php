@@ -6,6 +6,7 @@ use App\Domain\Contracts\MainContract;
 use App\Helpers\File;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Completion\CompletionCreateRequest;
+use App\Http\Requests\Completion\CompletionDownloadByIdsRequest;
 use App\Http\Requests\Completion\CompletionDownloadRequest;
 use App\Http\Requests\Completion\CompletionListRequest;
 use App\Http\Requests\Completion\CompletionUpdateRequest;
@@ -36,26 +37,19 @@ class CompletionController extends Controller
         $this->file =   $file;
     }
 
+    /**
+     * @throws ValidationException
+     */
+    public function downloadByIds(CompletionDownloadByIdsRequest $completionDownloadByIdsRequest): Response|Application|ResponseFactory
+    {
+        $completions    =   $this->completionService->getByIds($completionDownloadByIdsRequest->check()[MainContract::IDS]);
+        return $this->getCompletion($completions);
+    }
+
     public function downloadAll($rid): Response|Application|ResponseFactory
     {
         $completions    =   $this->completionService->getByRid($rid);
-        if (sizeof($completions) > 0) {
-            $arr    =   [];
-            foreach ($completions as &$completion) {
-                if (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'.pdf')) {
-                    $arr[]  =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'.pdf';
-                } elseif (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'/'.$completion->{MainContract::ID}.'.pdf')) {
-                    $arr[]  =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'/'.$completion->{MainContract::ID}.'.pdf';
-                } elseif (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'.zip')) {
-                    $arr[]  =   env('APP_URL','https://admin.car-city.kz').'/storage/'.$completion->{MainContract::CUSTOMER_ID}.'/completions/'.$completion->{MainContract::ID}.'.zip';
-                }
-            }
-            if (sizeof($arr) > 0) {
-                return response([MainContract::DATA =>  $arr],200);
-            }
-            return response(['message'  =>  'Документы не найдены'],404);
-        }
-        return response(['message'  =>  'Запись не найдена'],404);
+        return $this->getCompletion($completions);
     }
 
     /**
@@ -137,6 +131,31 @@ class CompletionController extends Controller
             MainContract::STATUS    =>  0
         ]);
         CompletionCount::dispatch($rid);
+    }
+
+    /**
+     * @param $completions
+     * @return Application|ResponseFactory|Response
+     */
+    public function getCompletion($completions): ResponseFactory|Application|Response
+    {
+        if (sizeof($completions) > 0) {
+            $arr = [];
+            foreach ($completions as &$completion) {
+                if (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID} . '/completions/' . $completion->{MainContract::ID} . '.pdf')) {
+                    $arr[] = env('APP_URL', 'https://admin.car-city.kz') . '/storage/' . $completion->{MainContract::CUSTOMER_ID} . '/completions/' . $completion->{MainContract::ID} . '.pdf';
+                } elseif (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID} . '/completions/' . $completion->{MainContract::ID} . '/' . $completion->{MainContract::ID} . '.pdf')) {
+                    $arr[] = env('APP_URL', 'https://admin.car-city.kz') . '/storage/' . $completion->{MainContract::CUSTOMER_ID} . '/completions/' . $completion->{MainContract::ID} . '/' . $completion->{MainContract::ID} . '.pdf';
+                } elseif (Storage::disk('public')->exists($completion->{MainContract::CUSTOMER_ID} . '/completions/' . $completion->{MainContract::ID} . '.zip')) {
+                    $arr[] = env('APP_URL', 'https://admin.car-city.kz') . '/storage/' . $completion->{MainContract::CUSTOMER_ID} . '/completions/' . $completion->{MainContract::ID} . '.zip';
+                }
+            }
+            if (sizeof($arr) > 0) {
+                return response([MainContract::DATA => $arr], 200);
+            }
+            return response(['message' => 'Документы не найдены'], 404);
+        }
+        return response(['message' => 'Запись не найдена'], 404);
     }
 
 }

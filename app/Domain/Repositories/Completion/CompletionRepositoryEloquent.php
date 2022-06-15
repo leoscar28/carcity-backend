@@ -125,6 +125,13 @@ class CompletionRepositoryEloquent implements CompletionRepositoryInterface
         ])->limit(100)->get();
     }
 
+    public function getByIds($ids)
+    {
+        return Completion::where(MainContract::STATUS,1)
+            ->whereIn(MainContract::ID,$ids)
+            ->get();
+    }
+
     public function getByRid($rid)
     {
         return Completion::where([
