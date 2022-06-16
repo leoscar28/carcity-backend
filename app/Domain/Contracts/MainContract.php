@@ -93,7 +93,9 @@ class MainContract
     const PATH  =   'path';
     const USERS =   'users';
     const ID    =   'id';
+    const ROOM_TYPE =   'roomType';
     const ALIAS =   'login';
+    const TIER  =   'tier';
     const POSITION_ID   =   'position_id';
     const POSITIONS =   'positions';
     const PHONE_CHECK   =   'phone_check';

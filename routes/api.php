@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\NotificationTenantController;
 use App\Http\Controllers\Api\PositionController;
 use App\Http\Controllers\Api\RoleController;
+use App\Http\Controllers\Api\RoomController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -98,6 +99,10 @@ Route::prefix('invoice')->group(function() {
     Route::get('getById/{id}',[InvoiceController::class,'getById'])->name('invoice.getById');
     Route::get('getByRid/{rid}',[InvoiceController::class,'getByRid'])->name('invoice.getByRid');
     Route::get('delete/{rid}/{id}',[InvoiceController::class,'delete'])->name('invoice.delete');
+});
+
+Route::prefix('room')->group(function() {
+    Route::get('getByUserId/{userId}',[RoomController::class,'getByUserId'])->name('room.getByUserId');
 });
 
 Route::prefix('completion')->group(function() {

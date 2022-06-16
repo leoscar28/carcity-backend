@@ -11,4 +11,10 @@ class RoomService
     {
         $this->roomRepository   =   $roomRepository;
     }
+
+    public function getByUserId($userId)
+    {
+        return $this->roomRepository->getByUserId($userId);
+    }
+
 }
