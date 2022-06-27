@@ -19,7 +19,31 @@ use Maatwebsite\Excel\Facades\Excel;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {/*
+Route::get('/', function () {
+//    Excel::load(Storage::disk('public')->path('file.xlsx'), function ($reader) {
+//
+//        foreach ($reader->toArray() as $row) {
+//            print_r($r)
+//            User::firstOrCreate($row);
+//        }
+//    });
+//    $excel  =   Excel::toArray([], Storage::disk('public')->path('file1.xlsx'));
+//
+//    foreach ($excel[0] as &$val) {
+//        $arr    =   [
+//            MainContract::TIER_ID   =>  3,
+//            MainContract::ROOM_TYPE_ID  =>  2,
+//            MainContract::TITLE =>  $val[3],
+//            MainContract::STATUS    =>  2
+//        ];
+//        if ($user   =   User::where(MainContract::BIN,$val[1])->first()) {
+//            $arr[MainContract::USER_ID] =   $user->{MainContract::ID};
+//        }
+//        Room::create($arr);
+//        print_r($arr);
+//        echo '<br><br>';
+//    }
+    /*
     $list   =    DB::table('table_name')->get();
     $emails =   [];
     $phones =   [];

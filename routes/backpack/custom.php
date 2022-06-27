@@ -25,4 +25,6 @@ Route::group([
     Route::crud('tier', 'TierCrudController');
     Route::crud('room-type', 'RoomTypeCrudController');
     Route::crud('room', 'RoomCrudController');
+    Route::crud('slider', 'SliderCrudController');
+    Route::crud('slider-detail', 'SliderDetailCrudController');
 }); // this should be the absolute last line of this file

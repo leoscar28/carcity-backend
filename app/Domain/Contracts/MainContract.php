@@ -4,6 +4,8 @@ namespace App\Domain\Contracts;
 
 class MainContract
 {
+    const DOMAIN    =   'https://admin.car-city.kz';
+    const IMG   =   'img';
     const ROOM_TYPE_ID  =   'room_type_id';
     const TIER_ID   =   'tier_id';
     const PUB   =   'public';
@@ -57,6 +59,7 @@ class MainContract
     const FALSE =   0;
     const TRUE  =   1;
     const TITLE =   'title';
+    const TITLE_KZ  =   'title_kz';
     const LIST  =   'list';
     const STATUS    =   'status';
     const LINK  =   'link';
