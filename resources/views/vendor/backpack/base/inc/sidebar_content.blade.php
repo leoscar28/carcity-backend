@@ -80,5 +80,16 @@
                 <i class='nav-icon lab la-slideshare'></i> Слайдер детали
             </a>
         </li>
+        <li class='nav-item'>
+            <a class='nav-link' href='{{ backpack_url('about') }}'>
+                <i class='nav-icon las la-address-card'></i> О нас
+            </a>
+        </li>
+        <li class='nav-item'>
+            <a class='nav-link' href='{{ backpack_url('about-option') }}'>
+                <i class='nav-icon las la-address-card'></i> О нас пункты
+            </a>
+        </li>
     </ul>
 </li>
+

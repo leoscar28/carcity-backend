@@ -199,6 +199,8 @@ return [
         App\Providers\Repositories\RoomRepositoryProvider::class,
         App\Providers\Repositories\SliderRepositoryProvider::class,
         App\Providers\Repositories\SliderDetailRepositoryProvider::class,
+        App\Providers\Repositories\AboutRepositoryProvider::class,
+        App\Providers\Repositories\AboutOptionRepositoryProvider::class,
     ],
 
     /*

@@ -2,6 +2,8 @@
 
 use App\Domain\Contracts\MainContract;
 use App\Domain\Contracts\PositionContract;
+use App\Http\Controllers\Api\AboutController;
+use App\Http\Controllers\Api\AboutOptionController;
 use App\Http\Controllers\Api\ApplicationController;
 use App\Http\Controllers\Api\ApplicationDateController;
 use App\Http\Controllers\Api\ApplicationSignatureController;
@@ -109,6 +111,14 @@ Route::prefix('slider')->group(function() {
 
 Route::prefix('sliderDetail')->group(function() {
     Route::get('get',[SliderDetailController::class,'get'])->name('sliderDetail.get');
+});
+
+Route::prefix('about')->group(function() {
+    Route::get('get',[AboutController::class,'get'])->name('about.get');
+});
+
+Route::prefix('aboutOption')->group(function() {
+    Route::get('get',[AboutOptionController::class,'get'])->name('aboutOption.get');
 });
 
 Route::prefix('room')->group(function() {

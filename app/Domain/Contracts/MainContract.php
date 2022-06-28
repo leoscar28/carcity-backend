@@ -58,6 +58,8 @@ class MainContract
     const SUM   =   'sum';
     const FALSE =   0;
     const TRUE  =   1;
+    const DESCRIPTION   =   'description';
+    const DESCRIPTION_KZ    =   'description_kz';
     const TITLE =   'title';
     const TITLE_KZ  =   'title_kz';
     const LIST  =   'list';
