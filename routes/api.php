@@ -12,6 +12,9 @@ use App\Http\Controllers\Api\CompletionController;
 use App\Http\Controllers\Api\CompletionDateController;
 use App\Http\Controllers\Api\CompletionSignatureController;
 use App\Http\Controllers\Api\CompletionStatusController;
+use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\InfrastructureController;
+use App\Http\Controllers\Api\InfrastructureOptionController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\InvoiceDateController;
 use App\Http\Controllers\Api\InvoiceStatusController;
@@ -23,6 +26,7 @@ use App\Http\Controllers\Api\RoomController;
 use App\Http\Controllers\Api\SliderController;
 use App\Http\Controllers\Api\SliderDetailController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\VehicleMaintenanceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -119,6 +123,22 @@ Route::prefix('about')->group(function() {
 
 Route::prefix('aboutOption')->group(function() {
     Route::get('get',[AboutOptionController::class,'get'])->name('aboutOption.get');
+});
+
+Route::prefix('infrastructure')->group(function() {
+    Route::get('get',[InfrastructureController::class,'get'])->name('infrastructure.get');
+});
+
+Route::prefix('infrastructureOption')->group(function() {
+    Route::get('get',[InfrastructureOptionController::class,'get'])->name('infrastructureOption.get');
+});
+
+Route::prefix('vehicleMaintenance')->group(function() {
+    Route::get('get',[VehicleMaintenanceController::class,'get'])->name('vehicleMaintenance.get');
+});
+
+Route::prefix('contact')->group(function() {
+    Route::get('get',[ContactController::class,'get'])->name('contact.get');
 });
 
 Route::prefix('room')->group(function() {

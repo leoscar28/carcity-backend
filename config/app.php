@@ -201,6 +201,10 @@ return [
         App\Providers\Repositories\SliderDetailRepositoryProvider::class,
         App\Providers\Repositories\AboutRepositoryProvider::class,
         App\Providers\Repositories\AboutOptionRepositoryProvider::class,
+        App\Providers\Repositories\InfrastructureRepositoryProvider::class,
+        App\Providers\Repositories\InfrastructureOptionRepositoryProvider::class,
+        App\Providers\Repositories\VehicleMaintenanceRepositoryProvider::class,
+        App\Providers\Repositories\ContactRepositoryProvider::class,
     ],
 
     /*

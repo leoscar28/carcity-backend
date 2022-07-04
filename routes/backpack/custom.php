@@ -29,4 +29,8 @@ Route::group([
     Route::crud('slider-detail', 'SliderDetailCrudController');
     Route::crud('about', 'AboutCrudController');
     Route::crud('about-option', 'AboutOptionCrudController');
+    Route::crud('infrastructure', 'InfrastructureCrudController');
+    Route::crud('infrastructure-option', 'InfrastructureOptionCrudController');
+    Route::crud('vehicle-maintenance', 'VehicleMaintenanceCrudController');
+    Route::crud('contact', 'ContactCrudController');
 }); // this should be the absolute last line of this file

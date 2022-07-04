@@ -90,6 +90,26 @@
                 <i class='nav-icon las la-address-card'></i> О нас пункты
             </a>
         </li>
+        <li class='nav-item'>
+            <a class='nav-link' href='{{ backpack_url('infrastructure') }}'>
+                <i class='nav-icon lab la-ubuntu'></i> Инфраструктура
+            </a>
+        </li>
+        <li class='nav-item'>
+            <a class='nav-link' href='{{ backpack_url('infrastructure-option') }}'>
+                <i class='nav-icon lab la-ubuntu'></i> Инфраструктура пункты
+            </a>
+        </li>
+        <li class='nav-item'>
+            <a class='nav-link' href='{{ backpack_url('vehicle-maintenance') }}'>
+                <i class='nav-icon las la-car-side'></i> Обслуживанию Автотранспорта
+            </a>
+        </li>
+        <li class='nav-item'>
+            <a class='nav-link' href='{{ backpack_url('contact') }}'>
+                <i class='nav-icon las la-id-card'></i> Контакты
+            </a>
+        </li>
     </ul>
 </li>
 
