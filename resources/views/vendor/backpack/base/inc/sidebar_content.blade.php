@@ -110,8 +110,12 @@
                 <i class='nav-icon las la-id-card'></i> Контакты
             </a>
         </li>
+        <li class='nav-item'>
+            <a class='nav-link' href='{{ backpack_url('terms-of-use') }}'>
+                <i class='nav-icon las la-id-card'></i> Пользовательское соглашение
+            </a>
+        </li>
     </ul>
 </li>
 
 
-<li class='nav-item'><a class='nav-link' href='{{ backpack_url('terms-of-use') }}'><i class='nav-icon la la-question'></i> Terms of uses</a></li>
