@@ -205,6 +205,7 @@ return [
         App\Providers\Repositories\InfrastructureOptionRepositoryProvider::class,
         App\Providers\Repositories\VehicleMaintenanceRepositoryProvider::class,
         App\Providers\Repositories\ContactRepositoryProvider::class,
+        App\Providers\Repositories\TermsOfUseRepositoryProvider::class,
     ],
 
     /*

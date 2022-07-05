@@ -63,6 +63,8 @@ class MainContract
     const TITLE =   'title';
     const TITLE_KZ  =   'title_kz';
     const LIST  =   'list';
+    const BODY  =   'body';
+    const BODY_KZ   =   'body_kz';
     const STATUS    =   'status';
     const LINK  =   'link';
     const CREATED_AT    =   'created_at';

@@ -25,6 +25,7 @@ use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\RoomController;
 use App\Http\Controllers\Api\SliderController;
 use App\Http\Controllers\Api\SliderDetailController;
+use App\Http\Controllers\Api\TermsOfUseController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VehicleMaintenanceController;
 use Illuminate\Http\Request;
@@ -139,6 +140,10 @@ Route::prefix('vehicleMaintenance')->group(function() {
 
 Route::prefix('contact')->group(function() {
     Route::get('get',[ContactController::class,'get'])->name('contact.get');
+});
+
+Route::prefix('termsOfUse')->group(function() {
+    Route::get('get',[TermsOfUseController::class,'get'])->name('termsOfUse.get');
 });
 
 Route::prefix('room')->group(function() {
