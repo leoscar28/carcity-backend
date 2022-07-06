@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Domain\Contracts\MainContract;
 use App\Domain\Contracts\UserContract;
+use App\Domain\Contracts\UserReviewContract;
 use Backpack\CRUD\app\Models\Traits\CrudTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -53,5 +54,31 @@ class User extends Authenticatable
     public function positions(): BelongsTo
     {
         return $this->belongsTo(Position::class,MainContract::POSITION_ID,MainContract::ID);
+    }
+
+    public function reviewsOnMe(){
+        return $this->hasMany(UserReview::class, MainContract::CUSTOMER_ID,MainContract::ID)->where([MainContract::STATUS => UserReviewContract::STATUS_ACTIVE]);
+    }
+
+    public function reviewsOnMeCounter(){
+        $rating = $this->reviewsOnMe()->avg(MainContract::RATING);
+        $counts = $this->reviewsOnMe()->count();
+        return ['rating' => $rating, 'count' => $counts];
+    }
+
+    public function reviews(){
+        return $this->hasMany(UserReview::class, MainContract::USER_ID,MainContract::ID)->where([MainContract::STATUS => UserReviewContract::STATUS_INACTIVE]);
+    }
+
+    public function favorites(){
+        return $this->hasMany(UserFavorite::class, MainContract::USER_ID,MainContract::ID);
+    }
+
+    public function favoriteIds(){
+        return $this->favorites->pluck('id');
+    }
+
+    public function requests(){
+        return $this->hasMany(UserRequest::class, MainContract::USER_ID,MainContract::ID);
     }
 }

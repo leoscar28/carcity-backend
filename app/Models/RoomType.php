@@ -11,4 +11,6 @@ class RoomType extends Model
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
     protected $fillable =   RoomTypeContract::FILLABLE;
+
+    protected $hidden = [RoomTypeContract::CREATED_AT, RoomTypeContract::UPDATED_AT];
 }

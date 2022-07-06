@@ -26,6 +26,8 @@ class SmsNotification implements ShouldQueue
      */
     public function __construct(string $phone,int $code)
     {
+        $phone = str_replace(['+', ' ', '(', ')', '-'],'', $phone);
+
         $this->phone    =   $phone;
         $this->code     =   $code;
     }

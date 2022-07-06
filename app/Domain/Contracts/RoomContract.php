@@ -10,6 +10,6 @@ class RoomContract extends MainContract
         self::ROOM_TYPE_ID,
         self::USER_ID,
         self::TITLE,
-        self::STATUS,
+        self::STATUS
     ];
 }

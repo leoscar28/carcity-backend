@@ -3,7 +3,13 @@
 namespace App\Domain\Repositories\User;
 
 use App\Domain\Contracts\MainContract;
+use App\Jobs\SmsNotification;
+use App\Mail\NotificationMail;
+use App\Mail\RegistrationMail;
 use App\Models\User;
+use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class UserRepositoryEloquent implements UserRepositoryInterface
 {
@@ -26,7 +32,7 @@ class UserRepositoryEloquent implements UserRepositoryInterface
         return User::with(MainContract::ROLES,MainContract::POSITIONS)
             ->where([
                 [MainContract::ID,$id],
-                [MainContract::STATUS,1]
+//                [MainContract::STATUS,1]
             ])->first();
     }
 
@@ -61,5 +67,25 @@ class UserRepositoryEloquent implements UserRepositoryInterface
                 [MainContract::STATUS,MainContract::TRUE]
             ])
             ->first();
+    }
+
+    public function registration($data) {
+
+        $data[MainContract::POSITION_ID] = 1;
+        $data[MainContract::ROLE_ID] = 5;
+        $data[MainContract::EMAIL_CODE] =  rand(1000,9999);
+        $data[MainContract::PHONE_CODE] =  rand(1000,9999);
+        $data[MainContract::STATUS]    =   0;
+
+        $user = User::create($data);
+
+        if ($user->{MainContract::EMAIL}) {
+            $name   =   "новый пользователь";
+            $title  =   'Регистрация на сайте CARCITY.KZ';
+            $text   =   'Код для подтверждения почты: <span style="font-weight: bold; font-size:20px;">'.$data[MainContract::EMAIL_CODE].'</span>.';
+            Mail::to($user->{MainContract::EMAIL})->send(new RegistrationMail($name,$title,$text));
+        }
+
+        return $user;
     }
 }

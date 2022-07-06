@@ -27,6 +27,7 @@ class UserResource extends JsonResource
             MainContract::EMAIL_VERIFIED_AT =>  $this->{MainContract::EMAIL_VERIFIED_AT},
             MainContract::PHONE =>  $this->{MainContract::PHONE},
             MainContract::PHONE_VERIFIED_AT =>  $this->{MainContract::PHONE_VERIFIED_AT},
+            MainContract::FAVORITES => $this->favoriteIds()
         ];
     }
 }

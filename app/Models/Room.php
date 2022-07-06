@@ -14,6 +14,7 @@ class Room extends Model
     use CrudTrait;
     use HasFactory;
     protected $fillable =   RoomContract::FILLABLE;
+    protected $hidden = [RoomContract::CREATED_AT, RoomContract::UPDATED_AT];
 
     public function tier(): BelongsTo
     {

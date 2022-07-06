@@ -15,7 +15,8 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('command:unset-up')->daily();
+        $schedule->command('command:unpublish')->daily();
     }
 
     /**

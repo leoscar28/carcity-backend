@@ -28,6 +28,13 @@ use App\Http\Controllers\Api\SliderDetailController;
 use App\Http\Controllers\Api\TermsOfUseController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VehicleMaintenanceController;
+use App\Http\Controllers\Api\DictionaryBrandController;
+use App\Http\Controllers\Api\DictionaryServiceController;
+use App\Http\Controllers\Api\DictionarySparePartController;
+use App\Http\Controllers\Api\UserBannerController;
+use App\Http\Controllers\Api\UserFavoriteController;
+use App\Http\Controllers\Api\UserRequestController;
+use App\Http\Controllers\Api\UserReviewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -56,6 +63,7 @@ Route::get('dasdasd',function() {
 Route::prefix('user')->group(function() {
     Route::post('list',[UserController::class,'list'])->name('list');
     Route::post('auth',[UserController::class,'auth'])->name('auth');
+    Route::post('registration',[UserController::class,'registration'])->name('registration');
     Route::post('create',[UserController::class,'create'])->name('create');
     Route::post('update/{id}',[UserController::class,'update'])->name('update');
     Route::post('password/{id}',[UserController::class,'password'])->name('password');
@@ -227,4 +235,57 @@ Route::prefix(PositionContract::TABLE)->group(function() {
 
 Route::prefix('role')->group(function() {
     Route::get('list',[RoleController::class,'list'])->name('role.list');
+});
+
+Route::prefix(MainContract::COMPLETION_STATUS)->group(function() {
+    Route::get('list',[CompletionStatusController::class,'list'])->name('completionStatus.list');
+});
+
+Route::prefix(MainContract::DICTIONARY_BRAND)->group(function() {
+    Route::get('list',[DictionaryBrandController::class,'list'])->name('dictionaryBrand.list');
+});
+
+Route::prefix(MainContract::DICTIONARY_SERVICE)->group(function() {
+    Route::get('list',[DictionaryServiceController::class,'list'])->name('dictionaryService.list');
+});
+
+Route::prefix(MainContract::DICTIONARY_SPARE_PART)->group(function() {
+    Route::get('list',[DictionarySparePartController::class,'list'])->name('dictionarySparePart.list');
+});
+
+Route::prefix('userBanner')->group(function() {
+    Route::post('pagination',[UserBannerController::class,'pagination'])->name('userBanner.pagination');
+    Route::post('all',[UserBannerController::class,'all'])->name('userBanner.all');
+    Route::post('create',[UserBannerController::class,'create'])->name('userBanner.create');
+    Route::post('update/{id}',[UserBannerController::class,'update'])->name('userBanner.update');
+    Route::get('getById/{id}',[UserBannerController::class,'getById'])->name('userBanner.getById');
+    Route::post('showPhone/{id}',[UserBannerController::class,'showPhone'])->name('userBanner.showPhone');
+    Route::post('delete/{id}',[UserBannerController::class,'delete'])->name('userBanner.delete');
+    Route::post('archive/{id}',[UserBannerController::class,'archive'])->name('userBanner.archive');
+    Route::post('activate/{id}',[UserBannerController::class,'activate'])->name('userBanner.activate');
+    Route::post('needEdits/{id}',[UserBannerController::class,'needEdits'])->name('userBanner.needEdits');
+    Route::post('publish/{id}',[UserBannerController::class,'publish'])->name('userBanner.publish');
+    Route::post('unpublish/{id}',[UserBannerController::class,'unpublish'])->name('userBanner.unpublish');
+    Route::post('up/{id}',[UserBannerController::class,'up'])->name('userBanner.up');
+});
+
+Route::prefix('userReview')->group(function() {
+    Route::post('pagination',[UserReviewController::class,'pagination'])->name('userBanner.pagination');
+    Route::post('all',[UserReviewController::class,'all'])->name('userBanner.all');
+    Route::post('create',[UserReviewController::class,'create'])->name('userBanner.create');
+    Route::post('delete/{id}',[UserReviewController::class,'delete'])->name('userBanner.delete');
+});
+
+Route::prefix('userRequest')->group(function() {
+    Route::post('pagination',[UserRequestController::class,'pagination'])->name('userBanner.pagination');
+    Route::post('all',[UserRequestController::class,'all'])->name('userBanner.all');
+    Route::post('create',[UserRequestController::class,'create'])->name('userBanner.create');
+    Route::post('unpublish/{id}',[UserRequestController::class,'unpublish'])->name('userBanner.unpublish');
+});
+
+Route::prefix('userFavorite')->group(function() {
+    Route::post('pagination',[UserFavoriteController::class,'pagination'])->name('userBanner.pagination');
+    Route::post('all',[UserFavoriteController::class,'all'])->name('userBanner.all');
+    Route::post('add',[UserFavoriteController::class,'add'])->name('userBanner.add');
+    Route::post('remove',[UserFavoriteController::class,'remove'])->name('userBanner.remove');
 });

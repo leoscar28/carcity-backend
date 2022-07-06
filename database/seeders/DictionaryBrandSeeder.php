@@ -1,0 +1,148 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Domain\Contracts\DictionaryBrandContract;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class DictionaryBrandSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+
+        $brands = ['Acura',
+            'Alfa Romeo',
+            'Alpina',
+            'Aston Martin',
+            'Audi',
+            'BAIC',
+            'BAW',
+            'Bentley',
+            'BMW',
+            'Brilliance',
+            'Buick',
+            'BYD',
+            'Cadillac',
+            'Changan',
+            'Chery',
+            'Chevrolet',
+            'Chevrolet (USA)',
+            'Chrysler',
+            'Chrysler (USA)',
+            'Citroen',
+            'Dacia',
+            'Daewoo',
+            'Daihatsu',
+            'Datsun',
+            'Derways',
+            'Dodge',
+            'Dodge (USA)',
+            'DongFeng',
+            'DS',
+            'Enovate',
+            'EXEED',
+            'FAW',
+            'Ferrari',
+            'Fiat',
+            'Ford',
+            'Ford (USA)',
+            'Foton',
+            'Geely',
+            'Genesis',
+            'GMC',
+            'Gonow',
+            'Great Wall',
+            'Hafei',
+            'Haima',
+            'Hanteng',
+            'Haval',
+            'Honda',
+            'Hongqi',
+            'Huanghai',
+            'Hummer',
+            'Hyundai',
+            'Infiniti',
+            'Iran Khodro',
+            'Isuzu',
+            'Iveco',
+            'JAC',
+            'Jaguar',
+            'Jeep',
+            'Jin Bei',
+            'Kaiyi',
+            'Karry',
+            'Kia',
+            'Lamborghini',
+            'Lancia',
+            'Land Rover',
+            'Lexus',
+            'Lifan',
+            'Lincoln',
+            'Mahindra',
+            'Maserati',
+            'Maybach',
+            'Mazda',
+            'Mercedes-Benz',
+            'Mercedes-Maybach',
+            'Mercury',
+            'MG',
+            'Mini',
+            'Mitsubishi',
+            'Nissan',
+            'Opel',
+            'Peugeot',
+            'Plymouth',
+            'Polestar',
+            'Pontiac',
+            'Pontiac (USA)',
+            'Porsche',
+            'Proton',
+            'Ravon',
+            'Renault Samsung',
+            'Renault',
+            'Rolls-Royce',
+            'Rover',
+            'Saab',
+            'Scion',
+            'Seat',
+            'Seres',
+            'Shuanghuan',
+            'Skoda',
+            'Smart',
+            'SsangYong',
+            'Subaru',
+            'Suzuki',
+            'Tesla',
+            'Tianma',
+            'Tianye',
+            'Toyota',
+            'Volkswagen',
+            'Volvo',
+            'Weltmeister',
+            'Wuling',
+            'ZX',
+            'ВАЗ (Lada)',
+            'ГАЗ',
+            'ЗАЗ',
+            'Москвич',
+            'РАФ',
+            'Ретро-автомобили',
+            'ТагАЗ',
+            'УАЗ'
+        ];
+
+        foreach ($brands as $brand) {
+            DB::table(DictionaryBrandContract::TABLE)->insert([
+                DictionaryBrandContract::NAME => $brand,
+                DictionaryBrandContract::STATUS => 1,
+                DictionaryBrandContract::FOR_MENU => 0
+            ]);
+        }
+    }
+}

@@ -11,4 +11,6 @@ class Tier extends Model
     use \Backpack\CRUD\app\Models\Traits\CrudTrait;
     use HasFactory;
     protected $fillable =   TierContract::FILLABLE;
+
+    protected $hidden = [TierContract::CREATED_AT, TierContract::UPDATED_AT];
 }

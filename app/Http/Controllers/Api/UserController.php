@@ -8,6 +8,7 @@ use App\Http\Requests\User\UserAuthRequest;
 use App\Http\Requests\User\UserCodeCheckRequest;
 use App\Http\Requests\User\UserCreateRequest;
 use App\Http\Requests\User\UserPasswordRequest;
+use App\Http\Requests\User\UserRegistrationRequest;
 use App\Http\Requests\User\UserUpdateRequest;
 use App\Http\Resources\User\UserResource;
 use App\Jobs\SmsNotification;
@@ -78,9 +79,11 @@ class UserController extends Controller
         if ($user = $this->userService->getById($data[MainContract::ID])) {
             if (array_key_exists(MainContract::PHONE_CHECK,$data) && $data[MainContract::PHONE_CHECK] === (int)$user->{MainContract::PHONE_CODE}) {
                 $user->{MainContract::PHONE_VERIFIED_AT}    =   now();
+                $user->{MainContract::STATUS}    =   1;
                 $user->save();
             } elseif (array_key_exists(MainContract::EMAIL_CHECK,$data) && $data[MainContract::EMAIL_CHECK] === (int)$user->{MainContract::EMAIL_CODE}) {
                 $user->{MainContract::EMAIL_VERIFIED_AT}    =   now();
+                $user->{MainContract::STATUS}    =   1;
                 $user->save();
             } else {
                 return response(['message'  =>  'Не правильный код'],400);
@@ -114,6 +117,25 @@ class UserController extends Controller
     public function create(UserCreateRequest $userCreateRequest): UserResource
     {
         return new UserResource($userCreateRequest->check());
+    }
+
+    /**
+     * @param UserRegistrationRequest $userRegistrationRequest
+     * @return UserResource|Application|ResponseFactory|Response
+     * @throws ValidationException
+     */
+    public function registration(UserRegistrationRequest $userRegistrationRequest)
+    {
+        $data = $userRegistrationRequest->check();
+        $user_1 = $this->userService->getByPhoneOrEmailOrAlias([MainContract::EMAIL => $data[MainContract::EMAIL]]);
+        $user_2 = $this->userService->getByPhoneOrEmailOrAlias([MainContract::PHONE => $data[MainContract::PHONE]]);
+        if ($user_1 || $user_2) {
+            return response(['message'  =>  'Пользователя с такими данными уже зарегистрирован!'],404);
+        }
+        if ($user = $this->userService->registration($data)) {
+            return new UserResource($user);
+        }
+        return response(['message'  =>  'Не удалось создать пользователя!'],404);
     }
 
     public function getByToken($token): Response|Application|ResponseFactory|UserResource

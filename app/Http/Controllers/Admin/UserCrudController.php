@@ -58,6 +58,7 @@ class UserCrudController extends CrudController
                 2   =>  'Администратор',
                 3   =>  'Менеджер',
                 4   =>  'Руководитель',
+                5   =>  'Пользователь',
             ]);
         CRUD::column(MainContract::COMPANY)->label('Компания');
         CRUD::column(MainContract::BIN)->label('БИН/ИИН');
@@ -77,6 +78,7 @@ class UserCrudController extends CrudController
                 2   =>  'Администратор',
                 3   =>  'Менеджер',
                 4   =>  'Руководитель',
+                5   =>  'Пользователь',
             ])->default(1);
         CRUD::column(MainContract::NAME)->label('Имя');
         CRUD::column(MainContract::EMAIL)->label('Эл.почта');
@@ -108,11 +110,12 @@ class UserCrudController extends CrudController
                 2   =>  'Администратор',
                 3   =>  'Менеджер',
                 4   =>  'Руководитель',
+                5   =>  'Пользователь',
             ])->default(1);
         CRUD::field(MainContract::COMPANY)->label('Компания');
         CRUD::field(MainContract::BIN)->label('БИН/ИИН');
         CRUD::field(MainContract::EMAIL)->label('Эл.почта');
-        CRUD::field(MainContract::PHONE)->label('Номер телефона (7778889900)')->type('number');
+        CRUD::field(MainContract::PHONE)->label('Номер телефона (7778889900)')->type('text');
         CRUD::field(MainContract::PASSWORD)->label('Пароль');
         CRUD::field(MainContract::STATUS)->type('select_from_array')
             ->label('Статус')->options([
@@ -140,10 +143,11 @@ class UserCrudController extends CrudController
                 2   =>  'Администратор',
                 3   =>  'Менеджер',
                 4   =>  'Руководитель',
+                5   =>  'Пользователь',
             ])->default(1);
         CRUD::field(MainContract::COMPANY)->label('Компания');
         CRUD::field(MainContract::EMAIL)->label('Эл.почта');
-        CRUD::field(MainContract::PHONE)->label('Номер телефона (7778889900)')->type('number');
+        CRUD::field(MainContract::PHONE)->label('Номер телефона (7778889900)')->type('text');
         CRUD::field(MainContract::STATUS)->type('select_from_array')
             ->label('Статус')->options([
                 0   =>  'Отключен',

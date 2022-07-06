@@ -206,6 +206,13 @@ return [
         App\Providers\Repositories\VehicleMaintenanceRepositoryProvider::class,
         App\Providers\Repositories\ContactRepositoryProvider::class,
         App\Providers\Repositories\TermsOfUseRepositoryProvider::class,
+        App\Providers\Repositories\DictionaryBrandRepositoryProvider::class,
+        App\Providers\Repositories\DictionaryServiceRepositoryProvider::class,
+        App\Providers\Repositories\DictionarySparePartRepositoryProvider::class,
+        App\Providers\Repositories\UserBannerRepositoryProvider::class,
+        App\Providers\Repositories\UserReviewRepositoryProvider::class,
+        App\Providers\Repositories\UserRequestRepositoryProvider::class,
+        App\Providers\Repositories\UserFavoriteRepositoryProvider::class
     ],
 
     /*

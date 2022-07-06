@@ -46,4 +46,9 @@ class UserService
     {
         return $this->userRepository->getByBin($bin);
     }
+
+    public function registration($data)
+    {
+        return $this->userRepository->registration($data);
+    }
 }

@@ -118,4 +118,33 @@
     </ul>
 </li>
 
+<li class="nav-item nav-dropdown">
+    <a class="nav-link nav-dropdown-toggle" href="#">
+        <i class="nav-icon las la-book"></i> Справочники
+    </a>
+    <ul class="nav-dropdown-items">
+        <li class='nav-item'>
+            <a class='nav-link' href='{{ backpack_url('dictionary-spare-part') }}'>
+                <i class='nav-icon las la-file'></i> Запчасти
+            </a>
+        </li>
+        <li class='nav-item'>
+            <a class='nav-link' href='{{ backpack_url('dictionary-service') }}'>
+                <i class='nav-icon las la-file'></i> Услуги
+            </a>
+        </li>
+        <li class='nav-item'>
+            <a class='nav-link' href='{{ backpack_url('dictionary-brand') }}'>
+                <i class='nav-icon las la-file'></i> Бренды
+
+            </a>
+        </li>
+    </ul>
+</li>
+<li class='nav-item'>
+    <a class='nav-link' href='{{ backpack_url('antimat-word') }}'>
+        <i class='nav-icon las la-file'></i> Антимат
+    </a>
+</li>
+
 

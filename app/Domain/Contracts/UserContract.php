@@ -25,7 +25,8 @@ class UserContract extends MainContract
         self::PHONE_CODE,
         self::PHONE_VERIFIED_AT,
         self::PASSWORD,
-        self::STATUS
+        self::STATUS,
+        self::LIMIT
     ];
     const HIDDEN    =   [
         self::PASSWORD,
