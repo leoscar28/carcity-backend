@@ -270,22 +270,22 @@ Route::prefix('userBanner')->group(function() {
 });
 
 Route::prefix('userReview')->group(function() {
-    Route::post('pagination',[UserReviewController::class,'pagination'])->name('userBanner.pagination');
-    Route::post('all',[UserReviewController::class,'all'])->name('userBanner.all');
-    Route::post('create',[UserReviewController::class,'create'])->name('userBanner.create');
-    Route::post('delete/{id}',[UserReviewController::class,'delete'])->name('userBanner.delete');
+    Route::post('pagination',[UserReviewController::class,'pagination'])->name('userReview.pagination');
+    Route::post('all',[UserReviewController::class,'all'])->name('userReview.all');
+    Route::post('create',[UserReviewController::class,'create'])->name('userReview.create');
+    Route::post('delete/{id}',[UserReviewController::class,'delete'])->name('userReview.delete');
 });
 
 Route::prefix('userRequest')->group(function() {
-    Route::post('pagination',[UserRequestController::class,'pagination'])->name('userBanner.pagination');
-    Route::post('all',[UserRequestController::class,'all'])->name('userBanner.all');
-    Route::post('create',[UserRequestController::class,'create'])->name('userBanner.create');
-    Route::post('unpublish/{id}',[UserRequestController::class,'unpublish'])->name('userBanner.unpublish');
+    Route::post('pagination',[UserRequestController::class,'pagination'])->name('userRequest.pagination');
+    Route::post('all',[UserRequestController::class,'all'])->name('userRequest.all');
+    Route::post('create',[UserRequestController::class,'create'])->name('userRequest.create');
+    Route::post('unpublish/{id}',[UserRequestController::class,'unpublish'])->name('userRequest.unpublish');
 });
 
 Route::prefix('userFavorite')->group(function() {
-    Route::post('pagination',[UserFavoriteController::class,'pagination'])->name('userBanner.pagination');
-    Route::post('all',[UserFavoriteController::class,'all'])->name('userBanner.all');
-    Route::post('add',[UserFavoriteController::class,'add'])->name('userBanner.add');
-    Route::post('remove',[UserFavoriteController::class,'remove'])->name('userBanner.remove');
+    Route::post('pagination',[UserFavoriteController::class,'pagination'])->name('userFavorite.pagination');
+    Route::post('all',[UserFavoriteController::class,'all'])->name('userFavorite.all');
+    Route::post('add',[UserFavoriteController::class,'add'])->name('userFavorite.add');
+    Route::post('remove',[UserFavoriteController::class,'remove'])->name('userFavorite.remove');
 });

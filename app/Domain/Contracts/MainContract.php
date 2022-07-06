@@ -116,7 +116,6 @@ class MainContract
     const DICTIONARY_SERVICE = 'dictionaryService';
     const DICTIONARY_SPARE_PART = 'dictionarySparePart';
     const ROOM_ID = 'room_id';
-    const DESCRIPTION = 'description';
     const EMPLOYEE_NAME = 'employee_name';
     const EMPLOYEE_PHONE = 'employee_phone';
     const EMPLOYEE_NAME_ADDITIONAL = 'employee_name_additional';
