@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\NotificationTenantController;
 use App\Http\Controllers\Api\PositionController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\RoomController;
+use App\Http\Controllers\Api\RulesShoppingCenterController;
 use App\Http\Controllers\Api\SliderController;
 use App\Http\Controllers\Api\SliderDetailController;
 use App\Http\Controllers\Api\TermsOfUseController;
@@ -152,6 +153,10 @@ Route::prefix('contact')->group(function() {
 
 Route::prefix('termsOfUse')->group(function() {
     Route::get('get',[TermsOfUseController::class,'get'])->name('termsOfUse.get');
+});
+
+Route::prefix('rulesShoppingCenter')->group(function() {
+    Route::get('get',[RulesShoppingCenterController::class,'get'])->name('RulesShoppingCenter.get');
 });
 
 Route::prefix('room')->group(function() {

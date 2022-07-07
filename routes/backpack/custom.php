@@ -38,4 +38,5 @@ Route::group([
     Route::crud('dictionary-service', 'DictionaryServiceCrudController');
     Route::crud('dictionary-brand', 'DictionaryBrandCrudController');
     Route::crud('antimat-word', 'AntimatWordCrudController');
+    Route::crud('rules-shopping-center', 'RulesShoppingCenterCrudController');
 }); // this should be the absolute last line of this file

@@ -212,7 +212,8 @@ return [
         App\Providers\Repositories\UserBannerRepositoryProvider::class,
         App\Providers\Repositories\UserReviewRepositoryProvider::class,
         App\Providers\Repositories\UserRequestRepositoryProvider::class,
-        App\Providers\Repositories\UserFavoriteRepositoryProvider::class
+        App\Providers\Repositories\UserFavoriteRepositoryProvider::class,
+        App\Providers\Repositories\RulesShoppingCenterRepositoryProvider::class,
     ],
 
     /*

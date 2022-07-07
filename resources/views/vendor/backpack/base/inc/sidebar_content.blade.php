@@ -115,6 +115,11 @@
                 <i class='nav-icon las la-id-card'></i> Пользовательское соглашение
             </a>
         </li>
+        <li class='nav-item'>
+            <a class='nav-link' href='{{ backpack_url('rules-shopping-center') }}'>
+                <i class='nav-icon las la-info-circle'></i> Правила ТЦ
+            </a>
+        </li>
     </ul>
 </li>
 
@@ -146,5 +151,3 @@
         <i class='nav-icon las la-file'></i> Антимат
     </a>
 </li>
-
-

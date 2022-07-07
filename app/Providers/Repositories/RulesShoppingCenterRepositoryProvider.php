@@ -4,7 +4,7 @@ namespace App\Providers\Repositories;
 
 use Illuminate\Support\ServiceProvider;
 
-class InvoiceStatusRepositoryProvider extends ServiceProvider
+class RulesShoppingCenterRepositoryProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -14,8 +14,8 @@ class InvoiceStatusRepositoryProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(
-            \App\Domain\Repositories\InvoiceStatus\InvoiceStatusRepositoryInterface::class,
-            \App\Domain\Repositories\InvoiceStatus\InvoiceStatusRepositoryEloquent::class
+            \App\Domain\Repositories\RulesShoppingCenter\RulesShoppingCenterRepositoryInterface::class,
+            \App\Domain\Repositories\RulesShoppingCenter\RulesShoppingCenterRepositoryEloquent::class
         );
     }
 
