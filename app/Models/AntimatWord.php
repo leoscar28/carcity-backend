@@ -15,7 +15,7 @@ class AntimatWord extends Model
     protected $table = AntimatWordContract::TABLE;
     protected $fillable = AntimatWordContract::FILLABLE;
 
-    public static function replace(&$string)
+    public static function replace($string)
     {
         $antimat_words = self::all();
 
@@ -23,7 +23,9 @@ class AntimatWord extends Model
         $replacement = $antimat_words->pluck(AntimatWordContract::REPLACEMENT)->toArray();
 
         if ($words) {
-            $string = str_replace($words, $replacement, $string);
+            return str_replace($words, $replacement, $string);
         }
+
+        return $string;
     }
 }

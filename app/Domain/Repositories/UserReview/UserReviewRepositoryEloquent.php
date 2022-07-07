@@ -5,6 +5,7 @@ namespace App\Domain\Repositories\UserReview;
 
 use App\Domain\Contracts\MainContract;
 use App\Domain\Contracts\UserReviewContract;
+use App\Models\AntimatWord;
 use App\Models\UserReview;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
@@ -19,6 +20,11 @@ class UserReviewRepositoryEloquent implements UserReviewRepositoryInterface
 
     public function create($data): ?object
     {
+        if ($data[MainContract::DESCRIPTION] != AntimatWord::replace($data[UserReviewContract::DESCRIPTION])) {
+            $data[MainContract::STATUS] = UserReviewContract::STATUS_INACTIVE;
+            $data[MainContract::COMMENT] = 'Сообщение содержит нецензурные выражения';
+        }
+
         $model = UserReview::create($data);
         return $this->getById($model->{MainContract::ID});
     }

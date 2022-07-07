@@ -146,4 +146,5 @@ class MainContract
     const UP = 'up';
     const WORD = 'word';
     const REPLACEMENT = 'replacement';
+    const CAN_CREATE_BANNER = 'can_create_banner';
 }

@@ -67,6 +67,12 @@ class UserCrudController extends CrudController
                 0   =>  'Отключен',
                 1   =>  'Включен'
             ]);
+         CRUD::column(MainContract::CAN_CREATE_BANNER)->type('select_from_array')
+        ->label('Может создавать объявления')->options([
+            0  =>  'Отключен',
+                1   =>  'Включен'
+            ]);
+        CRUD::column(MainContract::LIMIT)->label('Лимит объявлений')->type('number');
     }
 
     protected function setupListOperation()
@@ -89,6 +95,12 @@ class UserCrudController extends CrudController
                 0   =>  'Отключен',
                 1   =>  'Включен'
             ]);
+        CRUD::column(MainContract::CAN_CREATE_BANNER)->type('select_from_array')
+            ->label('Может создавать объявления')->options([
+                0   =>  'Отключен',
+                1   =>  'Включен'
+            ]);
+        CRUD::column(MainContract::LIMIT)->label('Лимит объявлений')->type('number');
     }
 
     protected function setupCreateOperation()
@@ -122,6 +134,12 @@ class UserCrudController extends CrudController
                 0   =>  'Отключен',
                 1   =>  'Включен'
             ])->default(1);
+        CRUD::field(MainContract::CAN_CREATE_BANNER)->type('select_from_array')
+            ->label('Может создавать объявления')->options([
+                0   =>  'Отключен',
+                1   =>  'Включен'
+            ])->default(1);
+        CRUD::field(MainContract::LIMIT)->label('Лимит объявлений')->type('number')->default(5);
     }
 
     protected function setupUpdateOperation()
@@ -153,5 +171,11 @@ class UserCrudController extends CrudController
                 0   =>  'Отключен',
                 1   =>  'Включен'
             ])->default(1);
+        CRUD::field(MainContract::CAN_CREATE_BANNER)->type('select_from_array')
+            ->label('Может создавать объявления')->options([
+                0   =>  'Отключен',
+                1   =>  'Включен'
+            ])->default(1);
+        CRUD::field(MainContract::LIMIT)->label('Лимит объявлений')->type('number')->default(5);
     }
 }

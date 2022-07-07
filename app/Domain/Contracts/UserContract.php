@@ -26,7 +26,8 @@ class UserContract extends MainContract
         self::PHONE_VERIFIED_AT,
         self::PASSWORD,
         self::STATUS,
-        self::LIMIT
+        self::LIMIT,
+        self::CAN_CREATE_BANNER
     ];
     const HIDDEN    =   [
         self::PASSWORD,

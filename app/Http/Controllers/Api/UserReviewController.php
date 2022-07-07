@@ -9,7 +9,6 @@ use App\Http\Requests\UserReview\UserReviewCreateRequest;
 use App\Http\Requests\UserReview\UserReviewListRequest;
 use App\Http\Resources\UserReview\UserReviewCollection;
 use App\Http\Resources\UserReview\UserReviewResource;
-use App\Models\AntimatWord;
 use App\Services\UserReviewService;
 use Illuminate\Validation\ValidationException;
 
@@ -29,8 +28,6 @@ class UserReviewController extends Controller
     public function create(UserReviewCreateRequest $userBannerCreateRequest)
     {
         $data = $userBannerCreateRequest->check();
-
-        AntimatWord::replace($data[UserReviewContract::DESCRIPTION]);
 
         $userBanner = $this->userReviewService->create($data);
 

@@ -40,7 +40,7 @@ class UserBannerCreateRequest extends FormRequest
             MainContract::EMPLOYEE_PHONE =>  'required',
             MainContract::EMPLOYEE_NAME_ADDITIONAL =>  'nullable',
             MainContract::EMPLOYEE_PHONE_ADDITIONAL =>  'nullable',
-            MainContract::IMAGES.'.*' => 'required|image|mimes:jpg,jpeg,bmp,png'
+            MainContract::IMAGES.'.*' => 'required|image|mimes:jpg,png'
         ];
     }
 

@@ -14,6 +14,7 @@ use App\Models\UserBannerImage;
 use App\Services\UserBannerService;
 use Illuminate\Http\Response;
 use Illuminate\Validation\ValidationException;
+use Intervention\Image\Facades\Image;
 
 class UserBannerController extends Controller
 {
@@ -43,20 +44,36 @@ class UserBannerController extends Controller
         $userBanner = $this->userBannerService->create($data);
 
         if($userBannerCreateRequest->hasFile('images')) {
-            $allowedExtension=['jpeg','bmp','jpg','png'];
+            $allowedExtension = ['jpg','png'];
 
             $files = $userBannerCreateRequest->file('images');
             $errors = [];
 
             foreach ($files as $file) {
-                $path = $file->store('public/images');
-                $name = $file->getClientOriginalName();
+                if (in_array($file->getClientOriginalExtension(), $allowedExtension)) {
 
-                $model = new UserBannerImage();
-                $model->user_banner_id = $userBanner->id;
-                $model->title = $name;
-                $model->path = $path;
-                $model->save();
+                    $new_file_name = md5($file->getClientOriginalName().random_int(1, 9999).time()).'.'.$file->getClientOriginalExtension();
+
+                    $path = public_path('storage/banners/');
+                    if (!file_exists($path)) {
+                        mkdir($path, 666, true);
+                    }
+                    $resize_image = Image::make($file->getRealPath());
+
+                    $resize_image
+                        ->resize(null, 300, function($constraint){
+                            $constraint->aspectRatio();
+                        })
+                        ->crop(400,300)
+                        ->resizeCanvas(400, 300, 'center', false, '#ffffff')
+                        ->save($path  . $new_file_name);
+
+                    $model = UserBannerImage::create([
+                        MainContract::USER_BANNER_ID => $userBanner->{MainContract::ID},
+                        MainContract::TITLE => $file->getClientOriginalName(),
+                        MainContract::PATH => 'banners/'.$new_file_name
+                    ]);
+                }
             }
         }
 
