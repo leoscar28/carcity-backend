@@ -120,6 +120,26 @@
                 <i class='nav-icon las la-info-circle'></i> Правила ТЦ
             </a>
         </li>
+        <li class='nav-item'>
+            <a class='nav-link' href='{{ backpack_url('privacy-policy') }}'>
+                <i class='nav-icon las la-info-circle'></i> Политика конфиденциальности
+            </a>
+        </li>
+        <li class='nav-item'>
+            <a class='nav-link' href='{{ backpack_url('rules-ad') }}'>
+                <i class='nav-icon las la-info-circle'></i> Правила размещения объявлений
+            </a>
+        </li>
+        <li class='nav-item'>
+            <a class='nav-link' href='{{ backpack_url('rule') }}'>
+                <i class='nav-icon las la-info-circle'></i> Общие правила ТЦ
+            </a>
+        </li>
+        <li class='nav-item'>
+            <a class='nav-link' href='{{ backpack_url('instruction') }}'>
+                <i class='nav-icon las la-info-circle'></i> Инструкции
+            </a>
+        </li>
     </ul>
 </li>
 

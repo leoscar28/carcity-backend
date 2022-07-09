@@ -15,14 +15,18 @@ use App\Http\Controllers\Api\CompletionStatusController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\InfrastructureController;
 use App\Http\Controllers\Api\InfrastructureOptionController;
+use App\Http\Controllers\Api\InstructionController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\InvoiceDateController;
 use App\Http\Controllers\Api\InvoiceStatusController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\NotificationTenantController;
 use App\Http\Controllers\Api\PositionController;
+use App\Http\Controllers\Api\PrivacyPolicyController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\RoomController;
+use App\Http\Controllers\Api\RuleController;
+use App\Http\Controllers\Api\RulesAdController;
 use App\Http\Controllers\Api\RulesShoppingCenterController;
 use App\Http\Controllers\Api\SliderController;
 use App\Http\Controllers\Api\SliderDetailController;
@@ -159,8 +163,24 @@ Route::prefix('rulesShoppingCenter')->group(function() {
     Route::get('get',[RulesShoppingCenterController::class,'get'])->name('RulesShoppingCenter.get');
 });
 
+Route::prefix('privacyPolicy')->group(function() {
+    Route::get('get',[PrivacyPolicyController::class,'get'])->name('privacyPolicy.get');
+});
+
+Route::prefix('rulesAd')->group(function() {
+    Route::get('get',[RulesAdController::class,'get'])->name('rulesAd.get');
+});
+
 Route::prefix('room')->group(function() {
     Route::get('getByUserId/{userId}',[RoomController::class,'getByUserId'])->name('room.getByUserId');
+});
+
+Route::prefix('rule')->group(function() {
+    Route::get('get',[RuleController::class,'get'])->name('rule.get');
+});
+
+Route::prefix('instruction')->group(function() {
+    Route::get('get',[InstructionController::class,'get'])->name('instruction.get');
 });
 
 Route::prefix('completion')->group(function() {

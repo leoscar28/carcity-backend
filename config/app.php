@@ -215,6 +215,10 @@ return [
         App\Providers\Repositories\UserRequestRepositoryProvider::class,
         App\Providers\Repositories\UserFavoriteRepositoryProvider::class,
         App\Providers\Repositories\RulesShoppingCenterRepositoryProvider::class,
+        App\Providers\Repositories\PrivacyPolicyRepositoryProvider::class,
+        App\Providers\Repositories\RulesAdRepositoryProvider::class,
+        App\Providers\Repositories\RuleRepositoryProvider::class,
+        App\Providers\Repositories\InstructionRepositoryProvider::class,
     ],
 
     /*
