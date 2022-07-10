@@ -11,6 +11,9 @@ class NotificationTenantContract extends MainContract
         self::APPLICATION_ID,
         self::COMPLETION_ID,
         self::INVOICE_ID,
+        self::USER_BANNER_ID,
+        self::USER_REVIEW_ID,
+        self::USER_REQUEST_ID,
         self::VIEW,
         self::STATUS
     ];

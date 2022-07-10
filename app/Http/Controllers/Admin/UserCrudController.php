@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Domain\Contracts\MainContract;
 use App\Http\Requests\User\UserCrudCreateRequest;
 use App\Http\Requests\User\UserCrudUpdateRequest;
+use App\Jobs\UserBannerDeactivate;
 use App\Models\User;
 use Backpack\CRUD\app\Http\Controllers\CrudController;
 use Backpack\CRUD\app\Http\Controllers\Operations\CreateOperation;
@@ -20,7 +21,7 @@ class UserCrudController extends CrudController
 {
     use ListOperation;
     use CreateOperation { store as traitStore; }
-    use UpdateOperation;
+    use UpdateOperation { update as traitUpdate; }
     use ShowOperation;
 
     public function setup()
@@ -36,6 +37,16 @@ class UserCrudController extends CrudController
         $this->crud->addField(['type' => 'hidden', 'name' => MainContract::TOKEN]);
         $this->crud->getRequest()->request->add([MainContract::TOKEN    =>  Str::random()]);
         $response   =   $this->traitStore();
+        return $response;
+    }
+
+    public function update()
+    {
+        $req = $this->crud->getRequest()->request;
+        $response = $this->traitUpdate();
+        if ($req->get('status') == 0 && $req->get('role_id') == 1) {
+            UserBannerDeactivate::dispatch($req->get('id'));
+        }
         return $response;
     }
 
@@ -78,7 +89,7 @@ class UserCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column(MainContract::ID)->label('ID');
-        CRUD::field(MainContract::ROLE_ID)->type('select_from_array')
+        CRUD::column(MainContract::ROLE_ID)->type('select_from_array')
             ->label('Роль')->options([
                 1   =>  'Арендатор',
                 2   =>  'Администратор',

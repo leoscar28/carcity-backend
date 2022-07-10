@@ -28,4 +28,19 @@ class NotificationTenant extends Model
     {
         return $this->belongsTo(Invoice::class,MainContract::INVOICE_ID,MainContract::ID);
     }
+
+    public function banners(): BelongsTo
+    {
+        return $this->belongsTo(UserBanner::class,MainContract::USER_BANNER_ID,MainContract::ID);
+    }
+
+    public function reviews(): BelongsTo
+    {
+        return $this->belongsTo(UserReview::class,MainContract::USER_REVIEW_ID,MainContract::ID);
+    }
+
+    public function requests(): BelongsTo
+    {
+        return $this->belongsTo(UserRequest::class,MainContract::USER_REQUEST_ID,MainContract::ID);
+    }
 }

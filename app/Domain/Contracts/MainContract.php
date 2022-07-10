@@ -134,7 +134,11 @@ class MainContract
     const VIEW_COUNT = 'view_count';
     const PHONE_VIEW_COUNT = 'phone_view_count';
     const USER_BANNER_ID = 'user_banner_id';
+    const USER_REVIEW_ID = 'user_review_id';
+    const USER_REQUEST_ID = 'user_request_id';
     const BANNER = 'banner';
+    const BANNERS = 'banners';
+    const REQUESTS = 'requests';
     const USER_BANNER = 'user_banner';
     const RATING = 'rating';
     const REVIEWS = 'reviews';
@@ -147,4 +151,8 @@ class MainContract
     const WORD = 'word';
     const REPLACEMENT = 'replacement';
     const CAN_CREATE_BANNER = 'can_create_banner';
+    const SORT = 'sort';
+    const ORDER_BY = 'order_by';
+    const TO = 'to';
+    const TEXT = 'text';
 }

@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\InstructionController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\InvoiceDateController;
 use App\Http\Controllers\Api\InvoiceStatusController;
+use App\Http\Controllers\Api\MailingController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\NotificationTenantController;
 use App\Http\Controllers\Api\PositionController;
@@ -55,9 +56,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//header('Access-Control-Allow-Origin: *');
-//header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE');
-//header('Access-Control-Allow-Headers: Content-Type, X-Auth-Token, Origin, Authorization,X-localization,X-No-Cache');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE');
+header('Access-Control-Allow-Headers: Content-Type, X-Auth-Token, Origin, Authorization,X-localization,X-No-Cache');
 
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //    return $request->user();
@@ -319,4 +320,8 @@ Route::prefix('userFavorite')->group(function() {
     Route::post('all',[UserFavoriteController::class,'all'])->name('userFavorite.all');
     Route::post('add',[UserFavoriteController::class,'add'])->name('userFavorite.add');
     Route::post('remove',[UserFavoriteController::class,'remove'])->name('userFavorite.remove');
+});
+
+Route::prefix('mailing')->group(function() {
+    Route::post('sendMail',[MailingController::class,'sendMail'])->name('mailing.sendMail');
 });

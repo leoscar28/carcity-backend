@@ -38,6 +38,10 @@ class UserBanner extends Model
         return $this->hasMany(UserReview::class, MainContract::USER_BANNER_ID,MainContract::ID)->where([MainContract::STATUS => UserReviewContract::STATUS_ACTIVE])->with(['user']);
     }
 
+    public function reviewsOnUser(){
+        return $this->hasMany(UserReview::class, MainContract::CUSTOMER_ID,MainContract::USER_ID)->where([MainContract::STATUS => UserReviewContract::STATUS_ACTIVE]);
+    }
+
     public function reviewsCounter(){
         $rating = $this->reviews()->avg(MainContract::RATING);
         $counts = $this->reviews()->count();
