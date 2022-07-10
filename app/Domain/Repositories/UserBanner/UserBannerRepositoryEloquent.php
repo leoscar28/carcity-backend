@@ -79,6 +79,9 @@ class UserBannerRepositoryEloquent implements UserBannerRepositoryInterface
     public function all($data): Collection|array
     {
         $query  =   UserBanner::select();
+
+        $query->with(['images', 'room', 'user']);
+
         if (array_key_exists(MainContract::DATA,$data)) {
             $query->where($data[MainContract::DATA]);
         }
@@ -112,11 +115,30 @@ class UserBannerRepositoryEloquent implements UserBannerRepositoryInterface
 
         $query->skip(($data[MainContract::PAGINATION]-1) * $data[MainContract::TAKE]);
         $query->take($data[MainContract::TAKE]);
-        $query->orderBy(MainContract::UP,'DESC')->orderBy(MainContract::UPDATED_AT,'DESC');
+
+        if (isset($data[MainContract::SORT]) && isset($data[MainContract::ORDER_BY])) {
+            if ($data[MainContract::ORDER_BY] === 'updated') {
+                $query->orderBy(MainContract::UPDATED_AT, $data[MainContract::SORT]);
+            } else if ($data[MainContract::ORDER_BY] === 'rating') {
+                $query->withCount(['reviewsOnUser as rating' => function($query){
+                    $query->select(DB::raw('coalesce(avg(rating), 0)'));
+                }])->orderBy(MainContract::RATING, $data[MainContract::SORT]);
+            }  else if ($data[MainContract::ORDER_BY] === 'review') {
+                $query->withCount(['reviewsOnUser as count' => function($query){
+                    $query->select(DB::raw('COUNT(*)'));
+                }])->orderBy('count', $data[MainContract::SORT]);
+            }
+
+        } else {
+            $query->orderBy(MainContract::UPDATED_AT,'DESC');
+        }
+
+
         if (array_key_exists(MainContract::WITH_IMAGE,$data) && $data[MainContract::WITH_IMAGE] == 1) {
             $query->has('images');
         }
-        $query->with(['images', 'room', 'user']);
+
+
         return $query->get();
     }
 

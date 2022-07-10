@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\InstructionController;
 use App\Http\Controllers\Api\InvoiceController;
 use App\Http\Controllers\Api\InvoiceDateController;
 use App\Http\Controllers\Api\InvoiceStatusController;
+use App\Http\Controllers\Api\MailingController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\NotificationTenantController;
 use App\Http\Controllers\Api\PositionController;
@@ -313,4 +314,8 @@ Route::prefix('userFavorite')->group(function() {
     Route::post('all',[UserFavoriteController::class,'all'])->name('userFavorite.all');
     Route::post('add',[UserFavoriteController::class,'add'])->name('userFavorite.add');
     Route::post('remove',[UserFavoriteController::class,'remove'])->name('userFavorite.remove');
+});
+
+Route::prefix('mailing')->group(function() {
+    Route::post('sendMail',[MailingController::class,'sendMail'])->name('mailing.sendMail');
 });

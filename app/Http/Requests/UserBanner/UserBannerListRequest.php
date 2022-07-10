@@ -40,7 +40,9 @@ class UserBannerListRequest extends FormRequest
             MainContract::CATEGORY_ID => 'nullable',
             MainContract::BRAND_ID => 'nullable',
             MainContract::TERM => 'nullable',
-            MainContract::WITH_IMAGE => 'nullable'
+            MainContract::WITH_IMAGE => 'nullable',
+            MainContract::SORT => 'nullable',
+            MainContract::ORDER_BY => 'nullable'
         ];
     }
 
