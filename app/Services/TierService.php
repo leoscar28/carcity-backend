@@ -11,4 +11,10 @@ class TierService
     {
         $this->tierRepository   =   $tierRepository;
     }
+
+    public function get()
+    {
+        return $this->tierRepository->get();
+    }
+
 }

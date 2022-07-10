@@ -14,4 +14,12 @@ class RoomRepositoryEloquent implements RoomRepositoryInterface
             ->where(MainContract::USER_ID,$userId)
             ->get();
     }
+
+    public function get()
+    {
+        return Room::with('RoomType','tier')
+            ->where(MainContract::STATUS,'!=',0)
+            ->get();
+    }
+
 }

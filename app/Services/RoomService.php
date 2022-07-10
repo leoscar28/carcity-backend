@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Domain\Repositories\Room\RoomRepositoryInterface;
+use Illuminate\Database\Eloquent\Collection;
 
 class RoomService
 {
@@ -12,9 +13,14 @@ class RoomService
         $this->roomRepository   =   $roomRepository;
     }
 
-    public function getByUserId($userId)
+    public function getByUserId($userId): Collection|array
     {
         return $this->roomRepository->getByUserId($userId);
+    }
+
+    public function get(): Collection|array
+    {
+        return $this->roomRepository->get();
     }
 
 }

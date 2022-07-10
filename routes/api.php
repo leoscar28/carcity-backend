@@ -31,6 +31,7 @@ use App\Http\Controllers\Api\RulesShoppingCenterController;
 use App\Http\Controllers\Api\SliderController;
 use App\Http\Controllers\Api\SliderDetailController;
 use App\Http\Controllers\Api\TermsOfUseController;
+use App\Http\Controllers\Api\TierController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\VehicleMaintenanceController;
 use App\Http\Controllers\Api\DictionaryBrandController;
@@ -171,8 +172,13 @@ Route::prefix('rulesAd')->group(function() {
     Route::get('get',[RulesAdController::class,'get'])->name('rulesAd.get');
 });
 
+Route::prefix('tier')->group(function() {
+    Route::get('get',[TierController::class,'get'])->name('tier.get');
+});
+
 Route::prefix('room')->group(function() {
     Route::get('getByUserId/{userId}',[RoomController::class,'getByUserId'])->name('room.getByUserId');
+    Route::get('get',[RoomController::class,'get'])->name('room.get');
 });
 
 Route::prefix('rule')->group(function() {
