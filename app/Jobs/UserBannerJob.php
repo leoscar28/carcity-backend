@@ -51,10 +51,10 @@ class UserBannerJob implements ShouldQueue
         if ($user = $userService->getById($this->userBanner->{MainContract::USER_ID})) {
             if ($notificationTenant = $notificationTenantService->create([
                 MainContract::USER_ID   =>  $user->{MainContract::ID},
-                MainContract::TYPE  =>  $this->type,
+                MainContract::TYPE  =>  $this->userBanner->{MainContract::STATUS},
                 MainContract::USER_BANNER_ID    =>  $this->userBanner->{MainContract::ID},
                 MainContract::VIEW  =>  0,
-                MainContract::STATUS => $this->userBanner->{MainContract::STATUS}
+                MainContract::STATUS => 1
             ])) {
                 event(new NotificationTenantEvent($notificationTenant));
             }
@@ -63,10 +63,10 @@ class UserBannerJob implements ShouldQueue
             foreach ($users as &$user) {
                 $notification = $notificationService->create([
                     MainContract::USER_ID   =>  $user->{MainContract::ID},
-                    MainContract::TYPE  =>  $this->type,
+                    MainContract::TYPE  =>  $this->userBanner->{MainContract::STATUS},
                     MainContract::USER_BANNER_ID    =>  $this->userBanner->{MainContract::ID},
                     MainContract::VIEW  =>  0,
-                    MainContract::STATUS => $this->userBanner->{MainContract::STATUS}
+                    MainContract::STATUS => 1
                 ]);
                 event(new NotificationEvent(new NotificationResource($notification)));
             }
