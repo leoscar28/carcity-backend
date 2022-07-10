@@ -27,7 +27,7 @@ class NotificationTenantRepositoryEloquent implements NotificationTenantReposito
 
     public function getByUserId($userId,$skip): Collection|array
     {
-        return NotificationTenant::with(MainContract::COMPLETIONS,MainContract::APPLICATIONS,MainContract::INVOICES)
+        return NotificationTenant::with(MainContract::COMPLETIONS,MainContract::APPLICATIONS,MainContract::INVOICES,MainContract::BANNERS,MainContract::REVIEWS,MainContract::REQUESTS)
             ->where([
                 [MainContract::USER_ID,$userId],
                 [MainContract::STATUS,1]
@@ -57,7 +57,7 @@ class NotificationTenantRepositoryEloquent implements NotificationTenantReposito
 
     public function get($data): Collection|array
     {
-        return NotificationTenant::with(MainContract::COMPLETIONS,MainContract::APPLICATIONS,MainContract::INVOICES)
+        return NotificationTenant::with(MainContract::COMPLETIONS,MainContract::APPLICATIONS,MainContract::INVOICES,MainContract::BANNERS,MainContract::REVIEWS,MainContract::REQUESTS)
             ->where([
                 [MainContract::USER_ID,$data[MainContract::USER_ID]],
                 [MainContract::STATUS,1]
