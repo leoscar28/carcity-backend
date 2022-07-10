@@ -64,12 +64,12 @@ class UserBannerController extends Controller
                     $width = $resize_image->width();
                     $height = $resize_image->height();
 
-                    if ($width >= $height) {
+                    if ($width < $height) {
                         $resize_image
                             ->resize(800, null, function($constraint){
                                 $constraint->aspectRatio();
                             })
-//                        ->crop(400,300)
+                            ->crop(800,600)
                             ->resizeCanvas(800, 600, 'center', false, '#ffffff')
                             ->save($path  . $new_file_name);
                     } else {
@@ -77,7 +77,7 @@ class UserBannerController extends Controller
                             ->resize(null, 600, function($constraint){
                                 $constraint->aspectRatio();
                             })
-//                        ->crop(400,300)
+                            ->crop(800,600)
                             ->resizeCanvas(800, 600, 'center', false, '#ffffff')
                             ->save($path  . $new_file_name);
                     }
