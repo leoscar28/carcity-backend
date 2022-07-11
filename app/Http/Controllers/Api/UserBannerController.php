@@ -179,31 +179,39 @@ class UserBannerController extends Controller
     {
         $this->userBannerService->archive($id);
 
+        UserBannerJob::dispatch($this->userBannerService->getById($id));
     }
 
     public function delete($id)
     {
         $this->userBannerService->delete($id);
+        UserBannerJob::dispatch($this->userBannerService->getById($id));
     }
 
     public function publish($id)
     {
-        return $this->userBannerService->publish($id);
+        $resp = $this->userBannerService->publish($id)
+        UserBannerJob::dispatch($this->userBannerService->getById($id));
+        return $resp;
     }
 
     public function unpublish($id)
     {
         $this->userBannerService->unpublish($id);
+        UserBannerJob::dispatch($this->userBannerService->getById($id));
     }
 
     public function activate($id)
     {
-        return $this->userBannerService->activate($id);
+        $resp = $this->userBannerService->activate($id);
+        UserBannerJob::dispatch($this->userBannerService->getById($id));
+        return $resp;
     }
 
     public function needEdits($id, UserBannerAddCommentRequest $request)
     {
         $this->userBannerService->needEdits($id, $request->check());
+        UserBannerJob::dispatch($this->userBannerService->getById($id));
     }
 
      public function showPhone($id)

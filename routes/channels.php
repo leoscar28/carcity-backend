@@ -48,3 +48,7 @@ Broadcast::channel('notificationTenant.{user_id}', function ($user, $notificatio
 Broadcast::channel('userBanner.{user_id}', function ($user, $userBanner) {
     return true;
 });
+
+Broadcast::channel('userReview.{user_id}', function ($user, $userReview) {
+    return true;
+});

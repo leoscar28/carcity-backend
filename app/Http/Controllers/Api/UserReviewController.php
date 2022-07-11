@@ -9,6 +9,7 @@ use App\Http\Requests\UserReview\UserReviewCreateRequest;
 use App\Http\Requests\UserReview\UserReviewListRequest;
 use App\Http\Resources\UserReview\UserReviewCollection;
 use App\Http\Resources\UserReview\UserReviewResource;
+use App\Jobs\UserReviewJob;
 use App\Services\UserReviewService;
 use Illuminate\Validation\ValidationException;
 
@@ -21,40 +22,43 @@ class UserReviewController extends Controller
     }
 
     /**
-     * @param UserReviewCreateRequest $userBannerCreateRequest
+     * @param UserReviewCreateRequest $userReviewCreateRequest
 //     * @return UserReviewResource
      * @throws ValidationException
      */
-    public function create(UserReviewCreateRequest $userBannerCreateRequest)
+    public function create(UserReviewCreateRequest $userReviewCreateRequest)
     {
-        $data = $userBannerCreateRequest->check();
+        $data = $userReviewCreateRequest->check();
 
-        $userBanner = $this->userReviewService->create($data);
+        $userReview = $this->userReviewService->create($data);
+        UserReviewJob::dispatch($userReview);
 
-        return new UserReviewResource($userBanner);
+        return new UserReviewResource($userReview);
     }
 
-    /* @param UserReviewListRequest $userBannerListRequest
+    /* @param UserReviewListRequest $userReviewListRequest
     * @return mixed
     * @throws ValidationException
     */
-    public function pagination(UserReviewListRequest $userBannerListRequest)
+    public function pagination(UserReviewListRequest $userReviewListRequest)
     {
-        return $this->userReviewService->pagination($userBannerListRequest->check());
+        return $this->userReviewService->pagination($userReviewListRequest->check());
     }
 
     /**
-     * @param UserReviewListRequest $userBannerListRequest
+     * @param UserReviewListRequest $userReviewListRequest
      * @return UserReviewCollection
      * @throws ValidationException
      */
-    public function all(UserReviewListRequest $userBannerListRequest): UserReviewCollection
+    public function all(UserReviewListRequest $userReviewListRequest): UserReviewCollection
     {
-        return new UserReviewCollection($this->userReviewService->all($userBannerListRequest->check()));
+        return new UserReviewCollection($this->userReviewService->all($userReviewListRequest->check()));
     }
 
     public function delete($id, UserReviewAddCommentRequest $request)
     {
         $this->userReviewService->delete($id, $request->check());
+
+        UserReviewJob::dispatch($this->userReviewService->getById($id), 2);
     }
 }

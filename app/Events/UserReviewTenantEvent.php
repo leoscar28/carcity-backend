@@ -11,18 +11,18 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UserBannerTenantEvent implements ShouldBroadcast
+class UserReviewTenantEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    public $userBanner;
+    public $userReview;
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct($userBanner)
+    public function __construct($userReview)
     {
-        $this->userBanner  =   $userBanner;
+        $this->userReview  =   $userReview;
     }
 
     /**
@@ -32,11 +32,11 @@ class UserBannerTenantEvent implements ShouldBroadcast
      */
     public function broadcastOn(): Channel|array
     {
-        return new Channel('userBanner.'.$this->userBanner->{MainContract::USER_ID});
+        return new Channel('userReview.'.$this->userReview->{MainContract::CUSTOMER_ID});
     }
 
     public function broadcastAs(): string
     {
-        return 'userBanner';
+        return 'userReview';
     }
 }

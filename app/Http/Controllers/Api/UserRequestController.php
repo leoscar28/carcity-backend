@@ -7,6 +7,7 @@ use App\Http\Requests\UserRequest\UserRequestCreateRequest;
 use App\Http\Requests\UserRequest\UserRequestListRequest;
 use App\Http\Resources\UserRequest\UserRequestCollection;
 use App\Http\Resources\UserRequest\UserRequestResource;
+use App\Jobs\UserRequestJob;
 use App\Services\UserRequestService;
 use Illuminate\Validation\ValidationException;
 
@@ -19,40 +20,43 @@ class UserRequestController extends Controller
     }
 
     /**
-     * @param UserRequestCreateRequest $userBannerCreateRequest
+     * @param UserRequestCreateRequest $userRequestCreateRequest
      * @return UserRequestResource
      * @throws ValidationException
      */
-    public function create(UserRequestCreateRequest $userBannerCreateRequest)
+    public function create(UserRequestCreateRequest $userRequestCreateRequest)
     {
-        $data = $userBannerCreateRequest->check();
+        $data = $userRequestCreateRequest->check();
 
-        $userBanner = $this->userRequestService->create($data);
+        $userRequest = $this->userRequestService->create($data);
 
-        return new UserRequestResource($userBanner);
+        UserRequestJob::dispatch($userRequest);
+
+        return new UserRequestResource($userRequest);
     }
 
-    /* @param UserRequestListRequest $userBannerListRequest
+    /* @param UserRequestListRequest $userRequestListRequest
      * @return mixed
      * @throws ValidationException
      */
-    public function pagination(UserRequestListRequest $userBannerListRequest)
+    public function pagination(UserRequestListRequest $userRequestListRequest)
     {
-        return $this->userRequestService->pagination($userBannerListRequest->check());
+        return $this->userRequestService->pagination($userRequestListRequest->check());
     }
 
     /**
-     * @param UserRequestListRequest $userBannerListRequest
+     * @param UserRequestListRequest $userRequestListRequest
      * @return UserRequestCollection
      * @throws ValidationException
      */
-    public function all(UserRequestListRequest $userBannerListRequest): UserRequestCollection
+    public function all(UserRequestListRequest $userRequestListRequest): UserRequestCollection
     {
-        return new UserRequestCollection($this->userRequestService->all($userBannerListRequest->check()));
+        return new UserRequestCollection($this->userRequestService->all($userRequestListRequest->check()));
     }
 
     public function unpublish($id)
     {
         $this->userRequestService->unpublish($id);
+        UserRequestJob::dispatch($this->userRequestService->getById($id), 2);
     }
 }
