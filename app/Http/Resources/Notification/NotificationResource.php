@@ -6,6 +6,9 @@ use App\Domain\Contracts\MainContract;
 use App\Http\Resources\ApplicationDate\ApplicationDateResource;
 use App\Http\Resources\CompletionDate\CompletionDateResource;
 use App\Http\Resources\InvoiceDate\InvoiceDateResource;
+use App\Http\Resources\UserBanner\UserBannerResource;
+use App\Http\Resources\UserRequest\UserRequestResource;
+use App\Http\Resources\UserReview\UserReviewResource;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 use JetBrains\PhpStorm\ArrayShape;
@@ -21,6 +24,9 @@ class NotificationResource extends JsonResource
             MainContract::APPLICATION_ID    =>  new ApplicationDateResource($this->whenLoaded(MainContract::APPLICATIONS)),
             MainContract::COMPLETION_ID =>  new CompletionDateResource($this->whenLoaded(MainContract::COMPLETIONS)),
             MainContract::INVOICE_ID    =>  new InvoiceDateResource($this->whenLoaded(MainContract::INVOICES)),
+            MainContract::USER_BANNER_ID    =>  new UserBannerResource($this->whenLoaded(MainContract::BANNERS)),
+            MainContract::USER_REVIEW_ID =>  new UserReviewResource($this->whenLoaded(MainContract::REVIEWS)),
+            MainContract::USER_REQUEST_ID    =>  new UserRequestResource($this->whenLoaded(MainContract::REQUESTS)),
             MainContract::VIEW  =>  $this->{MainContract::VIEW},
             MainContract::STATUS    =>  $this->{MainContract::STATUS},
             MainContract::CREATED_AT    =>  Carbon::createFromTimeStamp(strtotime($this->{MainContract::CREATED_AT}))->diffForHumans(),
