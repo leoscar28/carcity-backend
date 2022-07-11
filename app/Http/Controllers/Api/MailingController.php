@@ -35,9 +35,10 @@ class MailingController extends Controller
                 $firstEmail = $email_chunk[0];
                 unset($email_chunk[0]);
 
-                Mail::to($firstEmail)
-                    ->bcc($email_chunk)
-                    ->queue(new NotificationMail($name,$data[MainContract::TITLE],$data[MainContract::TEXT],''));
+                return ['fe' => $firstEmail, 'chun' => $email_chunk];
+//                Mail::to($firstEmail)
+//                    ->bcc($email_chunk)
+//                    ->queue(new NotificationMail($name,$data[MainContract::TITLE],$data[MainContract::TEXT],''));
             }
 
             return true;
