@@ -24,6 +24,10 @@ class MailingController extends Controller
 
         $users = $this->userService->getByRoleIds([$data[MainContract::TO]]);
 
+        $users = $users->filter(function ($value, $key) {
+            return $value->email;
+        });
+
         $userEmails = $users->pluck(MainContract::EMAIL)->toArray();
 
         $name = $data[MainContract::TO] == 1 ? 'уважаемый арендатор' : 'уважаемый пользовтель';
