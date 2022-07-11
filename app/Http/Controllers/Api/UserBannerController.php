@@ -190,7 +190,7 @@ class UserBannerController extends Controller
 
     public function publish($id)
     {
-        $resp = $this->userBannerService->publish($id)
+        $resp = $this->userBannerService->publish($id);
         UserBannerJob::dispatch($this->userBannerService->getById($id));
         return $resp;
     }
