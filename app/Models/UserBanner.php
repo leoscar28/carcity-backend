@@ -35,7 +35,8 @@ class UserBanner extends Model
     }
 
     public function reviews(){
-        return $this->hasMany(UserReview::class, MainContract::USER_BANNER_ID,MainContract::ID)->where([MainContract::STATUS => UserReviewContract::STATUS_ACTIVE])->with(['user']);
+//        return $this->hasMany(UserReview::class, MainContract::USER_BANNER_ID,MainContract::ID)->where([MainContract::STATUS => UserReviewContract::STATUS_ACTIVE])->with(['user']);
+        return $this->hasMany(UserReview::class, MainContract::CUSTOMER_ID,MainContract::USER_ID)->where([MainContract::STATUS => UserReviewContract::STATUS_ACTIVE])->with(['user']);
     }
 
     public function reviewsOnUser(){

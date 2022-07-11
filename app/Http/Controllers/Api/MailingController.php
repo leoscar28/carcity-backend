@@ -29,12 +29,16 @@ class MailingController extends Controller
         $name = $data[MainContract::TO] == 1 ? 'уважаемый арендатор' : 'уважаемый пользовтель';
 
         if (count($userEmails) > 0) {
-            $firstEmail = $userEmails[0];
-            unset($userEmails[0]);
+            $email_chunks = array_chunk($userEmails, 100);
 
-            Mail::to($firstEmail)
-                ->bcc($userEmails)
-                ->send(new NotificationMail($name,$data[MainContract::TITLE],$data[MainContract::TEXT],''));
+            foreach ($email_chunks as $email_chunk){
+                $firstEmail = $email_chunk[0];
+                unset($email_chunk[0]);
+
+                Mail::to($firstEmail)
+                    ->bcc($email_chunk)
+                    ->queue(new NotificationMail($name,$data[MainContract::TITLE],$data[MainContract::TEXT],''));
+            }
 
             return true;
         }
