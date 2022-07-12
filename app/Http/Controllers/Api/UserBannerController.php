@@ -64,23 +64,23 @@ class UserBannerController extends Controller
                     $width = $resize_image->width();
                     $height = $resize_image->height();
 
-                    if ($width < $height) {
+//                    if ($width <= $height) {
                         $resize_image
                             ->resize(800, null, function($constraint){
                                 $constraint->aspectRatio();
                             })
-                            ->crop(800,600)
+//                            ->crop(800,600)
                             ->resizeCanvas(800, 600, 'center', false, '#ffffff')
                             ->save($path  . $new_file_name);
-                    } else {
-                        $resize_image
-                            ->resize(null, 600, function($constraint){
-                                $constraint->aspectRatio();
-                            })
-                            ->crop(800,600)
-                            ->resizeCanvas(800, 600, 'center', false, '#ffffff')
-                            ->save($path  . $new_file_name);
-                    }
+//                    } else {
+//                        $resize_image
+//                            ->resize(null, 600, function($constraint){
+//                                $constraint->aspectRatio();
+//                            })
+//                            ->crop(800,600)
+//                            ->resizeCanvas(800, 600, 'center', false, '#ffffff')
+//                            ->save($path  . $new_file_name);
+//                    }
 
                     UserBannerImage::create([
                         MainContract::USER_BANNER_ID => $userBanner->{MainContract::ID},
@@ -91,7 +91,7 @@ class UserBannerController extends Controller
             }
         }
 
-        UserBannerJob::dispatch($userBanner);
+//        UserBannerJob::dispatch($userBanner);
 
         return new UserBannerResource($userBanner);
     }
