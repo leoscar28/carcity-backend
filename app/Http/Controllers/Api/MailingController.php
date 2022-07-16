@@ -33,15 +33,15 @@ class MailingController extends Controller
         $name = $data[MainContract::TO] == 1 ? 'уважаемый арендатор' : 'уважаемый пользовтель';
 
         if (count($userEmails) > 0) {
-            $email_chunks = array_chunk($userEmails, 100);
+            $email_chunks = array_chunk($userEmails, 50);
 
-            foreach ($email_chunks as $email_chunk){
+            foreach ($email_chunks as $key => $email_chunk){
                 $firstEmail = $email_chunk[0];
                 unset($email_chunk[0]);
 
                 Mail::to($firstEmail)
                     ->bcc(array_values($email_chunk))
-                    ->queue(new NotificationMail($name,$data[MainContract::TITLE],$data[MainContract::TEXT],''));
+                    ->later(now()->addMinutes($key*3), new NotificationMail($name,$data[MainContract::TITLE],$data[MainContract::TEXT],''));
             }
 
             return true;
