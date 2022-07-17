@@ -155,4 +155,6 @@ class MainContract
     const ORDER_BY = 'order_by';
     const TO = 'to';
     const TEXT = 'text';
+    const SPARE_PART_ID = 'spare_part_id';
+    const SERVICE_ID = 'service_id';
 }

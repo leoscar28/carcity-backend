@@ -28,7 +28,10 @@ class UserResource extends JsonResource
             MainContract::PHONE =>  $this->{MainContract::PHONE},
             MainContract::PHONE_VERIFIED_AT =>  $this->{MainContract::PHONE_VERIFIED_AT},
             MainContract::FAVORITES => $this->favoriteIds(),
-            MainContract::CAN_CREATE_BANNER => $this->{MainContract::CAN_CREATE_BANNER}
+            MainContract::CAN_CREATE_BANNER => $this->{MainContract::CAN_CREATE_BANNER},
+            MainContract::SPARE_PART_ID =>  $this->{MainContract::SPARE_PART_ID},
+            MainContract::BRAND_ID =>  $this->{MainContract::BRAND_ID},
+            MainContract::SERVICE_ID =>  $this->{MainContract::SERVICE_ID},
         ];
     }
 }

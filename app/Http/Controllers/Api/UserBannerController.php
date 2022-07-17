@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserBanner\UserBannerAddCommentRequest;
 use App\Http\Requests\UserBanner\UserBannerCreateRequest;
 use App\Http\Requests\UserBanner\UserBannerListRequest;
+use App\Http\Requests\UserBanner\UserBannerRoomsRequest;
 use App\Http\Requests\UserBanner\UserBannerUpdateRequest;
 use App\Http\Resources\UserBanner\UserBannerCollection;
 use App\Http\Resources\UserBanner\UserBannerResource;
@@ -165,6 +166,16 @@ class UserBannerController extends Controller
     public function all(UserBannerListRequest $userBannerListRequest): UserBannerCollection
     {
         return new UserBannerCollection($this->userBannerService->all($userBannerListRequest->check()));
+    }
+
+    /**
+     * @param UserBannerRoomsRequest $userBannerRoomsRequest
+     * @return array
+     * @throws ValidationException
+     */
+    public function rooms(UserBannerRoomsRequest $userBannerRoomsRequest): array
+    {
+        return $this->userBannerService->rooms($userBannerRoomsRequest->check());
     }
 
     public function getById($id): UserBannerResource|Response|Application|ResponseFactory

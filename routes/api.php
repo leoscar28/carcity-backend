@@ -288,6 +288,7 @@ Route::prefix(MainContract::DICTIONARY_SPARE_PART)->group(function() {
 Route::prefix('userBanner')->group(function() {
     Route::post('pagination',[UserBannerController::class,'pagination'])->name('userBanner.pagination');
     Route::post('all',[UserBannerController::class,'all'])->name('userBanner.all');
+    Route::post('rooms',[UserBannerController::class,'rooms'])->name('userBanner.rooms');
     Route::post('create',[UserBannerController::class,'create'])->name('userBanner.create');
     Route::post('update/{id}',[UserBannerController::class,'update'])->name('userBanner.update');
     Route::get('getById/{id}',[UserBannerController::class,'getById'])->name('userBanner.getById');

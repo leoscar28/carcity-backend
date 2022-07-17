@@ -68,17 +68,18 @@ class UserRequestListRequest extends FormRequest
             $data[MainContract::DATA][] =   [MainContract::CATEGORY_ID,$data[MainContract::CATEGORY_ID]];
         }
 
-        if (array_key_exists(MainContract::CUSTOMER_ID,$data) && $data[MainContract::CUSTOMER_ID]) {
-            $category_ids = [];
-            $customer_banners = UserBanner::where([MainContract::USER_ID => $data[MainContract::CUSTOMER_ID], MainContract::STATUS => UserBannerContract::STATUS_PUBLISHED])->select(['category_id'])->get();
-            foreach ($customer_banners as $banner) {
-                $category_ids += $banner->category_id;
-            }
-            $category_ids = array_unique($category_ids);
-            if (count($category_ids)) {
-                $data[MainContract::CATEGORY_ID] = $category_ids;
-            }
-        }
+        /** Показывать пользователю заявки только в его категориях */
+//        if (array_key_exists(MainContract::CUSTOMER_ID,$data) && $data[MainContract::CUSTOMER_ID]) {
+//            $category_ids = [];
+//            $customer_banners = UserBanner::where([MainContract::USER_ID => $data[MainContract::CUSTOMER_ID], MainContract::STATUS => UserBannerContract::STATUS_PUBLISHED])->select(['category_id'])->get();
+//            foreach ($customer_banners as $banner) {
+//                $category_ids += $banner->category_id;
+//            }
+//            $category_ids = array_unique($category_ids);
+//            if (count($category_ids)) {
+//                $data[MainContract::CATEGORY_ID] = $category_ids;
+//            }
+//        }
 
         if (array_key_exists(MainContract::STATUS,$data)) {
             $data[MainContract::DATA][] =   [MainContract::STATUS,$data[MainContract::STATUS]];

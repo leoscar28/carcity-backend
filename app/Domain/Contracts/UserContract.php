@@ -27,7 +27,10 @@ class UserContract extends MainContract
         self::PASSWORD,
         self::STATUS,
         self::LIMIT,
-        self::CAN_CREATE_BANNER
+        self::CAN_CREATE_BANNER,
+        self::SPARE_PART_ID,
+        self::BRAND_ID,
+        self::SERVICE_ID
     ];
     const HIDDEN    =   [
         self::PASSWORD,

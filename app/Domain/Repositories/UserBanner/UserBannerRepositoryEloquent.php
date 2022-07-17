@@ -6,6 +6,7 @@ namespace App\Domain\Repositories\UserBanner;
 use App\Domain\Contracts\MainContract;
 use App\Domain\Contracts\UserBannerContract;
 use App\Http\Requests\UserBanner\UserBannerAddCommentRequest;
+use App\Models\Room;
 use App\Models\User;
 use App\Models\UserBanner;
 use Illuminate\Database\Eloquent\Collection;
@@ -140,6 +141,61 @@ class UserBannerRepositoryEloquent implements UserBannerRepositoryInterface
 
 
         return $query->get();
+    }
+
+    public function rooms($data)
+    {
+        $query  =   UserBanner::select();
+        $query2 = User::select();
+
+        if (array_key_exists(MainContract::DATA,$data)) {
+            $query->where($data[MainContract::DATA]);
+        }
+
+        if (array_key_exists(MainContract::STATUS,$data)) {
+            $query->whereIn(MainContract::STATUS, $data[MainContract::STATUS]);
+        }
+
+        if (array_key_exists(MainContract::BRAND_ID,$data) && count($data[MainContract::BRAND_ID]) > 0) {
+            $query->where(function ($query) use ($data) {
+                foreach($data[MainContract::BRAND_ID] as $brand_id) {
+                    $query->orWhereJsonContains(MainContract::BRAND_ID, $brand_id);
+                }
+            });
+            if ($data[MainContract::DATA][MainContract::TYPE] == 1) {
+                $query2->whereIn(MainContract::BRAND_ID, $data[MainContract::BRAND_ID]);
+            }
+        }
+        if (array_key_exists(MainContract::CATEGORY_ID,$data)&& count($data[MainContract::CATEGORY_ID]) > 0) {
+            $query->where(function ($query) use ($data) {
+                foreach($data[MainContract::CATEGORY_ID] as $category_id) {
+                    $query->orWhereJsonContains(MainContract::CATEGORY_ID, $category_id);
+                }
+            });
+
+            if ($data[MainContract::DATA][MainContract::TYPE] == 1) {
+                $query2->whereIn(MainContract::SPARE_PART_ID, $data[MainContract::CATEGORY_ID]);
+            } else {
+                $query2->whereIn(MainContract::SERVICE_ID, $data[MainContract::CATEGORY_ID]);
+            }
+        }
+
+        if (array_key_exists(MainContract::TERM,$data) && $data[MainContract::TERM]) {
+            $query->where(function ($query) use ($data) {
+                $query->orWhere(MainContract::TITLE, 'like', '%'.$data[MainContract::TERM].'%');
+                $query->orWhere(MainContract::DESCRIPTION, 'like', '%'.$data[MainContract::TERM].'%');
+            });
+        }
+
+        $roomsFromBanners = $query->pluck('room_id')->toArray();
+        $users = $query2->pluck('id')->toArray();
+
+        if ($users) {
+            $roomsFromUsers = Room::whereIn(MainContract::USER_ID, $users)->pluck('id')->toArray();
+            $roomsFromBanners = array_merge_recursive($roomsFromBanners,$roomsFromUsers);
+        }
+
+        return array_values(array_unique($roomsFromBanners));
     }
 
     public function needEdits($id, $data)
