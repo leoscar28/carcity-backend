@@ -50,6 +50,19 @@ class UserRequestJob implements ShouldQueue
      */
     public function handle(UserService $userService, NotificationTenantService $notificationTenantService, NotificationService $notificationService): void
     {
+        $users  =   $userService->getByRoleIds([1]);
+        foreach ($users as &$user) {
+            if ($notificationTenant = $notificationTenantService->create([
+                MainContract::USER_ID => $user->{MainContract::ID},
+                MainContract::TYPE => $this->type,
+                MainContract::USER_REQUEST_ID => $this->userRequest->{MainContract::ID},
+                MainContract::VIEW => 0,
+                MainContract::STATUS => 1
+            ])) {
+                event(new NotificationTenantEvent($notificationTenant));
+            }
+        }
+
         $users  =   $userService->getByRoleIds([2,3,4]);
         foreach ($users as &$user) {
             $notification = $notificationService->create([
