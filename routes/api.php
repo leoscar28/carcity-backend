@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ApplicationController;
 use App\Http\Controllers\Api\ApplicationDateController;
 use App\Http\Controllers\Api\ApplicationSignatureController;
 use App\Http\Controllers\Api\ApplicationStatusController;
+use App\Http\Controllers\Api\AwardsController;
 use App\Http\Controllers\Api\CompletionController;
 use App\Http\Controllers\Api\CompletionDateController;
 use App\Http\Controllers\Api\CompletionSignatureController;
@@ -180,6 +181,10 @@ Route::prefix('tier')->group(function() {
 Route::prefix('room')->group(function() {
     Route::get('getByUserId/{userId}',[RoomController::class,'getByUserId'])->name('room.getByUserId');
     Route::get('get',[RoomController::class,'get'])->name('room.get');
+});
+
+Route::prefix('awards')->group(function() {
+    Route::get('get',[AwardsController::class,'get'])->name('awards.get');
 });
 
 Route::prefix('rule')->group(function() {

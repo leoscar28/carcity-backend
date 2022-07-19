@@ -219,6 +219,7 @@ return [
         App\Providers\Repositories\RulesAdRepositoryProvider::class,
         App\Providers\Repositories\RuleRepositoryProvider::class,
         App\Providers\Repositories\InstructionRepositoryProvider::class,
+        App\Providers\Repositories\AwardsRepositoryProvider::class,
     ],
 
     /*

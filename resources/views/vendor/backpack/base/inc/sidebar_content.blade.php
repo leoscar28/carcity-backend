@@ -140,6 +140,11 @@
                 <i class='nav-icon las la-info-circle'></i> Инструкции
             </a>
         </li>
+        <li class='nav-item'>
+            <a class='nav-link' href='{{ backpack_url('awards') }}'>
+                <i class='nav-icon las la-medal'></i> Награды
+            </a>
+        </li>
     </ul>
 </li>
 
