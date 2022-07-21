@@ -23,4 +23,8 @@ class RoomService
         return $this->roomRepository->get();
     }
 
+    public function getUserInfo($roomId): array
+    {
+        return $this->roomRepository->getUserInfo($roomId);
+    }
 }

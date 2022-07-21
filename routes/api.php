@@ -181,6 +181,7 @@ Route::prefix('tier')->group(function() {
 Route::prefix('room')->group(function() {
     Route::get('getByUserId/{userId}',[RoomController::class,'getByUserId'])->name('room.getByUserId');
     Route::get('get',[RoomController::class,'get'])->name('room.get');
+    Route::get('getUserInfo/{roomId}',[RoomController::class,'getUserInfo'])->name('room.getUserInfo');
 });
 
 Route::prefix('awards')->group(function() {

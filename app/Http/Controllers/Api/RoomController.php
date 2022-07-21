@@ -25,4 +25,9 @@ class RoomController extends Controller
         return new RoomCollection($this->roomService->get());
     }
 
+    public function getUserInfo($roomId)
+    {
+        return $this->roomService->getUserInfo($roomId);
+    }
+
 }

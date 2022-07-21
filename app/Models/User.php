@@ -81,4 +81,16 @@ class User extends Authenticatable
     public function requests(){
         return $this->hasMany(UserRequest::class, MainContract::USER_ID,MainContract::ID);
     }
+
+    public function sparePart(){
+        return $this->hasOne(DictionarySparePart::class, MainContract::ID,MainContract::SPARE_PART_ID);
+    }
+
+    public function brand(){
+        return $this->hasOne(DictionaryBrand::class, MainContract::ID,MainContract::BRAND_ID);
+    }
+
+    public function service(){
+        return $this->hasOne(DictionaryService::class, MainContract::ID,MainContract::SERVICE_ID);
+    }
 }
