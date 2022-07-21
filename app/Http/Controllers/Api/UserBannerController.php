@@ -94,7 +94,7 @@ class UserBannerController extends Controller
             }
         }
 
-//        UserBannerJob::dispatch($userBanner);
+        UserBannerJob::dispatch($userBanner);
 
         return new UserBannerResource($userBanner);
     }
