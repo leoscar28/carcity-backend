@@ -6,6 +6,7 @@ use App\Domain\Contracts\MainContract;
 use App\Events\InvoiceTenantEvent;
 use App\Events\NotificationEvent;
 use App\Events\NotificationTenantEvent;
+use App\Events\UserBannerDateEvent;
 use App\Events\UserBannerTenantEvent;
 use App\Http\Resources\Invoice\InvoiceResource;
 use App\Http\Resources\Notification\NotificationResource;
@@ -71,6 +72,7 @@ class UserBannerJob implements ShouldQueue
                 event(new NotificationEvent(new NotificationResource($notification)));
             }
 
+            event(new UserBannerDateEvent(new UserBannerResource($this->userBanner)));
             event(new UserBannerTenantEvent(new UserBannerResource($this->userBanner)));
         }
     }

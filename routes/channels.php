@@ -27,6 +27,10 @@ Broadcast::channel('invoiceDate', function ($user, $invoiceDate) {
     return true;
 });
 
+Broadcast::channel('userBannerDate', function ($user, $userBanner) {
+    return true;
+});
+
 Broadcast::channel('application.{bin}', function ($user, $application) {
     return true;
 });

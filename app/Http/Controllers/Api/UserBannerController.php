@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Domain\Contracts\MainContract;
+use App\Domain\Contracts\UserBannerContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserBanner\UserBannerAddCommentRequest;
 use App\Http\Requests\UserBanner\UserBannerCreateRequest;
@@ -12,6 +13,7 @@ use App\Http\Requests\UserBanner\UserBannerUpdateRequest;
 use App\Http\Resources\UserBanner\UserBannerCollection;
 use App\Http\Resources\UserBanner\UserBannerResource;
 use App\Jobs\UserBannerJob;
+use App\Models\UserBanner;
 use App\Models\UserBannerImage;
 use App\Services\UserBannerService;
 use Illuminate\Http\Response;
@@ -233,5 +235,24 @@ class UserBannerController extends Controller
     public function up($id)
     {
         $this->userBannerService->up($id);
+    }
+
+    public function count($type)
+    {
+        switch ($type){
+            case 'new':
+                $count = UserBanner::whereIn(MainContract::STATUS, [UserBannerContract::STATUS_CREATED, UserBannerContract::STATUS_UPDATED])->count();
+                break;
+            case 'active':
+                $count = UserBanner::whereIn(MainContract::STATUS, [UserBannerContract::STATUS_NEED_EDITS, UserBannerContract::STATUS_PUBLISHED])->count();
+                break;
+            case 'inactive':
+                $count = UserBanner::whereIn(MainContract::STATUS, [UserBannerContract::STATUS_INACTIVE, UserBannerContract::STATUS_NOT_PUBLISHED])->count();
+                break;
+            default:
+                $count = UserBanner::count();
+        }
+
+        return $count;
     }
 }

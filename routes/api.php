@@ -306,6 +306,7 @@ Route::prefix('userBanner')->group(function() {
     Route::post('publish/{id}',[UserBannerController::class,'publish'])->name('userBanner.publish');
     Route::post('unpublish/{id}',[UserBannerController::class,'unpublish'])->name('userBanner.unpublish');
     Route::post('up/{id}',[UserBannerController::class,'up'])->name('userBanner.up');
+    Route::get('count/{type}',[UserBannerController::class,'count'])->name('userBanner.count');
 });
 
 Route::prefix('userReview')->group(function() {
