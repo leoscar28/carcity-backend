@@ -35,8 +35,8 @@ class UserBannerResource extends JsonResource
             MainContract::IS_PUBLISHED =>  $this->{MainContract::IS_PUBLISHED},
             MainContract::VIEW_COUNT => $this->{MainContract::VIEW_COUNT},
             MainContract::PHONE_VIEW_COUNT => $this->{MainContract::PHONE_VIEW_COUNT},
-            MainContract::CREATED_AT =>  $this->{MainContract::CREATED_AT},
-            MainContract::UPDATED_AT =>  $this->{MainContract::UPDATED_AT},
+            MainContract::CREATED_AT =>  date('d M Y H:m',strtotime($this->{MainContract::CREATED_AT})),
+            MainContract::UPDATED_AT =>  date('d M Y H:m',strtotime($this->{MainContract::UPDATED_AT})),
             MainContract::PUBLISHED_AT =>  date('d M Y H:m',strtotime($this->{MainContract::PUBLISHED_AT})),
             MainContract::UP =>  $this->{MainContract::UP},
         ];
