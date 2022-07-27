@@ -321,6 +321,7 @@ Route::prefix('userRequest')->group(function() {
     Route::post('all',[UserRequestController::class,'all'])->name('userRequest.all');
     Route::post('create',[UserRequestController::class,'create'])->name('userRequest.create');
     Route::post('unpublish/{id}',[UserRequestController::class,'unpublish'])->name('userRequest.unpublish');
+    Route::get('count/{type}',[UserRequestController::class,'count'])->name('userRequest.count');
 });
 
 Route::prefix('userFavorite')->group(function() {

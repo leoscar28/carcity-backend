@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Domain\Contracts\MainContract;
+use App\Domain\Contracts\UserRequestContract;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest\UserRequestCreateRequest;
 use App\Http\Requests\UserRequest\UserRequestListRequest;
 use App\Http\Resources\UserRequest\UserRequestCollection;
 use App\Http\Resources\UserRequest\UserRequestResource;
 use App\Jobs\UserRequestJob;
+use App\Models\UserRequest;
 use App\Services\UserRequestService;
 use Illuminate\Validation\ValidationException;
 
@@ -58,5 +61,24 @@ class UserRequestController extends Controller
     {
         $this->userRequestService->unpublish($id);
         UserRequestJob::dispatch($this->userRequestService->getById($id), 2);
+    }
+
+    public function count($type)
+    {
+        switch ($type){
+            case '12h':
+                $count = UserRequest::where(MainContract::STATUS, UserRequestContract::STATUS_ACTIVE)->where(UserRequestContract::CREATED_AT, '>', now()->subHours(12))->count();
+                break;
+            case '24h':
+                $count = UserRequest::where(MainContract::STATUS, UserRequestContract::STATUS_ACTIVE)->where(UserRequestContract::CREATED_AT, '>', now()->subHours(24))->count();
+                break;
+            case '7d':
+                $count = UserRequest::where(MainContract::STATUS, UserRequestContract::STATUS_ACTIVE)->where(UserRequestContract::CREATED_AT, '>', now()->subDays(7))->count();
+                break;
+            default:
+                $count = UserRequest::count();
+        }
+
+        return $count;
     }
 }
