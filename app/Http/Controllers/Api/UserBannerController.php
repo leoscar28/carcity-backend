@@ -16,7 +16,10 @@ use App\Jobs\UserBannerJob;
 use App\Models\UserBanner;
 use App\Models\UserBannerImage;
 use App\Services\UserBannerService;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Validation\ValidationException;
 use Intervention\Image\Facades\Image;
 
@@ -64,26 +67,12 @@ class UserBannerController extends Controller
                     }
                     $resize_image = Image::make($file->getRealPath());
 
-                    $width = $resize_image->width();
-                    $height = $resize_image->height();
-
-//                    if ($width <= $height) {
-                        $resize_image
-                            ->resize(800, null, function($constraint){
-                                $constraint->aspectRatio();
-                            })
-//                            ->crop(800,600)
-                            ->resizeCanvas(800, 600, 'center', false, '#ffffff')
-                            ->save($path  . $new_file_name);
-//                    } else {
-//                        $resize_image
-//                            ->resize(null, 600, function($constraint){
-//                                $constraint->aspectRatio();
-//                            })
-//                            ->crop(800,600)
-//                            ->resizeCanvas(800, 600, 'center', false, '#ffffff')
-//                            ->save($path  . $new_file_name);
-//                    }
+                    $resize_image
+                        ->resize(800, null, function($constraint){
+                            $constraint->aspectRatio();
+                        })
+                        ->resizeCanvas(800, 600, 'center', false, '#ffffff')
+                        ->save($path  . $new_file_name);
 
                     UserBannerImage::create([
                         MainContract::USER_BANNER_ID => $userBanner->{MainContract::ID},
@@ -120,26 +109,40 @@ class UserBannerController extends Controller
 
         $userBanner = $this->userBannerService->update($id, $data);
 
-        UserBannerJob::dispatch($userBanner);
+//UserBannerJob::dispatch($userBanner);
 
         if ($userBanner) {
 
             if($userBannerUpdateRequest->hasFile('images')) {
-                $allowedExtension=['jpeg','bmp','jpg','png'];
+                $allowedExtension = ['jpg','png'];
 
                 $files = $userBannerUpdateRequest->file('images');
                 $errors = [];
 
-
                 foreach ($files as $file) {
-                    $path = $file->store('public/images');
-                    $name = $file->getClientOriginalName();
+                    if (in_array($file->getClientOriginalExtension(), $allowedExtension)) {
 
-                    $model = new UserBannerImage();
-                    $model->user_banner_id = $userBanner->id;
-                    $model->title = $name;
-                    $model->path = $path;
-                    $model->save();
+                        $new_file_name = md5($file->getClientOriginalName().random_int(1, 9999).time()).'.'.$file->getClientOriginalExtension();
+
+                        $path = public_path('storage/banners/');
+                        if (!file_exists($path)) {
+                            mkdir($path, 755, true);
+                        }
+                        $resize_image = Image::make($file->getRealPath());
+
+                        $resize_image
+                            ->resize(800, null, function($constraint){
+                                $constraint->aspectRatio();
+                            })
+                            ->resizeCanvas(800, 600, 'center', false, '#ffffff')
+                            ->save($path  . $new_file_name);
+
+                        UserBannerImage::create([
+                            MainContract::USER_BANNER_ID => $userBanner->{MainContract::ID},
+                            MainContract::TITLE => $file->getClientOriginalName(),
+                            MainContract::PATH => 'banners/'.$new_file_name
+                        ]);
+                    }
                 }
             }
 
@@ -254,5 +257,22 @@ class UserBannerController extends Controller
         }
 
         return $count;
+    }
+
+    public function removeImage(Request $data)
+    {
+
+        if (isset($data['id'], $data['user_banner_id'])) {
+            $model = UserBannerImage::where(MainContract::ID, $data['id'])->where(MainContract::USER_BANNER_ID, $data['user_banner_id'])->first();
+            if ($model) {
+                $path = str_replace(URL::to('/').'/', '', $model->path);
+                if(file_exists(public_path($path))) {
+                   unlink(public_path($path));
+                }
+                return $model->delete();
+            }
+        }
+
+        return false;
     }
 }
