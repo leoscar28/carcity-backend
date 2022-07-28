@@ -42,7 +42,9 @@ class UserBannerListRequest extends FormRequest
             MainContract::TERM => 'nullable',
             MainContract::WITH_IMAGE => 'nullable',
             MainContract::SORT => 'nullable',
-            MainContract::ORDER_BY => 'nullable'
+            MainContract::ORDER_BY => 'nullable',
+            MainContract::ID => 'nullable',
+            MainContract::COMPANY => 'nullable'
         ];
     }
 
@@ -58,6 +60,10 @@ class UserBannerListRequest extends FormRequest
 
         if (!array_key_exists(MainContract::TAKE,$data)) {
             $data[MainContract::TAKE]   =   30;
+        }
+
+        if (array_key_exists(MainContract::ID,$data)) {
+            $data[MainContract::DATA][] =   [MainContract::ID,$data[MainContract::ID]];
         }
 
         if (array_key_exists(MainContract::USER_ID,$data)) {

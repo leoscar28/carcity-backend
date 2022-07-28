@@ -5,6 +5,7 @@ namespace App\Domain\Repositories\UserBanner;
 
 use App\Domain\Contracts\MainContract;
 use App\Domain\Contracts\UserBannerContract;
+use App\Domain\Contracts\UserContract;
 use App\Http\Requests\UserBanner\UserBannerAddCommentRequest;
 use App\Models\Room;
 use App\Models\User;
@@ -39,12 +40,21 @@ class UserBannerRepositoryEloquent implements UserBannerRepositoryInterface
     public function pagination($data)
     {
         $query  =   UserBanner::select(DB::raw("(count(id)) as data"));
+
         if (array_key_exists(MainContract::DATA,$data)) {
             $query->where($data[MainContract::DATA]);
         }
+
+        if (array_key_exists(MainContract::COMPANY,$data)) {
+
+            $customerIds = User::where(UserContract::ROLE_ID, 1)->where(UserContract::COMPANY, 'like', '%'.$data[MainContract::COMPANY].'%')->get()->pluck('id')->toArray();
+            $query->whereIn(MainContract::USER_ID, $customerIds);
+        }
+
         if (array_key_exists(MainContract::STATUS,$data)) {
             $query->whereIn(MainContract::STATUS, $data[MainContract::STATUS]);
         }
+
         if (array_key_exists(MainContract::BRAND_ID,$data)) {
             $query->where(function ($query) use ($data) {
                 foreach($data[MainContract::BRAND_ID] as $brand_id) {
@@ -52,6 +62,7 @@ class UserBannerRepositoryEloquent implements UserBannerRepositoryInterface
                 }
             });
         }
+
         if (array_key_exists(MainContract::CATEGORY_ID,$data)) {
             $query->where(function ($query) use ($data) {
                 foreach($data[MainContract::CATEGORY_ID] as $category_id) {
@@ -59,6 +70,7 @@ class UserBannerRepositoryEloquent implements UserBannerRepositoryInterface
                 }
             });
         }
+
         if (array_key_exists(MainContract::CREATED_AT,$data)) {
             $query->whereBetween(MainContract::CREATED_AT,$data[MainContract::CREATED_AT]);
         }
@@ -86,9 +98,17 @@ class UserBannerRepositoryEloquent implements UserBannerRepositoryInterface
         if (array_key_exists(MainContract::DATA,$data)) {
             $query->where($data[MainContract::DATA]);
         }
+
+        if (array_key_exists(MainContract::COMPANY,$data)) {
+
+            $customerIds = User::where(UserContract::ROLE_ID, 1)->where(UserContract::COMPANY, 'like', '%'.$data[MainContract::COMPANY].'%')->get()->pluck('id')->toArray();
+            $query->whereIn(MainContract::USER_ID, $customerIds);
+        }
+
         if (array_key_exists(MainContract::STATUS,$data)) {
             $query->whereIn(MainContract::STATUS, $data[MainContract::STATUS]);
         }
+
         if (array_key_exists(MainContract::BRAND_ID,$data)) {
             $query->where(function ($query) use ($data) {
                 foreach($data[MainContract::BRAND_ID] as $brand_id) {
@@ -96,6 +116,7 @@ class UserBannerRepositoryEloquent implements UserBannerRepositoryInterface
                 }
             });
         }
+
         if (array_key_exists(MainContract::CATEGORY_ID,$data)) {
             $query->where(function ($query) use ($data) {
                 foreach($data[MainContract::CATEGORY_ID] as $category_id) {
@@ -103,6 +124,7 @@ class UserBannerRepositoryEloquent implements UserBannerRepositoryInterface
                 }
             });
         }
+
         if (array_key_exists(MainContract::CREATED_AT,$data)) {
             $query->whereBetween(MainContract::CREATED_AT,$data[MainContract::CREATED_AT]);
         }
