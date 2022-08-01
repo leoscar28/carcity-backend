@@ -39,6 +39,10 @@ class UserRequestRepositoryEloquent implements UserRequestRepositoryInterface
             $query->whereIn(MainContract::CATEGORY_ID, $data[MainContract::CATEGORY_ID]);
         }
 
+        if (array_key_exists(MainContract::BRAND_ID,$data)) {
+            $query->whereIn(MainContract::BRAND_ID, $data[MainContract::BRAND_ID]);
+        }
+
         if (array_key_exists(MainContract::CREATED_AT,$data)) {
             $query->whereBetween(MainContract::CREATED_AT,$data[MainContract::CREATED_AT]);
         }
@@ -59,6 +63,10 @@ class UserRequestRepositoryEloquent implements UserRequestRepositoryInterface
 
         if (array_key_exists(MainContract::CATEGORY_ID,$data)) {
             $query->whereIn(MainContract::CATEGORY_ID, $data[MainContract::CATEGORY_ID]);
+        }
+
+        if (array_key_exists(MainContract::BRAND_ID,$data)) {
+            $query->whereIn(MainContract::BRAND_ID, $data[MainContract::BRAND_ID]);
         }
 
         if (array_key_exists(MainContract::CREATED_AT,$data)) {
