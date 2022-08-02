@@ -7,6 +7,8 @@ use App\Domain\Contracts\MainContract;
 use App\Domain\Contracts\UserBannerContract;
 use App\Domain\Contracts\UserContract;
 use App\Http\Requests\UserBanner\UserBannerAddCommentRequest;
+use App\Models\Notification;
+use App\Models\NotificationTenant;
 use App\Models\Room;
 use App\Models\User;
 use App\Models\UserBanner;
@@ -286,6 +288,8 @@ class UserBannerRepositoryEloquent implements UserBannerRepositoryInterface
     {
         $model = UserBanner::where(MainContract::ID,$id)->first();
         $model->delete();
+        Notification::where(MainContract::USER_BANNER_ID, $id)->delete();
+        NotificationTenant::where(MainContract::USER_BANNER_ID, $id)->delete();
     }
 
     public function archive($id)
