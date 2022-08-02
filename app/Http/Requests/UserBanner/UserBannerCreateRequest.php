@@ -29,11 +29,12 @@ class UserBannerCreateRequest extends FormRequest
     {
         return [
             MainContract::USER_ID  =>  'required',
-            MainContract::ROOM_ID   =>  'required',
-            MainContract::BRAND_ID =>  'nullable',
-            MainContract::CATEGORY_ID =>  'required',
+            MainContract::TYPE =>  'required',
             MainContract::TITLE =>  'required',
+            MainContract::ROOM_ID   =>  'required',
             MainContract::DESCRIPTION =>  'required',
+            MainContract::CATEGORY_ID =>  'required',
+            MainContract::BRAND_ID =>  'nullable',
             MainContract::TIME =>  'required',
             MainContract::WEEKDAYS =>  'required',
             MainContract::EMPLOYEE_NAME =>  'required',
