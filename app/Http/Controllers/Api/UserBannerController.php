@@ -51,7 +51,7 @@ class UserBannerController extends Controller
         $userBanner = $this->userBannerService->create($data);
 
         if($userBannerCreateRequest->hasFile('images')) {
-            $allowedExtension = ['jpg','png'];
+            $allowedExtension = ['jpg','png', 'jpeg', 'bmp'];
 
             $files = $userBannerCreateRequest->file('images');
             $errors = [];
@@ -114,7 +114,7 @@ class UserBannerController extends Controller
         if ($userBanner) {
 
             if($userBannerUpdateRequest->hasFile('images')) {
-                $allowedExtension = ['jpg','png'];
+                $allowedExtension = ['jpg','png', 'jpeg', 'bmp'];
 
                 $files = $userBannerUpdateRequest->file('images');
                 $errors = [];
