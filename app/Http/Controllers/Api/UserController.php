@@ -133,6 +133,7 @@ class UserController extends Controller
             return response(['message'  =>  'Пользователя с такими данными уже зарегистрирован!'],404);
         }
         if ($user = $this->userService->registration($data)) {
+            return $user;
             return new UserResource($user);
         }
         return response(['message'  =>  'Не удалось создать пользователя!'],404);
