@@ -77,13 +77,14 @@ class UserRepositoryEloquent implements UserRepositoryInterface
         $data[MainContract::PHONE_CODE] =  rand(1000,9999);
         $data[MainContract::STATUS]    =   0;
 
-        $user = User::create($data);
+//        $user = User::create($data);
 
         if ($user->{MainContract::EMAIL}) {
             $name   =   "новый пользователь";
             $title  =   'Регистрация на сайте CARCITY.KZ';
             $text   =   'Код для подтверждения почты: <span style="font-weight: bold; font-size:20px;">'.$data[MainContract::EMAIL_CODE].'</span>.';
-            return Mail::to($user->{MainContract::EMAIL})->send(new RegistrationMail($name,$title,$text));
+            return new RegistrationMail($name,$title,$text);
+            Mail::to($user->{MainContract::EMAIL})->send(new RegistrationMail($name,$title,$text));
         }
 
         return $user;
