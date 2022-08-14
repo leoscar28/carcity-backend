@@ -32,7 +32,7 @@ class UnpublishUserBanner extends Command
     public function handle()
     {
         UserBanner::where('status', '=', UserBannerContract::STATUS_PUBLISHED)
-            ->where(UserBannerContract::PUBLISHED_AT, '<', now()->subDays(30))
+            ->where(UserBannerContract::PUBLISHED_AT, '<', now()->subMonths(3))
             ->update(
                 ['status' => UserBannerContract::STATUS_INACTIVE, 'updated_at' => DB::raw('updated_at')]
             );
