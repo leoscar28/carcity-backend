@@ -22,6 +22,11 @@ class ApplicationSignatureService
         return $this->applicationSignatureRepository->getByApplicationIdAndUserId($applicationId,$userId);
     }
 
+    public function existsByApplicationIdAndUserId($applicationId,$userId)
+    {
+        return $this->applicationSignatureRepository->existsByApplicationIdAndUserId($applicationId,$userId);
+    }
+
     public function update($id,$data)
     {
         return $this->applicationSignatureRepository->update($id,$data);

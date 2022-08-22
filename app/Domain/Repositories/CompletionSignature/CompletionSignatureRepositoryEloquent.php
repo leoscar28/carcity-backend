@@ -37,6 +37,15 @@ class CompletionSignatureRepositoryEloquent implements CompletionSignatureReposi
         ])->first();
     }
 
+    public function existsByCompletionIdAndUserId($completionId,$userId)
+    {
+        return CompletionSignature::where([
+            [MainContract::COMPLETION_ID,$completionId],
+            [MainContract::USER_ID,$userId],
+            [MainContract::STATUS,1]
+        ])->exists();
+    }
+
     public function getByCompletionId($id)
     {
         return CompletionSignature::where([

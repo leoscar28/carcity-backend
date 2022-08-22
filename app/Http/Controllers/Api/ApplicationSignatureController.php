@@ -47,23 +47,24 @@ class ApplicationSignatureController extends Controller
     public function multipleStart($rid,$userId): Response|Application|ResponseFactory
     {
         ini_set('max_execution_time', 600);
-        
+
         $applications   =   $this->applicationService->getByRidAndUploadStatusId($rid,1);
         if (sizeof($applications) > 0) {
             $arr    =   [];
             foreach ($applications as &$application) {
-                if (!$this->applicationSignatureService->getByApplicationIdAndUserId($application->{MainContract::ID},$userId)) {
-                    if (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx')) {
-                        $arr[]  =   [
-                            MainContract::ID    =>  $application->{MainContract::ID},
-                            MainContract::DATA  =>  base64_encode(Storage::disk('public')->get($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx'))
-                        ];
-                    } else if (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/'.$application->{MainContract::ID}.'.docx')) {
-                        $arr[]  =   [
-                            MainContract::ID    =>  $application->{MainContract::ID},
-                            MainContract::DATA  =>  base64_encode(Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/'.$application->{MainContract::ID}.'.docx'))
-                        ];
-                    }
+                if ($this->applicationSignatureService->existsByApplicationIdAndUserId($application->{MainContract::ID},$userId)) {
+                    continue;
+                }
+                if (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx')) {
+                    $arr[]  =   [
+                        MainContract::ID    =>  $application->{MainContract::ID},
+                        MainContract::DATA  =>  base64_encode(Storage::disk('public')->get($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'.docx'))
+                    ];
+                } else if (Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/'.$application->{MainContract::ID}.'.docx')) {
+                    $arr[]  =   [
+                        MainContract::ID    =>  $application->{MainContract::ID},
+                        MainContract::DATA  =>  base64_encode(Storage::disk('public')->exists($application->{MainContract::CUSTOMER_ID}.'/applications/'.$application->{MainContract::ID}.'/'.$application->{MainContract::ID}.'.docx'))
+                    ];
                 }
             }
             if (sizeof($arr) !== 0) {

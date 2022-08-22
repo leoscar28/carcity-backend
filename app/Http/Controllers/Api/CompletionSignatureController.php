@@ -17,6 +17,7 @@ use App\Jobs\CompletionFiles;
 use App\Jobs\CompletionTenant;
 use App\Jobs\CompletionTenantFiles;
 use App\Models\Completion;
+use App\Models\CompletionSignature;
 use App\Services\CompletionDateService;
 use App\Services\CompletionService;
 use App\Services\CompletionSignatureService;
@@ -60,7 +61,11 @@ class CompletionSignatureController extends Controller
         if (sizeof($completions) > 0) {
             $arr    =   [];
             foreach ($completions as &$completion) {
-                if (!$this->completionSignatureService->getByCompletionIdAndUserId($completion->{MainContract::ID},$userId) && $file = $this->file->completion($completion)) {
+//              if (!$this->completionSignatureService->getByCompletionIdAndUserId($completion->{MainContract::ID},$userId) && $file = $this->file->completion($completion)) {
+                if ($this->completionSignatureService->existsByCompletionIdAndUserId($completion->{MainContract::ID},$userId)) {
+                    continue;
+                }
+                if($file = $this->file->completion($completion)) {
                     $arr[]  =   [
                         MainContract::ID    =>  $completion->{MainContract::ID},
                         MainContract::DATA  =>  $file

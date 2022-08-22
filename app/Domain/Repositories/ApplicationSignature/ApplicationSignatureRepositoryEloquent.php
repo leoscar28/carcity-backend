@@ -22,6 +22,15 @@ class ApplicationSignatureRepositoryEloquent implements ApplicationSignatureRepo
         ])->first();
     }
 
+    public function existsByApplicationIdAndUserId($applicationId,$userId)
+    {
+        return ApplicationSignature::where([
+            [MainContract::APPLICATION_ID,$applicationId],
+            [MainContract::USER_ID,$userId],
+            [MainContract::STATUS,1]
+        ])->exists();
+    }
+
     public function update($id,$data)
     {
         ApplicationSignature::where(MainContract::ID,$id)->update($data);

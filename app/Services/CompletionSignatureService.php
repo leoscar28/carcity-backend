@@ -27,6 +27,11 @@ class CompletionSignatureService
         return $this->completionSignatureRepository->getByCompletionIdAndUserId($completionId,$userId);
     }
 
+    public function existsByCompletionIdAndUserId($completionId,$userId)
+    {
+        return $this->completionSignatureRepository->existsByCompletionIdAndUserId($completionId,$userId);
+    }
+
     public function getByCompletionId($id)
     {
         return $this->completionSignatureRepository->getByCompletionId($id);
