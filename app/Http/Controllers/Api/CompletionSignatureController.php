@@ -53,17 +53,18 @@ class CompletionSignatureController extends Controller
     }
 
     public function multipleStart($rid,$userId): Response|Application|ResponseFactory
-    {        
+    {
         ini_set('max_execution_time', 600);
-        
+
         $completions    =   $this->completionService->getByRidAndUploadStatusId($rid,1);
         if (sizeof($completions) > 0) {
             $arr    =   [];
             foreach ($completions as &$completion) {
-                if (!$this->completionSignatureService->getByCompletionIdAndUserId($completion->{MainContract::ID},$userId) && $file = $this->file->completion($completion)) {
+//                if (!$this->completionSignatureService->getByCompletionIdAndUserId($completion->{MainContract::ID},$userId) && $file = $this->file->completion($completion)) {
+                if (!$this->completionSignatureService->getByCompletionIdAndUserId($completion->{MainContract::ID},$userId)) {
                     $arr[]  =   [
                         MainContract::ID    =>  $completion->{MainContract::ID},
-                        MainContract::DATA  =>  $file
+                        MainContract::DATA  =>  '$file'
                     ];
                 }
             }
