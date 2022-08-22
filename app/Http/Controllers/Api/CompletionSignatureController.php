@@ -60,11 +60,10 @@ class CompletionSignatureController extends Controller
         if (sizeof($completions) > 0) {
             $arr    =   [];
             foreach ($completions as &$completion) {
-//                if (!$this->completionSignatureService->getByCompletionIdAndUserId($completion->{MainContract::ID},$userId) && $file = $this->file->completion($completion)) {
-                if (!$this->completionSignatureService->getByCompletionIdAndUserId($completion->{MainContract::ID},$userId)) {
+                if (!$this->completionSignatureService->getByCompletionIdAndUserId($completion->{MainContract::ID},$userId) && $file = $this->file->completion($completion)) {
                     $arr[]  =   [
                         MainContract::ID    =>  $completion->{MainContract::ID},
-                        MainContract::DATA  =>  '$file'
+                        MainContract::DATA  =>  $file
                     ];
                 }
             }
