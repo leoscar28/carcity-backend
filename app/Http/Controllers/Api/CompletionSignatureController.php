@@ -54,6 +54,9 @@ class CompletionSignatureController extends Controller
 
     public function multipleStart($rid,$userId): Response|Application|ResponseFactory
     {
+        ini_set('memory_limit', '-1');
+        ini_set('max_execution_time', '-1');
+        
         $completions    =   $this->completionService->getByRidAndUploadStatusId($rid,1);
         if (sizeof($completions) > 0) {
             $arr    =   [];
