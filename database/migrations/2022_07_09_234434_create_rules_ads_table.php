@@ -17,8 +17,8 @@ return new class extends Migration
     {
         Schema::create(RulesAdContract::TABLE, function (Blueprint $table) {
             $table->id();
-            $table->text(MainContract::BODY)->nullable();
-            $table->text(MainContract::BODY_KZ)->nullable();
+            $table->mediumText(MainContract::BODY)->nullable();
+            $table->mediumText(MainContract::BODY_KZ)->nullable();
             $table->unsignedTinyInteger(MainContract::STATUS)->default(1);
             $table->timestamps();
         });
