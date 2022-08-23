@@ -176,7 +176,7 @@ class CompletionSignatureController extends Controller
         if ($user = $this->userService->getById($data[MainContract::USER_ID])) {
             foreach ($data[MainContract::RES] as $key => $result) {
                 if ($completion = $this->completionService->getById($result[MainContract::ID])) {
-                    if (!$this->completionSignatureService->getByCompletionIdAndUserId($completion->{MainContract::ID},$data[MainContract::USER_ID]) && $verifiedData = $this->curl->verifyData($data[MainContract::SIGNATURE][$key])) {
+                    if (!$this->completionSignatureService->existsByCompletionIdAndUserId($completion->{MainContract::ID},$data[MainContract::USER_ID]) && $verifiedData = $this->curl->verifyData($data[MainContract::SIGNATURE][$key])) {
                         if (!$this->createCheckMultiple($completion, $verifiedData, $data, $user, $key)) {
                             return response(['message'  =>  'Этим ЭЦП ключом нельзя подписать, обратитесть к администратору'],400);
                         }
