@@ -127,7 +127,7 @@ class ApplicationSignatureController extends Controller
         if ($user = $this->userService->getById($data[MainContract::USER_ID])) {
             foreach ($data[MainContract::RES] as $key => $result) {
                 if ($application = $this->applicationService->getById($result[MainContract::ID])) {
-                    if (!$this->applicationSignatureService->getByApplicationIdAndUserId($application->{MainContract::ID},$data[MainContract::USER_ID])) {
+                    if (!$this->applicationSignatureService->existsByApplicationIdAndUserId($application->{MainContract::ID},$data[MainContract::USER_ID])) {
                         if ($verifiedData = $this->verifyData($data[MainContract::SIGNATURE][$key])) {
                             if (array_key_exists(MainContract::RESULT,$verifiedData)) {
 
