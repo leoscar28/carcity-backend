@@ -122,7 +122,7 @@ class CompletionRepositoryEloquent implements CompletionRepositoryInterface
             [MainContract::RID,$rid],
             [MainContract::UPLOAD_STATUS_ID,$uploadStatusId],
             [MainContract::STATUS,1]
-        ])->limit(300)->get();
+        ])->limit(500)->get();
     }
 
     public function getByIds($ids)
