@@ -185,6 +185,7 @@ class UserBannerController extends Controller
 
     public function getById($request): UserBannerResource|Response|Application|ResponseFactory
     {
+        return response($request, 404);
         if ($userBanner = $this->userBannerService->getById($request)) {
             return new UserBannerResource($userBanner);
         }
