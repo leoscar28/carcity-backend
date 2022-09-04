@@ -13,8 +13,8 @@ class CheckIfAdmin
 
     private function checkIfUserIsAdmin($user): bool
     {
-        // return ($user->is_admin == 1);
-        return true;
+        return ($user->role_id == 2);
+//        return true;
     }
 
     private function respondToUnauthorizedRequest($request): Response|Application|RedirectResponse|ResponseFactory
