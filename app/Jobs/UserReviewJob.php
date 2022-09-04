@@ -61,7 +61,7 @@ class UserReviewJob implements ShouldQueue
                 event(new NotificationTenantEvent($notificationTenant));
             }
 
-            $users  =   $userService->getByRoleIds([2,3,4]);
+            $users  =   $userService->getByRoleIds([2]);
             foreach ($users as &$user) {
                 $notification = $notificationService->create([
                     MainContract::USER_ID   =>  $user->{MainContract::ID},
