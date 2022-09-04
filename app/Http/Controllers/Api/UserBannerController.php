@@ -183,11 +183,11 @@ class UserBannerController extends Controller
         return $this->userBannerService->rooms($userBannerRoomsRequest->check());
     }
 
-    public function getById($id, $data): UserBannerResource|Response|Application|ResponseFactory
+    public function getById($id, Request $request): UserBannerResource|Response|Application|ResponseFactory
     {
         return response($data,404);
 
-        if ($userBanner = $this->userBannerService->getById($data)) {
+        if ($userBanner = $this->userBannerService->getById($request)) {
             return new UserBannerResource($userBanner);
         }
         return response(['message'  =>  'Объявление не найдено'],404);
