@@ -297,7 +297,7 @@ Route::prefix('userBanner')->group(function() {
     Route::post('rooms',[UserBannerController::class,'rooms'])->name('userBanner.rooms');
     Route::post('create',[UserBannerController::class,'create'])->name('userBanner.create');
     Route::post('update/{id}',[UserBannerController::class,'update'])->name('userBanner.update');
-    Route::get('getById/{id}',[UserBannerController::class,'getById'])->name('userBanner.getById');
+    Route::post('getById/{id}',[UserBannerController::class,'getById'])->name('userBanner.getById');
     Route::post('showPhone/{id}',[UserBannerController::class,'showPhone'])->name('userBanner.showPhone');
     Route::post('delete/{id}',[UserBannerController::class,'delete'])->name('userBanner.delete');
     Route::post('archive/{id}',[UserBannerController::class,'archive'])->name('userBanner.archive');
