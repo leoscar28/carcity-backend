@@ -48,7 +48,7 @@ class UserBannerService
     
     public function viewById($data)
     {
-        return $this->userBannerRepository->getById($data);
+        return $this->userBannerRepository->viewById($data);
     }
 
     public function archive($id)
