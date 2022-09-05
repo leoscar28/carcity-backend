@@ -41,7 +41,12 @@ class UserBannerService
         return $this->userBannerRepository->rooms($data);
     }
 
-    public function getById($data)
+    public function getById($id)
+    {
+        return $this->userBannerRepository->getById($id);
+    }
+    
+    public function viewById($data)
     {
         return $this->userBannerRepository->getById($data);
     }
