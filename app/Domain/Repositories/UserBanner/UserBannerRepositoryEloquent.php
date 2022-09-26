@@ -17,7 +17,12 @@ use Illuminate\Support\Facades\DB;
 
 class UserBannerRepositoryEloquent implements UserBannerRepositoryInterface
 {
-    public function getById($data): object|null
+    public function getById($id): object|null
+    {  
+        return UserBanner::where(MainContract::ID,$id)->with(['images', 'room', 'user', 'reviews'])->first();
+    }
+    
+    public function viewById($data): object|null
     {
         if (!in_array($data[MainContract::ROLE_ID], [2,3,4])) {
             UserBanner::where(MainContract::ID,$data[MainContract::ID])->increment('view_count', 1);
