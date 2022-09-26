@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\CompletionDateController;
 use App\Http\Controllers\Api\CompletionSignatureController;
 use App\Http\Controllers\Api\CompletionStatusController;
 use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\FeedbackRequestController;
 use App\Http\Controllers\Api\InfrastructureController;
 use App\Http\Controllers\Api\InfrastructureOptionController;
 use App\Http\Controllers\Api\InstructionController;
@@ -330,6 +331,15 @@ Route::prefix('userFavorite')->group(function() {
     Route::post('all',[UserFavoriteController::class,'all'])->name('userFavorite.all');
     Route::post('add',[UserFavoriteController::class,'add'])->name('userFavorite.add');
     Route::post('remove',[UserFavoriteController::class,'remove'])->name('userFavorite.remove');
+});
+
+Route::prefix('feedbackRequest')->group(function() {
+    Route::post('pagination',[FeedbackRequestController::class,'pagination'])->name('feedbackRequest.pagination');
+    Route::post('all',[FeedbackRequestController::class,'all'])->name('feedbackRequest.all');
+    Route::post('create',[FeedbackRequestController::class,'create'])->name('feedbackRequest.create');
+    Route::post('addMessage',[FeedbackRequestController::class,'addMessage'])->name('feedbackRequest.addMessage');
+    Route::post('getById/{id}',[FeedbackRequestController::class,'getById'])->name('feedbackRequest.getById');
+    Route::post('close/{id}',[FeedbackRequestController::class,'close'])->name('feedbackRequest.close');
 });
 
 Route::prefix('mailing')->group(function() {
