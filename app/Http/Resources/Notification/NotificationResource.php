@@ -5,6 +5,7 @@ namespace App\Http\Resources\Notification;
 use App\Domain\Contracts\MainContract;
 use App\Http\Resources\ApplicationDate\ApplicationDateResource;
 use App\Http\Resources\CompletionDate\CompletionDateResource;
+use App\Http\Resources\FeedbackRequest\FeedbackRequestResource;
 use App\Http\Resources\InvoiceDate\InvoiceDateResource;
 use App\Http\Resources\UserBanner\UserBannerResource;
 use App\Http\Resources\UserRequest\UserRequestResource;
@@ -27,7 +28,7 @@ class NotificationResource extends JsonResource
             MainContract::USER_BANNER_ID    =>  new UserBannerResource($this->whenLoaded(MainContract::BANNERS)),
             MainContract::USER_REVIEW_ID =>  new UserReviewResource($this->whenLoaded(MainContract::REVIEWS)),
             MainContract::USER_REQUEST_ID    =>  new UserRequestResource($this->whenLoaded(MainContract::REQUESTS)),
-            MainContract::FEEDBACK_REQUEST_ID    =>  new UserRequestResource($this->whenLoaded(MainContract::FEEDBACKS)),
+            MainContract::FEEDBACK_REQUEST_ID    =>  new FeedbackRequestResource($this->whenLoaded(MainContract::FEEDBACKS)),
             MainContract::VIEW  =>  $this->{MainContract::VIEW},
             MainContract::STATUS    =>  $this->{MainContract::STATUS},
             MainContract::CREATED_AT    =>  Carbon::createFromTimeStamp(strtotime($this->{MainContract::CREATED_AT}))->diffForHumans(),
