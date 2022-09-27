@@ -27,6 +27,7 @@ class NotificationResource extends JsonResource
             MainContract::USER_BANNER_ID    =>  new UserBannerResource($this->whenLoaded(MainContract::BANNERS)),
             MainContract::USER_REVIEW_ID =>  new UserReviewResource($this->whenLoaded(MainContract::REVIEWS)),
             MainContract::USER_REQUEST_ID    =>  new UserRequestResource($this->whenLoaded(MainContract::REQUESTS)),
+            MainContract::FEEDBACK_REQUEST_ID    =>  new UserRequestResource($this->whenLoaded(MainContract::FEEDBACKS)),
             MainContract::VIEW  =>  $this->{MainContract::VIEW},
             MainContract::STATUS    =>  $this->{MainContract::STATUS},
             MainContract::CREATED_AT    =>  Carbon::createFromTimeStamp(strtotime($this->{MainContract::CREATED_AT}))->diffForHumans(),

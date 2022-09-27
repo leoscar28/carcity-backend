@@ -10,6 +10,7 @@ use App\Http\Requests\FeedbackRequest\FeedbackRequestCreateRequest;
 use App\Http\Requests\FeedbackRequest\FeedbackRequestListRequest;
 use App\Http\Resources\FeedbackRequest\FeedbackRequestCollection;
 use App\Http\Resources\FeedbackRequest\FeedbackRequestResource;
+use App\Jobs\FeedbackRequestJob;
 use App\Models\FeedbackRequestMessageImage;
 use App\Services\FeedbackRequestMessageService;
 use App\Services\FeedbackRequestService;
@@ -77,7 +78,11 @@ class FeedbackRequestController extends Controller
             }
         }
 
-        return new FeedbackRequestResource($this->feedbackRequestService->getById($feedbackRequest->{MainContract::ID}));
+        $feedbackRequest = $this->feedbackRequestService->getById($feedbackRequest->{MainContract::ID});
+
+        FeedbackRequestJob::dispatch($feedbackRequest);
+
+        return new FeedbackRequestResource($feedbackRequest);
     }
 
 
@@ -156,11 +161,19 @@ class FeedbackRequestController extends Controller
             }
         }
 
-        return new FeedbackRequestResource($this->feedbackRequestService->getById($feedbackRequestMessage->{MainContract::FEEDBACK_REQUEST_ID}));
+        $feedbackRequest = $this->feedbackRequestService->getById($feedbackRequestMessage->{MainContract::FEEDBACK_REQUEST_ID});
+
+        FeedbackRequestJob::dispatch($feedbackRequest);
+
+        return new FeedbackRequestResource($feedbackRequest);
     }
 
     public function close($id)
     {
         $this->feedbackRequestService->close($id);
+
+        $feedbackRequest = $this->feedbackRequestService->getById($id);
+
+        FeedbackRequestJob::dispatch($feedbackRequest);
     }
 }

@@ -161,4 +161,5 @@ class MainContract
     const FEEDBACK_REQUEST_MESSAGE_ID = 'feedback_request_message_id';
     const FIRST_MESSAGE = 'first_message';
     const MESSAGES = 'messages';
+    const FEEDBACKS = 'feedbacks';
 }
