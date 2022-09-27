@@ -14,6 +14,7 @@ class NotificationContract extends MainContract
         self::USER_BANNER_ID,
         self::USER_REVIEW_ID,
         self::USER_REQUEST_ID,
+        self::FEEDBACK_REQUEST_ID,
         self::VIEW,
         self::STATUS
     ];
