@@ -4,6 +4,7 @@ use App\Domain\Contracts\MainContract;
 use App\Domain\Contracts\PositionContract;
 use App\Http\Controllers\Api\AboutController;
 use App\Http\Controllers\Api\AboutOptionController;
+use App\Http\Controllers\Api\AnnouncementController;
 use App\Http\Controllers\Api\ApplicationController;
 use App\Http\Controllers\Api\ApplicationDateController;
 use App\Http\Controllers\Api\ApplicationSignatureController;
@@ -70,7 +71,7 @@ Route::get('dasdasd',function() {
 });
 
 Route::prefix('user')->group(function() {
-    Route::post('list',[UserController::class,'list'])->name('list');
+//    Route::post('list',[UserController::class,'list'])->name('list');
     Route::post('auth',[UserController::class,'auth'])->name('auth');
     Route::post('registration',[UserController::class,'registration'])->name('registration');
     Route::post('create',[UserController::class,'create'])->name('create');
@@ -344,4 +345,14 @@ Route::prefix('feedbackRequest')->group(function() {
 
 Route::prefix('mailing')->group(function() {
     Route::post('sendMail',[MailingController::class,'sendMail'])->name('mailing.sendMail');
+});
+
+Route::prefix('announcement')->group(function() {
+    Route::post('pagination',[AnnouncementController::class,'pagination'])->name('announcement.pagination');
+    Route::post('all',[AnnouncementController::class,'all'])->name('announcement.all');
+    Route::post('create',[AnnouncementController::class,'create'])->name('announcement.create');
+    Route::post('getById/{id}',[AnnouncementController::class,'getById'])->name('announcement.getById');
+    Route::post('setView/{id}',[AnnouncementController::class,'setView'])->name('announcement.setView');
+    Route::post('getNotViewed',[AnnouncementController::class,'getNotViewed'])->name('announcement.getNotViewed');
+    Route::get('activeCustomers',[AnnouncementController::class,'activeCustomers'])->name('announcement.activeCustomers');
 });

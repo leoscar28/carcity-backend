@@ -162,4 +162,6 @@ class MainContract
     const FIRST_MESSAGE = 'first_message';
     const MESSAGES = 'messages';
     const FEEDBACKS = 'feedbacks';
+    const ANNOUNCEMENT_ID = 'announcement_id';
+    const ANNOUNCEMENT = 'announcement';
 }
