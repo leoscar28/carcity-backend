@@ -14,7 +14,7 @@ class FeedbackRequestMessageImage extends Model
     protected $table = 'feedback_request_message_images';
 
     protected $fillable = [
-        MainContract::USER_BANNER_ID,
+        MainContract::FEEDBACK_REQUEST_MESSAGE_ID,
         MainContract::TITLE,
         MainContract::PATH
     ];
