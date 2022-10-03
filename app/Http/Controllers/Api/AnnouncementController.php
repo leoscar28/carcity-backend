@@ -52,6 +52,8 @@ class AnnouncementController extends Controller
         if (!count($data[MainContract::IDS]) || $data[MainContract::IDS][0] == 0 ) {
             $data[MainContract::IDS] = User::where(MainContract::STATUS,1)->where(MainContract::ROLE_ID,1)->pluck('id')->toArray();
         }
+        
+        return $data[MainContract::IDS];
 
         $announcement = $this->announcementService->create($data);
 
