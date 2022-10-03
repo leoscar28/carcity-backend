@@ -15,11 +15,11 @@ class FeedbackRequest extends Model
     protected $fillable =   FeedbackRequestContract::FILLABLE;
 
     public function messages(){
-        return $this->hasMany(FeedbackRequestMessage::class, MainContract::FEEDBACK_REQUEST_ID, MainContract::ID)->with(['image']);
+        return $this->hasMany(FeedbackRequestMessage::class, MainContract::FEEDBACK_REQUEST_ID, MainContract::ID)->with(['file']);
     }
 
     public function firstMessage(){
-        return $this->hasOne(FeedbackRequestMessage::class, MainContract::FEEDBACK_REQUEST_ID, MainContract::ID)->oldest()->with(['image']);
+        return $this->hasOne(FeedbackRequestMessage::class, MainContract::FEEDBACK_REQUEST_ID, MainContract::ID)->oldest()->with(['file']);
     }
 
     public function user(){

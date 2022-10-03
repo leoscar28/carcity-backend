@@ -31,7 +31,7 @@ class FeedbackRequestCreateRequest extends FormRequest
             MainContract::USER_ID  =>  'required',
             MainContract::TITLE =>  'required',
             MainContract::DESCRIPTION =>  'required',
-            MainContract::IMAGES.'.*' => 'image|mimes:jpg,jpeg,png,bmp'
+            MainContract::FILE => 'nullable'
         ];
     }
 

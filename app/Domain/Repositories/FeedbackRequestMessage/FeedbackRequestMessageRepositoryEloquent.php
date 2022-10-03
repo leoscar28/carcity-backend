@@ -10,7 +10,7 @@ class FeedbackRequestMessageRepositoryEloquent implements FeedbackRequestMessage
 {
     public function getById($id): object|null
     {
-        return FeedbackRequestMessage::where(MainContract::ID,$id)->with(['image'])->first();
+        return FeedbackRequestMessage::where(MainContract::ID,$id)->with(['file'])->first();
     }
 
     public function create($data): ?object

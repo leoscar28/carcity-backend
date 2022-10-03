@@ -15,6 +15,7 @@ class FeedbackRequestMessageResource extends JsonResource
             MainContract::USER_ID =>  $this->{MainContract::USER_ID},
             MainContract::USER =>  $this->{MainContract::USER},
             MainContract::TYPE => $this->{MainContract::TYPE},
+            MainContract::FILE => $this->{MainContract::FILE},
             MainContract::DESCRIPTION =>  $this->{MainContract::DESCRIPTION},
             MainContract::CREATED_AT =>  date('d M Y H:m',strtotime($this->{MainContract::CREATED_AT})),
             MainContract::UPDATED_AT =>  date('d M Y H:m',strtotime($this->{MainContract::UPDATED_AT}))

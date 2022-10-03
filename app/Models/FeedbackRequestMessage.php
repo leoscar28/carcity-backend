@@ -18,7 +18,7 @@ class FeedbackRequestMessage extends Model
         return $this->hasOne(User::class, MainContract::ID, MainContract::USER_ID);
     }
 
-    public function image(){
+    public function file(){
         return $this->hasOne(FeedbackRequestMessageImage::class, MainContract::FEEDBACK_REQUEST_MESSAGE_ID, MainContract::ID);
     }
 }

@@ -50,32 +50,32 @@ class FeedbackRequestController extends Controller
             MainContract::DESCRIPTION => $data[MainContract::DESCRIPTION]
         ]);
 
-        if($feedbackRequestListRequest->hasFile('images')) {
-            $allowedExtension = ['jpg','png', 'jpeg', 'bmp'];
+        if($feedbackRequestListRequest->hasFile('file')) {
+            $allowedExtension = ['jpg','png', 'jpeg', 'bmp', 'docx', 'doc', 'txt', 'pdf', 'xlsx', 'xls'];
 
-            $files = $feedbackRequestListRequest->file('images');
-            $errors = [];
+            $file = $feedbackRequestListRequest->file('file');
 
-            foreach ($files as $file) {
-                if (in_array($file->getClientOriginalExtension(), $allowedExtension)) {
 
-                    $new_file_name = md5($file->getClientOriginalName().random_int(1, 9999).time()).'.'.$file->getClientOriginalExtension();
+            if (in_array($file->getClientOriginalExtension(), $allowedExtension)) {
 
-                    $path = public_path('storage/banners/');
-                    if (!file_exists($path)) {
-                        mkdir($path, 755, true);
-                    }
-                    $resize_image = Image::make($file->getRealPath());
+                $new_file_name = md5($file->getClientOriginalName().random_int(1, 9999).time()).'.'.$file->getClientOriginalExtension();
 
-                    $resize_image->save($path  . $new_file_name);
-
-                    FeedbackRequestMessageImage::create([
-                        MainContract::FEEDBACK_REQUEST_MESSAGE_ID => $feedbackRequestMessage->{MainContract::ID},
-                        MainContract::TITLE => $file->getClientOriginalName(),
-                        MainContract::PATH => 'banners/'.$new_file_name
-                    ]);
+                $path = public_path('storage/feedback/');
+                if (!file_exists($path)) {
+                    mkdir($path, 755, true);
                 }
+
+                $file->storeAs(
+                    'feedback', $new_file_name, 'public'
+                );
+
+                FeedbackRequestMessageImage::create([
+                    MainContract::FEEDBACK_REQUEST_MESSAGE_ID => $feedbackRequestMessage->{MainContract::ID},
+                    MainContract::TITLE => $file->getClientOriginalName(),
+                    MainContract::PATH => 'feedback/'.$new_file_name
+                ]);
             }
+
         }
 
         $feedbackRequest = $this->feedbackRequestService->getById($feedbackRequest->{MainContract::ID});
@@ -133,31 +133,29 @@ class FeedbackRequestController extends Controller
 
         $this->feedbackRequestService->update($feedbackRequestMessage->{MainContract::FEEDBACK_REQUEST_ID}, $statusData);
 
-        if($feedbackRequestAddMessageRequest->hasFile('images')) {
-            $allowedExtension = ['jpg','png', 'jpeg', 'bmp'];
+        if($feedbackRequestAddMessageRequest->hasFile('file')) {
+            $allowedExtension = ['jpg','png', 'jpeg', 'bmp', 'docx', 'doc', 'txt', 'pdf', 'xlsx', 'xls'];
 
-            $files = $feedbackRequestAddMessageRequest->file('images');
-            $errors = [];
+            $file = $feedbackRequestAddMessageRequest->file('file');
 
-            foreach ($files as $file) {
-                if (in_array($file->getClientOriginalExtension(), $allowedExtension)) {
+            if (in_array($file->getClientOriginalExtension(), $allowedExtension)) {
 
-                    $new_file_name = md5($file->getClientOriginalName().random_int(1, 9999).time()).'.'.$file->getClientOriginalExtension();
+                $new_file_name = md5($file->getClientOriginalName().random_int(1, 9999).time()).'.'.$file->getClientOriginalExtension();
 
-                    $path = public_path('storage/banners/');
-                    if (!file_exists($path)) {
-                        mkdir($path, 755, true);
-                    }
-                    $resize_image = Image::make($file->getRealPath());
-
-                    $resize_image->save($path  . $new_file_name);
-
-                    FeedbackRequestMessageImage::create([
-                        MainContract::FEEDBACK_REQUEST_MESSAGE_ID => $feedbackRequestMessage->{MainContract::ID},
-                        MainContract::TITLE => $file->getClientOriginalName(),
-                        MainContract::PATH => 'banners/'.$new_file_name
-                    ]);
+                $path = public_path('storage/feedback/');
+                if (!file_exists($path)) {
+                    mkdir($path, 755, true);
                 }
+
+                $file->storeAs(
+                    'feedback', $new_file_name, 'public'
+                );
+
+                FeedbackRequestMessageImage::create([
+                    MainContract::FEEDBACK_REQUEST_MESSAGE_ID => $feedbackRequestMessage->{MainContract::ID},
+                    MainContract::TITLE => $file->getClientOriginalName(),
+                    MainContract::PATH => 'feedback/'.$new_file_name
+                ]);
             }
         }
 

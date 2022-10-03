@@ -32,7 +32,7 @@ class FeedbackRequestAddMessageRequest extends FormRequest
             MainContract::TYPE => 'required',
             MainContract::FEEDBACK_REQUEST_ID =>  'required',
             MainContract::DESCRIPTION =>  'required',
-            MainContract::IMAGES.'.*' => 'image|mimes:jpg,jpeg,png,bmp'
+            MainContract::FILE => 'nullable'
         ];
     }
 
