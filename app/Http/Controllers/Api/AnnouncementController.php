@@ -46,10 +46,10 @@ class AnnouncementController extends Controller
         if (array_key_exists(MainContract::FILE, $data)) {
             unset($data[MainContract::FILE]);
         }
-        
+
         if ($data[MainContract::IDS]) {
             $data[MainContract::IDS] = explode(',', $data[MainContract::IDS]);
-        } else { 
+        } else {
             $data[MainContract::IDS] = User::where(MainContract::STATUS,1)->where(MainContract::ROLE_ID,1)->pluck('id')->toArray();
         }
 
@@ -138,6 +138,6 @@ class AnnouncementController extends Controller
 
     public function activeCustomers()
     {
-        return ['data' => User::where(MainContract::STATUS,1)->where(MainContract::ROLE_ID,1)->select('id', DB::raw("CONCAT(name,' ',surname) as text"))->get()];
+        return ['data' => User::where(MainContract::STATUS,1)->where(MainContract::ROLE_ID,1)->select('id', DB::raw("company as text"))->orderBy('company', 'asc')->get()];
     }
 }
