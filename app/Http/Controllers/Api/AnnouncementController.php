@@ -49,9 +49,7 @@ class AnnouncementController extends Controller
         
         if ($data[MainContract::IDS]) {
             $data[MainContract::IDS] = explode(',', $data[MainContract::IDS]);
-        }        
-
-        if (!count($data[MainContract::IDS])) {
+        } else { 
             $data[MainContract::IDS] = User::where(MainContract::STATUS,1)->where(MainContract::ROLE_ID,1)->pluck('id')->toArray();
         }
         
