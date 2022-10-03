@@ -46,10 +46,12 @@ class AnnouncementController extends Controller
         if (array_key_exists(MainContract::FILE, $data)) {
             unset($data[MainContract::FILE]);
         }
+        
+        if ($data[MainContract::IDS]) {
+            $data[MainContract::IDS] = explode(',', $data[MainContract::IDS]);
+        }        
 
-        $data[MainContract::IDS] = explode(',', $data[MainContract::IDS]);
-
-        if (!count($data[MainContract::IDS]) || $data[MainContract::IDS][0] == 0 ) {
+        if (!count($data[MainContract::IDS])) {
             $data[MainContract::IDS] = User::where(MainContract::STATUS,1)->where(MainContract::ROLE_ID,1)->pluck('id')->toArray();
         }
         
