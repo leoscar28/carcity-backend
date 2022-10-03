@@ -52,8 +52,6 @@ class AnnouncementController extends Controller
         } else { 
             $data[MainContract::IDS] = User::where(MainContract::STATUS,1)->where(MainContract::ROLE_ID,1)->pluck('id')->toArray();
         }
-        
-        return $data[MainContract::IDS];
 
         $announcement = $this->announcementService->create($data);
 
