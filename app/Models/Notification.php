@@ -42,4 +42,9 @@ class Notification extends Model
     {
         return $this->belongsTo(UserRequest::class,MainContract::USER_REQUEST_ID,MainContract::ID);
     }
+
+    public function feedbacks(): BelongsTo
+    {
+        return $this->belongsTo(FeedbackRequest::class,MainContract::FEEDBACK_REQUEST_ID,MainContract::ID);
+    }
 }

@@ -157,4 +157,11 @@ class MainContract
     const TEXT = 'text';
     const SPARE_PART_ID = 'spare_part_id';
     const SERVICE_ID = 'service_id';
+    const FEEDBACK_REQUEST_ID = 'feedback_request_id';
+    const FEEDBACK_REQUEST_MESSAGE_ID = 'feedback_request_message_id';
+    const FIRST_MESSAGE = 'first_message';
+    const MESSAGES = 'messages';
+    const FEEDBACKS = 'feedbacks';
+    const ANNOUNCEMENT_ID = 'announcement_id';
+    const ANNOUNCEMENT = 'announcement';
 }

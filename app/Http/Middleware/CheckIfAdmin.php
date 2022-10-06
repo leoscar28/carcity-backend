@@ -13,8 +13,8 @@ class CheckIfAdmin
 
     private function checkIfUserIsAdmin($user): bool
     {
-        // return ($user->is_admin == 1);
-        return true;
+        return in_array($user->role_id,[2,3,4]);
+//        return true;
     }
 
     private function respondToUnauthorizedRequest($request): Response|Application|RedirectResponse|ResponseFactory
@@ -33,7 +33,7 @@ class CheckIfAdmin
         }
 
         if (! $this->checkIfUserIsAdmin(backpack_user())) {
-            return $this->respondToUnauthorizedRequest($request);
+            return redirect()->guest(backpack_url('logout'));
         }
 
         return $next($request);

@@ -220,6 +220,10 @@ return [
         App\Providers\Repositories\RuleRepositoryProvider::class,
         App\Providers\Repositories\InstructionRepositoryProvider::class,
         App\Providers\Repositories\AwardsRepositoryProvider::class,
+        App\Providers\Repositories\FeedbackRequestRepositoryProvider::class,
+        App\Providers\Repositories\FeedbackRequestMessageRepositoryProvider::class,
+        App\Providers\Repositories\AnnouncementRepositoryProvider::class,
+        App\Providers\Repositories\AnnouncementRecipientRepositoryProvider::class
     ],
 
     /*

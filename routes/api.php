@@ -4,6 +4,7 @@ use App\Domain\Contracts\MainContract;
 use App\Domain\Contracts\PositionContract;
 use App\Http\Controllers\Api\AboutController;
 use App\Http\Controllers\Api\AboutOptionController;
+use App\Http\Controllers\Api\AnnouncementController;
 use App\Http\Controllers\Api\ApplicationController;
 use App\Http\Controllers\Api\ApplicationDateController;
 use App\Http\Controllers\Api\ApplicationSignatureController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\Api\CompletionDateController;
 use App\Http\Controllers\Api\CompletionSignatureController;
 use App\Http\Controllers\Api\CompletionStatusController;
 use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\FeedbackRequestController;
 use App\Http\Controllers\Api\InfrastructureController;
 use App\Http\Controllers\Api\InfrastructureOptionController;
 use App\Http\Controllers\Api\InstructionController;
@@ -69,7 +71,7 @@ Route::get('dasdasd',function() {
 });
 
 Route::prefix('user')->group(function() {
-    Route::post('list',[UserController::class,'list'])->name('list');
+//    Route::post('list',[UserController::class,'list'])->name('list');
     Route::post('auth',[UserController::class,'auth'])->name('auth');
     Route::post('registration',[UserController::class,'registration'])->name('registration');
     Route::post('create',[UserController::class,'create'])->name('create');
@@ -297,7 +299,7 @@ Route::prefix('userBanner')->group(function() {
     Route::post('rooms',[UserBannerController::class,'rooms'])->name('userBanner.rooms');
     Route::post('create',[UserBannerController::class,'create'])->name('userBanner.create');
     Route::post('update/{id}',[UserBannerController::class,'update'])->name('userBanner.update');
-    Route::get('getById/{id}',[UserBannerController::class,'getById'])->name('userBanner.getById');
+    Route::post('getById/{id}',[UserBannerController::class,'getById'])->name('userBanner.getById');
     Route::post('showPhone/{id}',[UserBannerController::class,'showPhone'])->name('userBanner.showPhone');
     Route::post('delete/{id}',[UserBannerController::class,'delete'])->name('userBanner.delete');
     Route::post('archive/{id}',[UserBannerController::class,'archive'])->name('userBanner.archive');
@@ -332,6 +334,25 @@ Route::prefix('userFavorite')->group(function() {
     Route::post('remove',[UserFavoriteController::class,'remove'])->name('userFavorite.remove');
 });
 
+Route::prefix('feedbackRequest')->group(function() {
+    Route::post('pagination',[FeedbackRequestController::class,'pagination'])->name('feedbackRequest.pagination');
+    Route::post('all',[FeedbackRequestController::class,'all'])->name('feedbackRequest.all');
+    Route::post('create',[FeedbackRequestController::class,'create'])->name('feedbackRequest.create');
+    Route::post('addMessage',[FeedbackRequestController::class,'addMessage'])->name('feedbackRequest.addMessage');
+    Route::post('getById/{id}',[FeedbackRequestController::class,'getById'])->name('feedbackRequest.getById');
+    Route::post('close/{id}',[FeedbackRequestController::class,'close'])->name('feedbackRequest.close');
+});
+
 Route::prefix('mailing')->group(function() {
     Route::post('sendMail',[MailingController::class,'sendMail'])->name('mailing.sendMail');
+});
+
+Route::prefix('announcement')->group(function() {
+    Route::post('pagination',[AnnouncementController::class,'pagination'])->name('announcement.pagination');
+    Route::post('all',[AnnouncementController::class,'all'])->name('announcement.all');
+    Route::post('create',[AnnouncementController::class,'create'])->name('announcement.create');
+    Route::post('getById/{id}',[AnnouncementController::class,'getById'])->name('announcement.getById');
+    Route::post('setView/{id}',[AnnouncementController::class,'setView'])->name('announcement.setView');
+    Route::post('getNotViewed',[AnnouncementController::class,'getNotViewed'])->name('announcement.getNotViewed');
+    Route::get('activeCustomers',[AnnouncementController::class,'activeCustomers'])->name('announcement.activeCustomers');
 });

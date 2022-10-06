@@ -17,6 +17,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->command('command:unset-up')->daily();
         $schedule->command('command:unpublish')->daily();
+        $schedule->command('command:close-feedback-request')->daily();
     }
 
     /**
