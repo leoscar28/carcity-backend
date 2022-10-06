@@ -99,6 +99,7 @@ class UserCrudController extends CrudController
             ])->default(1);
         CRUD::column(MainContract::NAME)->label('Имя');
         CRUD::column(MainContract::EMAIL)->label('Эл.почта');
+        CRUD::column(MainContract::CREATED_AT)->label('Дата регистрации');
         CRUD::column(MainContract::BIN)->label('БИН/ИИН');
         CRUD::column(MainContract::COMPANY)->label('Компания');
         CRUD::column(MainContract::STATUS)->type('select_from_array')
