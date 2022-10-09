@@ -341,6 +341,7 @@ Route::prefix('feedbackRequest')->group(function() {
     Route::post('addMessage',[FeedbackRequestController::class,'addMessage'])->name('feedbackRequest.addMessage');
     Route::post('getById/{id}',[FeedbackRequestController::class,'getById'])->name('feedbackRequest.getById');
     Route::post('close/{id}',[FeedbackRequestController::class,'close'])->name('feedbackRequest.close');
+    Route::get('count/{type}',[FeedbackRequestController::class,'count'])->name('feedbackRequest.count');
 });
 
 Route::prefix('mailing')->group(function() {

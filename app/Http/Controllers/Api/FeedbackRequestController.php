@@ -11,6 +11,7 @@ use App\Http\Requests\FeedbackRequest\FeedbackRequestListRequest;
 use App\Http\Resources\FeedbackRequest\FeedbackRequestCollection;
 use App\Http\Resources\FeedbackRequest\FeedbackRequestResource;
 use App\Jobs\FeedbackRequestJob;
+use App\Models\FeedbackRequest;
 use App\Models\FeedbackRequestMessageImage;
 use App\Services\FeedbackRequestMessageService;
 use App\Services\FeedbackRequestService;
@@ -173,5 +174,24 @@ class FeedbackRequestController extends Controller
         $feedbackRequest = $this->feedbackRequestService->getById($id);
 
         FeedbackRequestJob::dispatch($feedbackRequest);
+    }
+
+    public function count($type)
+    {
+        switch ($type){
+            case 'new':
+                $count = FeedbackRequest::whereIn(MainContract::STATUS, [FeedbackRequestContract::STATUS_NEW, FeedbackRequestContract::STATUS_ANSWER_CLIENT])->count();
+                break;
+            case 'answered':
+                $count = FeedbackRequest::whereIn(MainContract::STATUS, [FeedbackRequestContract::STATUS_ANSWER])->count();
+                break;
+            case 'closed':
+                $count = FeedbackRequest::whereIn(MainContract::STATUS, [FeedbackRequestContract::STATUS_CLOSE])->count();
+                break;
+            default:
+                $count = FeedbackRequest::count();
+        }
+
+        return $count;
     }
 }
