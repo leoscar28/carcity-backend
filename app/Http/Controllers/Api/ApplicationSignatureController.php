@@ -197,7 +197,6 @@ class ApplicationSignatureController extends Controller
             if ($user   =   $this->userService->getById($data[MainContract::USER_ID])) {
                 if (!$this->applicationSignatureService->getByApplicationIdAndUserId($data[MainContract::ID],$data[MainContract::USER_ID])) { 
                     if ($verifiedData = $this->verifyData($data[MainContract::SIGNATURE])) {
-                        return response(['message'  =>  'ТЕст', 'vd' => $verifiedData],404);
                         if (array_key_exists(MainContract::RESULT,$verifiedData)) {
                             if ((strtotime($verifiedData[MainContract::RESULT]['cert']['notAfter']) - time()) > 0) {
                                 $status =   false;
@@ -249,6 +248,7 @@ class ApplicationSignatureController extends Controller
                             }
                             return response(['message'  =>  'Истек срок годности ключа'],400);
                         }
+                        return response(['message'  =>  $verifiedData],400);
                     }
                     return response(['message'  =>  'Подпись не прошла валидацию'],400);
                 }
