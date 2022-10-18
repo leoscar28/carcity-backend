@@ -195,13 +195,14 @@ class ApplicationSignatureController extends Controller
         $data   =   $applicationSignatureCreateRequest->check();
         if ($application = $this->applicationService->getById($data[MainContract::ID])) {
             if ($user   =   $this->userService->getById($data[MainContract::USER_ID])) {
-                
-        
-                                    return response(['message'  =>  'ТЕст'],404);
                 if (!$this->applicationSignatureService->getByApplicationIdAndUserId($data[MainContract::ID],$data[MainContract::USER_ID])) {
                     if ($verifiedData = $this->verifyData($data[MainContract::SIGNATURE])) {
                         if (array_key_exists(MainContract::RESULT,$verifiedData)) {
                             if ((strtotime($verifiedData[MainContract::RESULT]['cert']['notAfter']) - time()) > 0) {
+                                
+                
+        
+                                    return response(['message'  =>  'ТЕст'],404);
                                 $status =   false;
                                 $subject    =   $verifiedData[MainContract::RESULT][MainContract::CERT][MainContract::CHAIN][0][MainContract::SUBJECT];
                                 $iin    =   null;
