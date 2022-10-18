@@ -192,6 +192,7 @@ class ApplicationSignatureController extends Controller
      */
     public function create(ApplicationSignatureCreateRequest $applicationSignatureCreateRequest): Response|ApplicationResource|Application|ResponseFactory
     {
+         return response(['message'  =>  'Запись не найдена'],404);
         $data   =   $applicationSignatureCreateRequest->check();
         if ($application = $this->applicationService->getById($data[MainContract::ID])) {
             if ($user   =   $this->userService->getById($data[MainContract::USER_ID])) {
