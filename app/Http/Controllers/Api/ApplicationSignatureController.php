@@ -193,6 +193,8 @@ class ApplicationSignatureController extends Controller
     public function create(ApplicationSignatureCreateRequest $applicationSignatureCreateRequest): Response|ApplicationResource|Application|ResponseFactory
     {
         $data   =   $applicationSignatureCreateRequest->check();
+        
+                                    return response(['message'  =>  'ТЕст'],404);
         if ($application = $this->applicationService->getById($data[MainContract::ID])) {
             if ($user   =   $this->userService->getById($data[MainContract::USER_ID])) {
                 if (!$this->applicationSignatureService->getByApplicationIdAndUserId($data[MainContract::ID],$data[MainContract::USER_ID])) {
@@ -226,7 +228,6 @@ class ApplicationSignatureController extends Controller
                                     }
                                 }
                                 if ($status) {
-                                    return response(['message'  =>  'ТЕст'],404);
                                     $this->applicationSignatureService->create([
                                         MainContract::APPLICATION_ID    =>  $data[MainContract::ID],
                                         MainContract::USER_ID   =>  $data[MainContract::USER_ID],
