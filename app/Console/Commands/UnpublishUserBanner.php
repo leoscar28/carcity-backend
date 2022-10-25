@@ -4,6 +4,7 @@ namespace App\Console\Commands;
 
 use App\Domain\Contracts\MainContract;
 use App\Domain\Contracts\UserBannerContract;
+use App\Jobs\UserBannerUnpublishJob;
 use App\Models\UserBanner;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
@@ -31,6 +32,13 @@ class UnpublishUserBanner extends Command
      */
     public function handle()
     {
+        $banners = UserBanner::where('status', '=', UserBannerContract::STATUS_PUBLISHED)
+            ->whereBetween(MainContract::PUBLISHED_AT, [now()->subDays(88), now()->subDays(87)])->get();
+
+        foreach ($banners as $banner) {
+            UserBannerUnpublishJob::dispatch($banner);
+        }
+
         UserBanner::where('status', '=', UserBannerContract::STATUS_PUBLISHED)
             ->where(MainContract::PUBLISHED_AT, '<', now()->subDays(90))
             ->update(

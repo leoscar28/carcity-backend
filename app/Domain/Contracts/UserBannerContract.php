@@ -15,6 +15,8 @@ class UserBannerContract extends MainContract
     const STATUS_PUBLISHED = 31;
     const STATUS_INACTIVE = 40;
 
+    const STATUS_FOR_UNPUBLISH = 999;
+
     const IS_NOT_PUBLISHED = 0;
     const IS_PUBLISHED = 1;
 
