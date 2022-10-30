@@ -95,6 +95,7 @@ class MainContract
     const PHONE =   'phone';
     const EMAIL =   'email';
     const NAME  =   'name';
+    const NAME_KZ    =   'name_kz';
     const FILE  =   'file';
     const MAIN  =   'main';
     const DISK  =   'disk';

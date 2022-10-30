@@ -51,7 +51,8 @@ class DictionaryServiceCrudController extends CrudController
     protected function setupListOperation()
     {
         $this->crud->denyAccess('show');
-        CRUD::column(MainContract::NAME)->label('Название');
+        CRUD::column(MainContract::NAME)->label('Название на русском');
+        CRUD::column(MainContract::NAME_KZ)->label('Название на казахском');
         CRUD::column(MainContract::STATUS)->type('select_from_array')
             ->label('Статус')->options([
                 0   =>  'Отключен',
@@ -79,7 +80,8 @@ class DictionaryServiceCrudController extends CrudController
     protected function setupCreateOperation()
     {
         CRUD::setValidation(DictionaryServiceRequest::class);
-        CRUD::field(MainContract::NAME)->label('Название');
+        CRUD::field(MainContract::NAME)->label('Название на русском');
+        CRUD::field(MainContract::NAME_KZ)->label('Название на казахском');
         CRUD::field(MainContract::STATUS)->type('select_from_array')
             ->label('Статус')->options([
                 0   =>  'Отключен',

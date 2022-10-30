@@ -29,7 +29,8 @@ class RoomTypeCrudController extends CrudController
     protected function setupShowOperation()
     {
         CRUD::column(MainContract::ID)->label('ID');
-        CRUD::column(MainContract::TITLE)->label('Название помещения');
+        CRUD::column(MainContract::TITLE)->label('Название помещения на русском');
+        CRUD::column(MainContract::TITLE_KZ)->label('Название помещения на казахском');
         CRUD::column(MainContract::STATUS)->type('select_from_array')
             ->label('Статус')->options([
                 0   =>  'Отключен',
@@ -40,7 +41,8 @@ class RoomTypeCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column(MainContract::ID)->label('ID');
-        CRUD::column(MainContract::TITLE)->label('Название помещения');
+        CRUD::column(MainContract::TITLE)->label('Название помещения на русском');
+        CRUD::column(MainContract::TITLE_KZ)->label('Название помещения на казахском');
         CRUD::column(MainContract::STATUS)->type('select_from_array')
             ->label('Статус')->options([
                 0   =>  'Отключен',
@@ -52,7 +54,8 @@ class RoomTypeCrudController extends CrudController
     {
         CRUD::setValidation(RoomTypeRequest::class);
 
-        CRUD::field(MainContract::TITLE)->label('Название помещения');
+        CRUD::field(MainContract::TITLE)->label('Название помещения на русском');
+        CRUD::field(MainContract::TITLE_KZ)->label('Название помещения на казахском');
         CRUD::field(MainContract::STATUS)->type('select_from_array')
             ->label('Статус')->options([
                 0   =>  'Отключен',

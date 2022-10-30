@@ -29,7 +29,8 @@ class TierCrudController extends CrudController
     protected function setupShowOperation()
     {
         CRUD::column(MainContract::ID)->label('ID');
-        CRUD::column(MainContract::TITLE)->label('Название яруса');
+        CRUD::column(MainContract::TITLE)->label('Название яруса на русском');
+        CRUD::column(MainContract::TITLE_KZ)->label('Название яруса на казахском');
         CRUD::column(MainContract::STATUS)->type('select_from_array')
             ->label('Статус')->options([
                 0   =>  'Отключен',
@@ -40,7 +41,8 @@ class TierCrudController extends CrudController
     protected function setupListOperation()
     {
         CRUD::column(MainContract::ID)->label('ID');
-        CRUD::column(MainContract::TITLE)->label('Название яруса');
+        CRUD::column(MainContract::TITLE)->label('Название яруса на русском');
+        CRUD::column(MainContract::TITLE_KZ)->label('Название яруса на казахском');
         CRUD::column(MainContract::STATUS)->type('select_from_array')
             ->label('Статус')->options([
                 0   =>  'Отключен',
@@ -52,7 +54,8 @@ class TierCrudController extends CrudController
     {
         CRUD::setValidation(TierRequest::class);
 
-        CRUD::field(MainContract::TITLE)->label('Название яруса');
+        CRUD::field(MainContract::TITLE)->label('Название яруса на русском');
+        CRUD::field(MainContract::TITLE_KZ)->label('Название яруса на казахском');
         CRUD::field(MainContract::STATUS)->type('select_from_array')
             ->label('Статус')->options([
                 0   =>  'Отключен',

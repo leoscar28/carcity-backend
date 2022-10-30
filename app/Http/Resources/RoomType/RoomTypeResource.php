@@ -12,6 +12,7 @@ class RoomTypeResource extends JsonResource
         return [
             MainContract::ID    =>  $this->{MainContract::ID},
             MainContract::TITLE =>  $this->{MainContract::TITLE},
+            MainContract::TITLE_KZ =>  $this->{MainContract::TITLE_KZ}
         ];
     }
 }

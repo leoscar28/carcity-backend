@@ -12,6 +12,7 @@ class DictionaryServiceResource extends JsonResource
         return [
             MainContract::ID    =>  $this->{MainContract::ID},
             MainContract::NAME =>  $this->{MainContract::NAME},
+            MainContract::NAME_KZ =>  $this->{MainContract::NAME_KZ},
             MainContract::STATUS    =>  $this->{MainContract::STATUS},
             MainContract::FOR_MENU    =>  $this->{MainContract::FOR_MENU}
         ];
