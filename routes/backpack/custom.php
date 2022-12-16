@@ -17,6 +17,8 @@ Route::group([
     'namespace'  => 'App\Http\Controllers\Admin',
 ], function () { // custom admin routes
     Route::crud('user', 'UserCrudController');
+    Route::get('user/moderate', 'UserCrudController@moderate');
+    Route::post('user/report', 'UserCrudController@report');
     Route::crud('completion-status', 'CompletionStatusCrudController');
     Route::crud('application-status', 'ApplicationStatusCrudController');
     Route::crud('invoice-status', 'InvoiceStatusCrudController');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Domain\Contracts\MainContract;
+use App\Exports\ExportUser;
 use App\Http\Requests\User\UserCrudCreateRequest;
 use App\Http\Requests\User\UserCrudUpdateRequest;
 use App\Jobs\UserBannerDeactivate;
@@ -16,6 +17,7 @@ use Backpack\CRUD\app\Library\CrudPanel\CrudPanelFacade as CRUD;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Excel;
 
 class UserCrudController extends CrudController
 {
@@ -29,6 +31,22 @@ class UserCrudController extends CrudController
         CRUD::setModel(User::class);
         CRUD::setRoute(config('backpack.base.route_prefix') . '/user');
         CRUD::setEntityNameStrings('Пользователь', 'Пользователи');
+        $this->crud->addButtonFromView('top', 'moderate', 'moderate', 'end');
+    }
+
+    public function moderate()
+    {
+        return view('vendor.backpack.crud.user.moderate');
+    }
+
+    public function report()
+    {
+        $request = $this->crud->getRequest()->request;
+        $from = $request->get('from');
+        $to = $request->get('to');
+
+
+        return Excel::download(new ExportUser($from, $to), 'users.xlsx');
     }
 
     public function store()
