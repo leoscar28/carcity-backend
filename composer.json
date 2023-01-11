@@ -24,7 +24,8 @@
         "pusher/pusher-php-server": "^7.0",
         "setasign/fpdf": "^1.8",
         "setasign/fpdi": "^2.3",
-        "smalot/pdfparser": "^2.2"
+        "smalot/pdfparser": "^2.2",
+        "spatie/laravel-sitemap": "^6.2"
     },
     "require-dev": {
         "backpack/generators": "^3.1",

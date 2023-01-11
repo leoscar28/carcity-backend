@@ -8,7 +8,11 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Facades\Excel;
+use Carbon\Carbon;
+use Spatie\Sitemap\SitemapGenerator;
+use Spatie\Sitemap\Sitemap;
 
+use Spatie\Sitemap\Tags\Url;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -19,7 +23,10 @@ use Maatwebsite\Excel\Facades\Excel;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
 Route::get('/', function () {
+
 //    Excel::load(Storage::disk('public')->path('file.xlsx'), function ($reader) {
 //
 //        foreach ($reader->toArray() as $row) {
@@ -94,4 +101,16 @@ Route::get('/', function () {
     }
     return;*/
     return view('welcome');
+});
+
+Route::get('/sitemap-generate', function () {
+    $sitemap = Sitemap::create();
+
+    $userBanners = \App\Models\UserBanner::all();
+
+    foreach ($userBanners as $userBanner){
+        $sitemap->add(Url::create('https://carcity.kz/promotions/'.$userBanner->id))->setLastModificationDate($userBanner->updated_at);
+    }
+
+    $sitemap->writeToFile(public_path('sitemap.xml'));
 });

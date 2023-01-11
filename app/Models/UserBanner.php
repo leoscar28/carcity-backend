@@ -8,12 +8,28 @@ use App\Domain\Contracts\UserBannerContract;
 use App\Domain\Contracts\UserReviewContract;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Sitemap\Sitemap;
+use Spatie\Sitemap\Tags\Url;
 
 class UserBanner extends Model
 {
     use HasFactory;
 
-    protected $fillable =   UserBannerContract::FILLABLE;
+    public static function boot() {
+
+        parent::boot();
+
+        static::updated(function($item) {
+
+            $sitemap = Sitemap::create();
+            $sitemap->add(Url::create('https://carcity.kz/promotions/'.$item->id))->setLastModificationDate($item->updated_at);
+            $sitemap->writeToFile(public_path('sitemap.xml'));
+        });
+
+
+    }
+
+        protected $fillable =   UserBannerContract::FILLABLE;
 
     protected $casts = [
         MainContract::CATEGORY_ID => Json::class,
