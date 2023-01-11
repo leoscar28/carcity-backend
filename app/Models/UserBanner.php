@@ -22,7 +22,7 @@ class UserBanner extends Model
         static::updated(function($item) {
 
             $sitemap = Sitemap::create();
-            $sitemap->add(Url::create('https://carcity.kz/promotions/'.$item->id))->setLastModificationDate($item->updated_at);
+            $sitemap->add(Url::create('https://carcity.kz/promotions/'.$item->id)->setLastModificationDate($item->updated_at));
             $sitemap->writeToFile(public_path('sitemap.xml'));
         });
 

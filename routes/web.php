@@ -109,7 +109,7 @@ Route::get('/sitemap-generate', function () {
     $userBanners = \App\Models\UserBanner::all();
 
     foreach ($userBanners as $userBanner){
-        $sitemap->add(Url::create('https://carcity.kz/promotions/'.$userBanner->id))->setLastModificationDate($userBanner->updated_at);
+        $sitemap->add(Url::create('https://carcity.kz/promotions/'.$userBanner->id)->setLastModificationDate($userBanner->updated_at));
     }
 
     $sitemap->writeToFile(public_path('sitemap.xml'));
