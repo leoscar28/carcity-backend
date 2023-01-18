@@ -65,7 +65,7 @@ class File
 
     public static function completionMainPath($completion): array
     {
-        $year   =   date('Y',strtotime($completion->created_at));
+        $year   =   date('Y',strtotime($completion->date));
         $arr    =   [];
         $arr[0] =   $year.'/completions/'.$completion->{MainContract::CUSTOMER_ID}.'/';
         $arr[1] =   $arr[0].$completion->{MainContract::NUMBER}.'/';
