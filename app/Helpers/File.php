@@ -20,9 +20,43 @@ class File
         return false;
     }
 
+    public function completionPathLink($completion)
+    {
+        if ($path = $this->completionFileLink($completion)) {
+            return env(MainContract::APP_URL,self::DOMAIN).'/storage/'.$path;
+        }
+    }
+
+    public function completionPathRepeat($completion): bool|string
+    {
+        if ($path = $this->completionFileRepeat($completion)) {
+            return env(MainContract::APP_URL,self::DOMAIN).'/storage/'.$path;
+        }
+        return false;
+    }
+
     public function completionFile($completion): bool|string
     {
         $files  =   $this->completionList($completion);
+        foreach ($files as &$file) {
+            if (Storage::disk(MainContract::PUB)->exists($file)) {
+                return $file;
+            }
+        }
+        return false;
+    }
+
+    public function completionFileLink($completion)
+    {
+        $files  =   $this->completionList($completion);
+        foreach ($files as &$file) {
+            return $file;
+        }
+    }
+
+    public function completionFileRepeat($completion): bool|string
+    {
+        $files  =   $this->completionListRepeat($completion);
         foreach ($files as &$file) {
             if (Storage::disk(MainContract::PUB)->exists($file)) {
                 return $file;
@@ -73,10 +107,35 @@ class File
         $arr[3] =   $arr[2].$completion->{MainContract::ID}.'/';
         return $arr;
     }
+    public static function completionMainPathRepeat($completion): array
+    {
+        $year   =   date('Y',strtotime($completion->date));
+        $year++;
+        $arr    =   [];
+        $arr[0] =   $year.'/completions/'.$completion->{MainContract::CUSTOMER_ID}.'/';
+        $arr[1] =   $arr[0].$completion->{MainContract::NUMBER}.'/';
+        $arr[2] =   $completion->{MainContract::CUSTOMER_ID}.'/completions/';
+        $arr[3] =   $arr[2].$completion->{MainContract::ID}.'/';
+        return $arr;
+    }
 
     public static function completionList($completion): array
     {
         $path   =   self::completionMainPath($completion);
+        return [
+            $path[0].$completion->{MainContract::NUMBER}.'.pdf',
+            $path[1].$completion->{MainContract::NUMBER}.'.pdf',
+            $path[1].$completion->{MainContract::NUMBER}.'-signed.pdf',
+            $path[0].$completion->{MainContract::NUMBER}.'.zip',
+            $path[2].$completion->{MainContract::ID}.'.pdf',
+            $path[3].$completion->{MainContract::ID}.'.pdf',
+            $path[2].$completion->{MainContract::ID}.'.zip',
+        ];
+    }
+
+    public static function completionListRepeat($completion): array
+    {
+        $path   =   self::completionMainPathRepeat($completion);
         return [
             $path[0].$completion->{MainContract::NUMBER}.'.pdf',
             $path[1].$completion->{MainContract::NUMBER}.'.pdf',
