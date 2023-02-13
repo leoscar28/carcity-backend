@@ -48,7 +48,7 @@ class File
 
     public function completionFileLink($completion)
     {
-        $files  =   $this->completionList($completion);
+        $files  =   $this->completionListRepeat($completion);
         foreach ($files as &$file) {
             return $file;
         }
