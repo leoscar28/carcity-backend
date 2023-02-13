@@ -110,7 +110,7 @@ class File
     public static function completionMainPathRepeat($completion): array
     {
         $year   =   date('Y',strtotime($completion->created_at));
-        $year++;
+        $year--;
         $arr    =   [];
         $arr[0] =   $year.'/completions/'.$completion->{MainContract::CUSTOMER_ID}.'/';
         $arr[1] =   $arr[0].$completion->{MainContract::NUMBER}.'/';
