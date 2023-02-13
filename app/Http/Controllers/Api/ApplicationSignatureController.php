@@ -94,7 +94,7 @@ class ApplicationSignatureController extends Controller
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_PORT => "14579",
-            CURLOPT_URL => "http://127.0.0.1:14579/",
+            CURLOPT_URL => "http://localhost:14579/",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -195,7 +195,7 @@ class ApplicationSignatureController extends Controller
         $data   =   $applicationSignatureCreateRequest->check();
         if ($application = $this->applicationService->getById($data[MainContract::ID])) {
             if ($user   =   $this->userService->getById($data[MainContract::USER_ID])) {
-                if (!$this->applicationSignatureService->getByApplicationIdAndUserId($data[MainContract::ID],$data[MainContract::USER_ID])) { 
+                if (!$this->applicationSignatureService->getByApplicationIdAndUserId($data[MainContract::ID],$data[MainContract::USER_ID])) {
                     if ($verifiedData = $this->verifyData($data[MainContract::SIGNATURE])) {
                         if (!is_array($verifiedData)) {
                             return response(['message'  =>  $verifiedData],400);
