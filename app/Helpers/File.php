@@ -77,6 +77,18 @@ class File
         return false;
     }
 
+    public function completionRepeat($completion): bool|string
+    {
+        if ($completion) {
+            if ($completion->{MainContract::FILE}) {
+                return $completion->{MainContract::FILE};
+            } else if ($path = $this->completionFileRepeat($completion)) {
+                return base64_encode(Storage::disk(MainContract::PUB)->get($path));
+            }
+        }
+        return false;
+    }
+
     public function completionFolder($completion): void
     {
         $files  =   $this->completionList($completion);
