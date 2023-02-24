@@ -14,7 +14,6 @@ use App\Http\Resources\Invoice\InvoiceResource;
 use App\Jobs\InvoiceCount;
 use App\Jobs\InvoiceTenant;
 use App\Services\InvoiceService;
-use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;

@@ -61,6 +61,8 @@ class CompletionController extends Controller
         if ($completion = $this->completionService->getById($data[MainContract::ID])) {
             if ($data[MainContract::LINK] = $this->file->completionPath($completion)) {
                 return response([MainContract::DATA => $data], 200);
+            } else if($data[MainContract::LINK] = $this->file->completionPathRepeat($completion)){
+                return response([MainContract::DATA =>  $data],200);
             }
             return response(['message'  =>  'Файл не найден или еще не загружен на сервер'],404);
         }
