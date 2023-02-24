@@ -88,23 +88,17 @@ class InvoiceController extends Controller
      */
     public function create(InvoiceCreateRequest $invoiceCreateRequest): InvoiceCollection
     {
-        file_put_contents('test.txt', 'test', FILE_APPEND | LOCK_EX);
-        try {
-            file_put_contents('test.txt', $invoiceCreateRequest, FILE_APPEND | LOCK_EX);
-            $data = $invoiceCreateRequest->check();
-            $arr = [];
-            foreach ($data[MainContract::DATA] as &$invoiceItem) {
-                $invoice = $this->invoiceService->create($invoiceItem);
-                InvoiceTenant::dispatch($invoice);
-                $arr[] = $invoice;
-            }
-            InvoiceCount::dispatch($data[MainContract::RID]);
-            file_put_contents('test.txt', $arr, FILE_APPEND | LOCK_EX);
-            return new InvoiceCollection($arr);
-        } catch(Exception $e) {
-            file_put_contents('test.txt', $e->getMessage(), FILE_APPEND | LOCK_EX);
-            return response(['message'  =>  $e->getMessage()],404);
+
+        $data = $invoiceCreateRequest->check();
+        $arr = [];
+        foreach ($data[MainContract::DATA] as &$invoiceItem) {
+            $invoice = $this->invoiceService->create($invoiceItem);
+            InvoiceTenant::dispatch($invoice);
+            $arr[] = $invoice;
         }
+        InvoiceCount::dispatch($data[MainContract::RID]);
+
+        return new InvoiceCollection($arr);
     }
 
     /**
