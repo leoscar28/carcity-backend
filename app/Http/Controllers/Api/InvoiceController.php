@@ -97,6 +97,7 @@ class InvoiceController extends Controller
                 $arr[] = $invoice;
             }
             InvoiceCount::dispatch($data[MainContract::RID]);
+            file_put_contents('test.txt', $arr, FILE_APPEND | LOCK_EX);
             return new InvoiceCollection($arr);
         } catch(Exception $e) {
             file_put_contents('test.txt', $e->getMessage(), FILE_APPEND | LOCK_EX);
