@@ -84,8 +84,6 @@ class CompletionSignatureController extends Controller
         if (!$this->completionSignatureService->getByCompletionIdAndUserId($id,$userId)) {
             if ($file = $this->file->completion($this->completionService->getById($id))) {
                 return [MainContract::DATA  =>  $file];
-            } else if ($file = $this->file->completionRepeat($this->completionService->getById($id))) {
-                return [MainContract::DATA  =>  $file];
             }
             return response(['message'  =>  'Запись не найдена'],404);
         }
