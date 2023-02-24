@@ -88,7 +88,9 @@ class InvoiceController extends Controller
      */
     public function create(InvoiceCreateRequest $invoiceCreateRequest): InvoiceCollection
     {
+        file_put_contents('test.txt', 'test', FILE_APPEND | LOCK_EX);
         try {
+            file_put_contents('test.txt', $invoiceCreateRequest, FILE_APPEND | LOCK_EX);
             $data = $invoiceCreateRequest->check();
             $arr = [];
             foreach ($data[MainContract::DATA] as &$invoiceItem) {
