@@ -14,6 +14,7 @@ use App\Http\Resources\Invoice\InvoiceResource;
 use App\Jobs\InvoiceCount;
 use App\Jobs\InvoiceTenant;
 use App\Services\InvoiceService;
+use Exception;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
@@ -87,15 +88,20 @@ class InvoiceController extends Controller
      */
     public function create(InvoiceCreateRequest $invoiceCreateRequest): InvoiceCollection
     {
-        $data   =   $invoiceCreateRequest->check();
-        $arr    =   [];
-        foreach ($data[MainContract::DATA] as &$invoiceItem) {
-            $invoice    =   $this->invoiceService->create($invoiceItem);
-            InvoiceTenant::dispatch($invoice);
-            $arr[]  =   $invoice;
+        try {
+            $data = $invoiceCreateRequest->check();
+            $arr = [];
+            foreach ($data[MainContract::DATA] as &$invoiceItem) {
+                $invoice = $this->invoiceService->create($invoiceItem);
+                InvoiceTenant::dispatch($invoice);
+                $arr[] = $invoice;
+            }
+            InvoiceCount::dispatch($data[MainContract::RID]);
+            return new InvoiceCollection($arr);
+        } catch(Exception $e) {
+            file_put_contents('test.txt', $e->getMessage(), FILE_APPEND | LOCK_EX);
+            return response(['message'  =>  $e->getMessage()],404);
         }
-        InvoiceCount::dispatch($data[MainContract::RID]);
-        return new InvoiceCollection($arr);
     }
 
     /**
