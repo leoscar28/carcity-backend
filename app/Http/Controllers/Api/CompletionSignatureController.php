@@ -74,6 +74,8 @@ class CompletionSignatureController extends Controller
             }
             if (sizeof($arr) !== 0) {
                 return response(['data'  =>  $arr],200);
+            }else{
+                return response(['message'  =>  'sizeof file 0'],404);
             }
         }
         return response(['message'  =>  'Запись не найдено'],404);
