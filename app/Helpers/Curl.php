@@ -9,7 +9,7 @@ class Curl
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_PORT => "14579",
-            CURLOPT_URL => "http://127.0.0.1:14579/",
+            CURLOPT_URL => "http://localhost:14579/",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
