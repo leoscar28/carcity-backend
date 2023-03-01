@@ -70,12 +70,17 @@ class CompletionSignatureController extends Controller
                         MainContract::ID    =>  $completion->{MainContract::ID},
                         MainContract::DATA  =>  $file
                     ];
+                }elseif($file = $this->file->completionRepeat($completion)) {
+                    $arr[]  =   [
+                        MainContract::ID    =>  $completion->{MainContract::ID},
+                        MainContract::DATA  =>  $file
+                    ];
                 }
             }
             if (sizeof($arr) !== 0) {
                 return response(['data'  =>  $arr],200);
             }else{
-                return response(['message'  =>  'sizeof file 0'],404);
+                return response(['message'  =>  'files not found'],404);
             }
         }
         return response(['message'  =>  'Запись не найдено'],404);
