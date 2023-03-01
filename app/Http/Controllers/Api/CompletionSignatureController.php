@@ -224,6 +224,8 @@ class CompletionSignatureController extends Controller
             return response(['message'  =>  'Подпись не прошла валидацию'],400);
         }
 
+        return response(['message'  => $verifiedData],400);
+
         if (!array_key_exists(MainContract::RESULT,$verifiedData)) {
             return response(['message'  =>  'Подпись не прошла валидацию'],400);
         }
