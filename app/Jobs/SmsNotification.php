@@ -39,7 +39,7 @@ class SmsNotification implements ShouldQueue
      */
     public function handle(SmsHelper $smsHelper)
     {
-        $smsMobizon =   new SmsMobizon('kz594a3ab8bd76dad07dc81cd72294043428aaf9bf78482a834aea87e0158e5f876c3b', 'api.mobizon.kz',['format' => 'json']);
+        $smsMobizon =   new SmsMobizon('kz590db8af402f2847697345ac040378b3983903cd56f66b0bb937c2ff4c2aca676bce', 'api.mobizon.kz',['format' => 'json']);
         if ($smsMobizon->call('message',
             'sendSMSMessage',
             array(
