@@ -194,6 +194,7 @@ class UserCrudController extends CrudController
                 5   =>  'Пользователь',
             ])->default(1);
         CRUD::field(MainContract::COMPANY)->label('Компания');
+        CRUD::field(MainContract::BIN)->label('БИН/ИИН');
         CRUD::field(MainContract::EMAIL)->label('Эл.почта');
         CRUD::field(MainContract::PHONE)->label('Номер телефона (7778889900)')->type('text');
         CRUD::field(MainContract::STATUS)->type('select_from_array')
