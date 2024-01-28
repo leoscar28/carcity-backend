@@ -32,6 +32,7 @@ class AnnouncementCreateRequest extends FormRequest
             MainContract::IDS  =>  'nullable',
             MainContract::TITLE =>  'required',
             MainContract::DESCRIPTION =>  'required',
+            MainContract::LINK => 'nullable',
             MainContract::FILE => 'nullable'
         ];
     }

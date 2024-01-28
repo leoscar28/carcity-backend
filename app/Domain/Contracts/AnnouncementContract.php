@@ -8,6 +8,7 @@ class AnnouncementContract extends MainContract
 
     const FILLABLE  =   [
         self::TITLE,
-        self::DESCRIPTION
+        self::DESCRIPTION,
+        self::LINK
     ];
 }

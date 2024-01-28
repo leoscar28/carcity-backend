@@ -14,6 +14,7 @@ class AnnouncementResource extends JsonResource
             MainContract::ID    =>  $this->{MainContract::ID},
             MainContract::TITLE =>  $this->{MainContract::TITLE},
             MainContract::DESCRIPTION =>  $this->{MainContract::DESCRIPTION},
+            MainContract::LINK =>  $this->{MainContract::LINK},
             MainContract::CREATED_AT =>  date('d M Y H:m',strtotime($this->{MainContract::CREATED_AT})),
             MainContract::UPDATED_AT =>  date('d M Y H:m',strtotime($this->{MainContract::UPDATED_AT}))
         ];

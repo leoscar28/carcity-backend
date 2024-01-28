@@ -19,7 +19,7 @@
         <img src="{{$img}}" width="100%"></div>
         <div style="position:absolute;left:59.53px;top:100.15px" class="cls_002">
             <span class="cls_002">Документ подписан в сервисе </span>
-            <A HREF="https://carcity.kz/partner/">https://carcity.kz/partner/</A>
+            <A HREF="https://carcity.kz">https://carcity.kz</A>
         </div>
         <div style="position:absolute;left:260.93px;top:128px" class="cls_003">
             <span class="cls_003">Паспорт документа</span>
